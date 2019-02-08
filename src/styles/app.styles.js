@@ -1,12 +1,9 @@
 import React from 'react';
 import { Global, css } from '@emotion/core';
-import Bg from './assets/bg.png';
+import Bg from '../assets/bg.png';
+import { colors } from './common.styles';
 
-const colors = {
-  brown: '#A79C8B'
-};
-
-const GlobalStyles = (props) => (
+export const GlobalStyles = (props) => (
   <Global
     styles={css`
       body {
@@ -15,7 +12,7 @@ const GlobalStyles = (props) => (
         font-family: 'Open Sans', sans-serif;
         -webkit-font-smoothing: antialiased;
         -moz-osx-font-smoothing: grayscale;
-        background: ${colors.brown} url(${Bg});
+        background: ${colors.primary} url(${Bg});
       }
 
       .root {
@@ -31,11 +28,11 @@ const GlobalStyles = (props) => (
         border-radius: 10px;
         width: 90%;
         min-height: 90%;
+        color: ${colors.primary};
       }
 
       .app-header {
         text-align: center;
-        color: ${colors.brown};
 
         h1, h2 { font-weight: lighter; }
 
@@ -49,6 +46,11 @@ const GlobalStyles = (props) => (
           margin-top: 5px;
           text-transform: uppercase;
         }
+      }
+
+      .header-link {
+        text-decoration: none;
+        color: ${colors.primary};
       }
     `}
   />

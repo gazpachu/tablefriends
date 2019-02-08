@@ -1,7 +1,10 @@
 import React, { Component, Fragment } from 'react';
 import ApolloClient, { gql } from "apollo-boost";
 import { ApolloProvider, Query } from "react-apollo";
-import GlobalStyles from './app.styles';
+import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+import GlobalStyles from './styles/app.styles';
+import Home from './components/home';
+import Event from './components/event';
 
 const client = new ApolloClient({
   uri: "/.netlify/functions/graphql"
@@ -33,10 +36,21 @@ class App extends Component {
       <Fragment>
         <GlobalStyles />
         <div className="app">
-          <header className="app-header">
-            <h1>Itadakimasu</h1>
-            <h2>Organise your restaurant meetup</h2>
-          </header>
+          <Router>
+            <Fragment>
+              <header className="app-header">
+                <Link to="/" className="header-link">
+                  <h1>Itadakimasu</h1>
+                </Link>
+                <h2>Organise your restaurant events</h2>
+              </header>
+
+              <main>
+                <Route exact path="/" component={Home} />
+                <Route path="/:id" component={Event} />
+              </main>
+            </Fragment>
+          </Router>
         </div>
       </Fragment>
     );
