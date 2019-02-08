@@ -13,12 +13,17 @@ const LambdaDemo = () => (
     <Query
       query={gql`
         {
-          hello
+          hello,
+          dogPhotoUrl
         }
       `}
     >
-      {({ data }) =>
-        <div>A greeting from the server: {data.hello}</div>}
+      {({ data }) => (
+        <div>
+          A greeting from the server: {data.hello}<br />
+          <img src={data.dogPhotoUrl} alt="dog" />
+        </div>
+      )}
     </Query>
   </ApolloProvider>
 );
