@@ -1,8 +1,7 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import ApolloClient, { gql } from "apollo-boost";
 import { ApolloProvider, Query } from "react-apollo";
-import logo from './logo.svg';
-import './App.css';
+import GlobalStyles from './app.styles';
 
 const client = new ApolloClient({
   uri: "/.netlify/functions/graphql"
@@ -31,15 +30,15 @@ const LambdaDemo = () => (
 class App extends Component {
   render() {
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <LambdaDemo />
-        </header>
-      </div>
+      <Fragment>
+        <GlobalStyles />
+        <div className="app">
+          <header className="app-header">
+            <h1>Itadakimasu</h1>
+            <h2>Organise your restaurant meetup</h2>
+          </header>
+        </div>
+      </Fragment>
     );
   }
 }
