@@ -1,17 +1,33 @@
 import React from 'react';
-import { Container, List, Item } from './styles';
-import { Button } from '../../styles/common.styles';
+import ApolloClient, { gql } from "apollo-boost";
+import { ApolloProvider, Query } from "react-apollo";
+import { Container } from './styles';
+
+const client = new ApolloClient({
+  uri: "/.netlify/functions/graphql"
+});
 
 const Event = props => (
-  <Container>
-    <p>Itadakimasu will help you organise your restaurant event by making your guests vote for:</p>
-    <List>
-      <Item>A day and time</Item>
-      <Item>A restaurant</Item>
-      <Item>A menu</Item>
-    </List>
-    <Button>Start organising the event!</Button>
-  </Container>
+  <ApolloProvider client={client}>
+    <Query
+      query={gql`
+        {
+          title,
+          date
+        }
+      `}
+    >
+      {({ data }) => (
+        <Container>
+          <p>Event summary: {data.title}</p>
+          <p>Title: not set</p>
+          <p>Day and time: not set</p>
+          <p>Restaurant: not set</p>
+          <p>Menu: not set</p>
+        </Container>
+      )}
+    </Query>
+  </ApolloProvider>
 );
 
 export default Event;

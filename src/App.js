@@ -1,34 +1,8 @@
 import React, { Component, Fragment } from 'react';
-import ApolloClient, { gql } from "apollo-boost";
-import { ApolloProvider, Query } from "react-apollo";
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import GlobalStyles from './styles/app.styles';
 import Home from './components/home';
 import Event from './components/event';
-
-const client = new ApolloClient({
-  uri: "/.netlify/functions/graphql"
-});
-
-const LambdaDemo = () => (
-  <ApolloProvider client={client}>
-    <Query
-      query={gql`
-        {
-          hello,
-          dogPhotoUrl
-        }
-      `}
-    >
-      {({ data }) => (
-        <div>
-          A greeting from the server: {data.hello}<br />
-          <img src={data.dogPhotoUrl} alt="dog" />
-        </div>
-      )}
-    </Query>
-  </ApolloProvider>
-);
 
 class App extends Component {
   render() {
