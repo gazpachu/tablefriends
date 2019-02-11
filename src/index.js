@@ -1,11 +1,38 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import App from './app';
-import * as serviceWorker from './serviceWorker';
+import {
+  Link,
+  BrowserRouter as Router,
+  Route,
+  Switch,
+} from 'react-router-dom';
+import { ApolloProvider } from 'react-apollo';
+import ApolloClient from 'apollo-boost';
+import GlobalStyles from './styles/global.styles';
+import Home from './components/home';
+import Event from './components/event';
 
-ReactDOM.render(<App />, document.getElementById('root'));
+const client = new ApolloClient({ uri: 'http://localhost:4000' })
 
-// If you want your app to work offline and load faster, you can change
-// unregister() to register() below. Note this comes with some pitfalls.
-// Learn more about service workers: http://bit.ly/CRA-PWA
-serviceWorker.unregister();
+ReactDOM.render(
+  <ApolloProvider client={client}>
+    <GlobalStyles />
+    <Router>
+      <div className="app">
+        <header className="app-header">
+          <Link to="/" className="header-link">
+            <h1>Itadakimasu</h1>
+          </Link>
+          <h2>Organise your restaurant events</h2>
+        </header>
+        <main>
+          <Switch>
+            <Route exact path="/" component={Home} />
+            <Route path="/:id" component={Event} />
+          </Switch>
+        </main>
+      </div>
+    </Router>
+  </ApolloProvider>,
+  document.getElementById('root'),
+)

@@ -6,6 +6,16 @@ import { colors } from './common.styles';
 export const GlobalStyles = (props) => (
   <Global
     styles={css`
+      html {
+        box-sizing: border-box;
+      }
+
+      *,
+      *:before,
+      *:after {
+        box-sizing: inherit;
+      }
+
       body {
         margin: 0;
         padding: 0;

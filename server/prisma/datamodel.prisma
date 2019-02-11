@@ -1,0 +1,9 @@
+type Event {
+  id: ID! @unique
+  published: Boolean! @default(value: "false")
+  title: String!
+  content: String!
+  date: String!
+  place: String!
+  menu: String!
+}

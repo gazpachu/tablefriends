@@ -1,17 +1,45 @@
-import React from 'react';
+import React, { Component } from 'react';
+import { withRouter } from 'react-router-dom';
 import { Container, List, Item } from './styles';
-import { StyledLink } from '../../styles/common.styles';
+import slugify from '../../helpers';
+import { Button, Input } from '../../styles/common.styles';
 
-const Home = props => (
-  <Container>
-    <p>Itadakimasu will help you organise your restaurant event by making your guests vote for:</p>
-    <List>
-      <Item>A day and time</Item>
-      <Item>A restaurant</Item>
-      <Item>A menu</Item>
-    </List>
-    <StyledLink to={`/${Math.random().toString(36).substr(2, 9)}`}>Start organising the event!</StyledLink>
-  </Container>
-);
+class Home extends Component {
+  constructor(props) {
+    super(props);
 
-export default Home;
+    this.state = {
+      title: ''
+    };
+  }
+
+  componentDidMount() {
+    this.titleInput.focus();
+ }
+
+  render() {
+    return (
+      <Container>
+        <p>Itadakimasu will help you organise your restaurant event by making your guests vote for:</p>
+        <List>
+          <Item>A day and time</Item>
+          <Item>A restaurant</Item>
+          <Item>A menu</Item>
+        </List>
+        <form onSubmit={() => this.props.history.push(slugify(this.state.title))}>
+          <Input
+            type="text"
+            style={{ minWidth: '60%', marginRight: '5px' }}
+            value={this.state.title}
+            ref={(input) => { this.titleInput = input; }}
+            onChange={e => this.setState({ title: e.target.value })}
+            placeholder="Event name..."
+          />
+          <Button type="submit">Create event</Button>
+        </form>
+      </Container>
+    );
+  }
+}
+
+export default withRouter(Home);

@@ -1,30 +1,26 @@
 {
-  "name": "itadakimasu",
-  "version": "0.1.0",
+  "name": "react-fullstack-basic",
+  "version": "1.0.0",
+  "devDependencies": {
+    "react-scripts": "2.1.1"
+  },
   "dependencies": {
     "@emotion/core": "^10.0.7",
     "@emotion/styled": "^10.0.7",
-    "apollo-boost": "^0.1.27",
-    "apollo-server-lambda": "^2.4.0",
-    "graphql": "^14.1.1",
-    "node-fetch": "^2.3.0",
+    "apollo-boost": "0.1.27",
+    "graphql": "14.0.2",
     "polished": "^2.3.3",
-    "react": "^16.8.0-alpha.0",
-    "react-apollo": "^2.4.1",
-    "react-dom": "^16.8.1",
-    "react-router-dom": "^4.3.1",
-    "react-scripts": "^2.1.3"
+    "react": "16.8.1",
+    "react-apollo": "2.4.1",
+    "react-dom": "16.8.1",
+    "react-modal": "3.8.1",
+    "react-router-dom": "4.3.1"
   },
   "scripts": {
-    "start": "run-p start:**",
-    "start:app": "react-scripts start",
-    "start:lambda": "netlify-lambda serve src/lambda",
-    "build": "run-p build:**",
-    "build:app": "react-scripts build",
-    "build:lambda": "netlify-lambda build src/lambda",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject",
-    "bootstrap": "node ./scripts/bootstrap-fauna-database.js"
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -34,13 +30,5 @@
     "not dead",
     "not ie <= 11",
     "not op_mini all"
-  ],
-  "devDependencies": {
-    "@babel/plugin-transform-object-assign": "^7.0.0",
-    "babel-loader": "8.0.4",
-    "faunadb": "^2.6.0",
-    "http-proxy-middleware": "^0.19.0",
-    "netlify-lambda": "^1.2.0",
-    "npm-run-all": "^4.1.5"
-  }
+  ]
 }

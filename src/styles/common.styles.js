@@ -16,6 +16,7 @@ const button = css`
   font-size: 14px;
   padding: 10px 20px;
   cursor: pointer;
+  white-space: nowrap;
 
   &:hover {
     background: ${darken(0.2, colors.primary)};
@@ -29,4 +30,14 @@ export const Button = styled.button`
 export const StyledLink = styled(Link)`
   ${button};
   text-decoration: none;
+`;
+
+export const Input = styled.input`
+  background: black;
+  border: 1px solid ${colors.primary};
+  color: ${colors.primary};
+  border-radius: 5px;
+  font-size: 14px;
+  padding: 9px 8px;
+  outline: none;
 `;

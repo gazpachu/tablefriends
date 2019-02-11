@@ -1,0 +1,19 @@
+type Query {
+  event(id: ID!): Event
+}
+
+type Mutation {
+  createEvent(title: String!, content: String): Event
+  deleteEvent(id: ID!): Event
+  publish(id: ID!): Event
+}
+
+type Event {
+  id: ID!
+  published: Boolean!
+  title: String!
+  content: String!
+  date: String!
+  place: String!
+  menu: String!
+}
