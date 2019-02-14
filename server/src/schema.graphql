@@ -1,19 +1,41 @@
 type Query {
-  event(id: ID!): Event
+  events: [Event!]!
+  event(slug: String!): Event
 }
 
 type Mutation {
-  createEvent(title: String!, content: String): Event
+  createEvent(title: String!, slug: String!): Event
   deleteEvent(id: ID!): Event
-  publish(id: ID!): Event
+  createDate(timestamp: String!): Date
+  deleteDate(id: ID!): Date
+  createPlace(name: String!): Place
+  deletePlace(id: ID!): Place
+  createMenu(name: String!): Menu
+  deleteMenu(id: ID!): Menu
 }
 
 type Event {
   id: ID!
-  published: Boolean!
+  slug: String!
   title: String!
-  content: String!
-  date: String!
-  place: String!
-  menu: String!
+  content: String
+  dates: [Date]
+  places: [Place]
+  menu: [Menu]
+}
+
+type Date {
+  id: ID!
+  timestamp: String!
+}
+
+type Place {
+  id: ID!
+  name: String!
+  url: String
+}
+
+type Menu {
+  id: ID!
+  name: String!
 }

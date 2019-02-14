@@ -25,6 +25,10 @@ export const GlobalStyles = (props) => (
         background: ${colors.primary} url(${Bg});
       }
 
+      a, a:active, a:hover, a:visited {
+        color: ${colors.primary};
+      }
+
       .root {
         display: flex;
         align-items: center;

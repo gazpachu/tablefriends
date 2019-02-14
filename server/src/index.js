@@ -2,28 +2,25 @@ const { GraphQLServer } = require('graphql-yoga')
 const { prisma } = require('./generated/prisma-client')
 
 const resolvers = {
-  Query: {
-    event: (parent, { id }, context) => {
-      return context.prisma.event({ id })
-    },
-  },
-  Mutation: {
-    createEvent(parent, { title, content }, context) {
-      return context.prisma.createEvent({
-        title,
-        content,
-      })
-    },
-    deleteEvent(parent, { id }, context) {
-      return context.prisma.deleteEvent({ id })
-    },
-    publish(parent, { id }, context) {
-      return context.prisma.updateEvent({
-        where: { id },
-        data: { published: true },
-      })
-    },
-  },
+ Query: {
+   events: (parent, args, context) => {
+     return context.prisma.events();
+   },
+   event: (parent, { slug }, context) => {
+     return context.prisma.event({ slug });
+   },
+   dates: (parent, { slug }, context) => {
+     return context.prisma.dates();
+   },
+ },
+ Mutation: {
+   createEvent(parent, { title, slug }, context) {
+     return context.prisma.createEvent({ title, slug });
+   },
+   deleteEvent(parent, { id }, context) {
+     return context.prisma.deleteEvent({ where: { id } });
+   }
+ },
 }
 
 const server = new GraphQLServer({
@@ -32,6 +29,6 @@ const server = new GraphQLServer({
   context: {
     prisma,
   },
-})
+});
 
-server.start(() => console.log('Server is running on http://localhost:4000'))
+server.start(() => console.log('Server is running on http://localhost:4000'));

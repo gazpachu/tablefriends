@@ -1,12 +1,15 @@
 import React, { Component, Fragment } from 'react';
-import { Query } from 'react-apollo'
-import  { gql } from 'apollo-boost'
+import { Query } from 'react-apollo';
+import  { gql } from 'apollo-boost';
+import EventHeader from './header';
+import Edit from './edit';
+import Vote from './vote';
 import { Container } from './styles';
 
 class Event extends Component {
   render() {
     return (
-      <Query query={EVENT_QUERY} variables={{ id: this.props.match.params.id }}>
+      <Query query={EVENT_QUERY} variables={{ slug: this.props.match.params.slug }}>
         {({ data, loading, error }) => {
           if (loading) {
             return (
@@ -20,11 +23,21 @@ class Event extends Component {
             )
           }
 
+          const active = this.props.location.pathname.includes('/edit') ? 'edit' : 'vote';
+
           return (
             <Container>
               {data.event ?
                 <Fragment>
-                  <h1>{data.event.title}</h1>
+                  <EventHeader
+                    title={data.event.title}
+                    slug={this.props.match.params.slug}
+                    active={active}
+                  />
+                  {active === 'edit'
+                    ? <Edit />
+                    : <Vote />
+                  }
                 </Fragment>
               : null}
             </Container>
@@ -38,9 +51,10 @@ class Event extends Component {
 export default Event;
 
 export const EVENT_QUERY = gql`
-  query EventQuery($id: ID!) {
-    event(id: $id) {
+  query EventQuery($slug: String!) {
+    event(slug: $slug) {
       id
+      slug
       content
       title
       published

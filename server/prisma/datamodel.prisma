@@ -1,9 +1,10 @@
 type Event {
   id: ID! @unique
+  slug: String! @unique
   published: Boolean! @default(value: "false")
   title: String!
-  content: String!
-  date: String!
-  place: String!
-  menu: String!
+  content: String
+  date: String
+  place: String
+  menu: String
 }
