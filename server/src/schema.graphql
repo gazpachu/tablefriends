@@ -6,27 +6,8 @@ type Query {
 type Mutation {
   createEvent(title: String!, slug: String!): Event
   deleteEvent(id: ID!): Event
-  createDate(timestamp: String!): Date
-  deleteDate(id: ID!): Date
   createPlace(name: String!): Place
   deletePlace(id: ID!): Place
-  createMenu(name: String!): Menu
-  deleteMenu(id: ID!): Menu
-}
-
-type Event {
-  id: ID!
-  slug: String!
-  title: String!
-  content: String
-  dates: [Date]
-  places: [Place]
-  menu: [Menu]
-}
-
-type Date {
-  id: ID!
-  timestamp: String!
 }
 
 type Place {
@@ -35,7 +16,12 @@ type Place {
   url: String
 }
 
-type Menu {
+type Event {
   id: ID!
-  name: String!
+  slug: String!
+  title: String!
+  description: String
+  dates: [String]
+  places: [Place]
+  menus: [String]
 }

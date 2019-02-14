@@ -34,7 +34,7 @@ class Home extends Component {
         {(createEvent, { data, loading, error }) => {
           return (
             <Container>
-              <p>Itadakimasu will help you organise your restaurant event by making your guests vote for:</p>
+              <p>TableFriends will help you organise your restaurant event by making your guests vote for:</p>
               <List>
                 <Item>A day and time</Item>
                 <Item>A restaurant</Item>
@@ -81,7 +81,6 @@ export const EVENTS_QUERY = gql`
       id
       content
       title
-      published
     }
   }
 `

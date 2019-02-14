@@ -3,6 +3,10 @@ module.exports = {
   count: Int!
 }
 
+type AggregatePlace {
+  count: Int!
+}
+
 type BatchPayload {
   count: Long!
 }
@@ -10,12 +14,11 @@ type BatchPayload {
 type Event {
   id: ID!
   slug: String!
-  published: Boolean!
   title: String!
-  content: String
-  date: String
-  place: String
-  menu: String
+  description: String
+  dates: [String!]!
+  places(where: PlaceWhereInput, orderBy: PlaceOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Place!]
+  menus: [String!]!
 }
 
 type EventConnection {
@@ -24,14 +27,21 @@ type EventConnection {
   aggregate: AggregateEvent!
 }
 
+input EventCreatedatesInput {
+  set: [String!]
+}
+
 input EventCreateInput {
   slug: String!
-  published: Boolean
   title: String!
-  content: String
-  date: String
-  place: String
-  menu: String
+  description: String
+  dates: EventCreatedatesInput
+  places: PlaceCreateManyInput
+  menus: EventCreatemenusInput
+}
+
+input EventCreatemenusInput {
+  set: [String!]
 }
 
 type EventEdge {
@@ -44,18 +54,10 @@ enum EventOrderByInput {
   id_DESC
   slug_ASC
   slug_DESC
-  published_ASC
-  published_DESC
   title_ASC
   title_DESC
-  content_ASC
-  content_DESC
-  date_ASC
-  date_DESC
-  place_ASC
-  place_DESC
-  menu_ASC
-  menu_DESC
+  description_ASC
+  description_DESC
   createdAt_ASC
   createdAt_DESC
   updatedAt_ASC
@@ -65,12 +67,10 @@ enum EventOrderByInput {
 type EventPreviousValues {
   id: ID!
   slug: String!
-  published: Boolean!
   title: String!
-  content: String
-  date: String
-  place: String
-  menu: String
+  description: String
+  dates: [String!]!
+  menus: [String!]!
 }
 
 type EventSubscriptionPayload {
@@ -91,24 +91,29 @@ input EventSubscriptionWhereInput {
   NOT: [EventSubscriptionWhereInput!]
 }
 
+input EventUpdatedatesInput {
+  set: [String!]
+}
+
 input EventUpdateInput {
   slug: String
-  published: Boolean
   title: String
-  content: String
-  date: String
-  place: String
-  menu: String
+  description: String
+  dates: EventUpdatedatesInput
+  places: PlaceUpdateManyInput
+  menus: EventUpdatemenusInput
 }
 
 input EventUpdateManyMutationInput {
   slug: String
-  published: Boolean
   title: String
-  content: String
-  date: String
-  place: String
-  menu: String
+  description: String
+  dates: EventUpdatedatesInput
+  menus: EventUpdatemenusInput
+}
+
+input EventUpdatemenusInput {
+  set: [String!]
 }
 
 input EventWhereInput {
@@ -140,8 +145,6 @@ input EventWhereInput {
   slug_not_starts_with: String
   slug_ends_with: String
   slug_not_ends_with: String
-  published: Boolean
-  published_not: Boolean
   title: String
   title_not: String
   title_in: [String!]
@@ -156,62 +159,23 @@ input EventWhereInput {
   title_not_starts_with: String
   title_ends_with: String
   title_not_ends_with: String
-  content: String
-  content_not: String
-  content_in: [String!]
-  content_not_in: [String!]
-  content_lt: String
-  content_lte: String
-  content_gt: String
-  content_gte: String
-  content_contains: String
-  content_not_contains: String
-  content_starts_with: String
-  content_not_starts_with: String
-  content_ends_with: String
-  content_not_ends_with: String
-  date: String
-  date_not: String
-  date_in: [String!]
-  date_not_in: [String!]
-  date_lt: String
-  date_lte: String
-  date_gt: String
-  date_gte: String
-  date_contains: String
-  date_not_contains: String
-  date_starts_with: String
-  date_not_starts_with: String
-  date_ends_with: String
-  date_not_ends_with: String
-  place: String
-  place_not: String
-  place_in: [String!]
-  place_not_in: [String!]
-  place_lt: String
-  place_lte: String
-  place_gt: String
-  place_gte: String
-  place_contains: String
-  place_not_contains: String
-  place_starts_with: String
-  place_not_starts_with: String
-  place_ends_with: String
-  place_not_ends_with: String
-  menu: String
-  menu_not: String
-  menu_in: [String!]
-  menu_not_in: [String!]
-  menu_lt: String
-  menu_lte: String
-  menu_gt: String
-  menu_gte: String
-  menu_contains: String
-  menu_not_contains: String
-  menu_starts_with: String
-  menu_not_starts_with: String
-  menu_ends_with: String
-  menu_not_ends_with: String
+  description: String
+  description_not: String
+  description_in: [String!]
+  description_not_in: [String!]
+  description_lt: String
+  description_lte: String
+  description_gt: String
+  description_gte: String
+  description_contains: String
+  description_not_contains: String
+  description_starts_with: String
+  description_not_starts_with: String
+  description_ends_with: String
+  description_not_ends_with: String
+  places_every: PlaceWhereInput
+  places_some: PlaceWhereInput
+  places_none: PlaceWhereInput
   AND: [EventWhereInput!]
   OR: [EventWhereInput!]
   NOT: [EventWhereInput!]
@@ -231,6 +195,12 @@ type Mutation {
   upsertEvent(where: EventWhereUniqueInput!, create: EventCreateInput!, update: EventUpdateInput!): Event!
   deleteEvent(where: EventWhereUniqueInput!): Event
   deleteManyEvents(where: EventWhereInput): BatchPayload!
+  createPlace(data: PlaceCreateInput!): Place!
+  updatePlace(data: PlaceUpdateInput!, where: PlaceWhereUniqueInput!): Place
+  updateManyPlaces(data: PlaceUpdateManyMutationInput!, where: PlaceWhereInput): BatchPayload!
+  upsertPlace(where: PlaceWhereUniqueInput!, create: PlaceCreateInput!, update: PlaceUpdateInput!): Place!
+  deletePlace(where: PlaceWhereUniqueInput!): Place
+  deleteManyPlaces(where: PlaceWhereInput): BatchPayload!
 }
 
 enum MutationType {
@@ -250,15 +220,230 @@ type PageInfo {
   endCursor: String
 }
 
+type Place {
+  id: ID!
+  name: String!
+  url: String
+}
+
+type PlaceConnection {
+  pageInfo: PageInfo!
+  edges: [PlaceEdge]!
+  aggregate: AggregatePlace!
+}
+
+input PlaceCreateInput {
+  name: String!
+  url: String
+}
+
+input PlaceCreateManyInput {
+  create: [PlaceCreateInput!]
+  connect: [PlaceWhereUniqueInput!]
+}
+
+type PlaceEdge {
+  node: Place!
+  cursor: String!
+}
+
+enum PlaceOrderByInput {
+  id_ASC
+  id_DESC
+  name_ASC
+  name_DESC
+  url_ASC
+  url_DESC
+  createdAt_ASC
+  createdAt_DESC
+  updatedAt_ASC
+  updatedAt_DESC
+}
+
+type PlacePreviousValues {
+  id: ID!
+  name: String!
+  url: String
+}
+
+input PlaceScalarWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  name: String
+  name_not: String
+  name_in: [String!]
+  name_not_in: [String!]
+  name_lt: String
+  name_lte: String
+  name_gt: String
+  name_gte: String
+  name_contains: String
+  name_not_contains: String
+  name_starts_with: String
+  name_not_starts_with: String
+  name_ends_with: String
+  name_not_ends_with: String
+  url: String
+  url_not: String
+  url_in: [String!]
+  url_not_in: [String!]
+  url_lt: String
+  url_lte: String
+  url_gt: String
+  url_gte: String
+  url_contains: String
+  url_not_contains: String
+  url_starts_with: String
+  url_not_starts_with: String
+  url_ends_with: String
+  url_not_ends_with: String
+  AND: [PlaceScalarWhereInput!]
+  OR: [PlaceScalarWhereInput!]
+  NOT: [PlaceScalarWhereInput!]
+}
+
+type PlaceSubscriptionPayload {
+  mutation: MutationType!
+  node: Place
+  updatedFields: [String!]
+  previousValues: PlacePreviousValues
+}
+
+input PlaceSubscriptionWhereInput {
+  mutation_in: [MutationType!]
+  updatedFields_contains: String
+  updatedFields_contains_every: [String!]
+  updatedFields_contains_some: [String!]
+  node: PlaceWhereInput
+  AND: [PlaceSubscriptionWhereInput!]
+  OR: [PlaceSubscriptionWhereInput!]
+  NOT: [PlaceSubscriptionWhereInput!]
+}
+
+input PlaceUpdateDataInput {
+  name: String
+  url: String
+}
+
+input PlaceUpdateInput {
+  name: String
+  url: String
+}
+
+input PlaceUpdateManyDataInput {
+  name: String
+  url: String
+}
+
+input PlaceUpdateManyInput {
+  create: [PlaceCreateInput!]
+  update: [PlaceUpdateWithWhereUniqueNestedInput!]
+  upsert: [PlaceUpsertWithWhereUniqueNestedInput!]
+  delete: [PlaceWhereUniqueInput!]
+  connect: [PlaceWhereUniqueInput!]
+  disconnect: [PlaceWhereUniqueInput!]
+  deleteMany: [PlaceScalarWhereInput!]
+  updateMany: [PlaceUpdateManyWithWhereNestedInput!]
+}
+
+input PlaceUpdateManyMutationInput {
+  name: String
+  url: String
+}
+
+input PlaceUpdateManyWithWhereNestedInput {
+  where: PlaceScalarWhereInput!
+  data: PlaceUpdateManyDataInput!
+}
+
+input PlaceUpdateWithWhereUniqueNestedInput {
+  where: PlaceWhereUniqueInput!
+  data: PlaceUpdateDataInput!
+}
+
+input PlaceUpsertWithWhereUniqueNestedInput {
+  where: PlaceWhereUniqueInput!
+  update: PlaceUpdateDataInput!
+  create: PlaceCreateInput!
+}
+
+input PlaceWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  name: String
+  name_not: String
+  name_in: [String!]
+  name_not_in: [String!]
+  name_lt: String
+  name_lte: String
+  name_gt: String
+  name_gte: String
+  name_contains: String
+  name_not_contains: String
+  name_starts_with: String
+  name_not_starts_with: String
+  name_ends_with: String
+  name_not_ends_with: String
+  url: String
+  url_not: String
+  url_in: [String!]
+  url_not_in: [String!]
+  url_lt: String
+  url_lte: String
+  url_gt: String
+  url_gte: String
+  url_contains: String
+  url_not_contains: String
+  url_starts_with: String
+  url_not_starts_with: String
+  url_ends_with: String
+  url_not_ends_with: String
+  AND: [PlaceWhereInput!]
+  OR: [PlaceWhereInput!]
+  NOT: [PlaceWhereInput!]
+}
+
+input PlaceWhereUniqueInput {
+  id: ID
+}
+
 type Query {
   event(where: EventWhereUniqueInput!): Event
   events(where: EventWhereInput, orderBy: EventOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Event]!
   eventsConnection(where: EventWhereInput, orderBy: EventOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): EventConnection!
+  place(where: PlaceWhereUniqueInput!): Place
+  places(where: PlaceWhereInput, orderBy: PlaceOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Place]!
+  placesConnection(where: PlaceWhereInput, orderBy: PlaceOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): PlaceConnection!
   node(id: ID!): Node
 }
 
 type Subscription {
   event(where: EventSubscriptionWhereInput): EventSubscriptionPayload
+  place(where: PlaceSubscriptionWhereInput): PlaceSubscriptionPayload
 }
 `
       }

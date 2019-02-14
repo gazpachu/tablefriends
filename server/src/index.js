@@ -8,10 +8,7 @@ const resolvers = {
    },
    event: (parent, { slug }, context) => {
      return context.prisma.event({ slug });
-   },
-   dates: (parent, { slug }, context) => {
-     return context.prisma.dates();
-   },
+   }
  },
  Mutation: {
    createEvent(parent, { title, slug }, context) {
@@ -19,6 +16,12 @@ const resolvers = {
    },
    deleteEvent(parent, { id }, context) {
      return context.prisma.deleteEvent({ where: { id } });
+   },
+   createPlace(parent, { name, url }, context) {
+     return context.prisma.createPlace({ name, url });
+   },
+   deletePlace(parent, { id }, context) {
+     return context.prisma.deletePlace({ where: { id } });
    }
  },
 }

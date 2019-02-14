@@ -35,8 +35,8 @@ class Event extends Component {
                     active={active}
                   />
                   {active === 'edit'
-                    ? <Edit />
-                    : <Vote />
+                    ? <Edit event={data.event} />
+                    : <Vote event={data.event} />
                   }
                 </Fragment>
               : null}
@@ -55,12 +55,14 @@ export const EVENT_QUERY = gql`
     event(slug: $slug) {
       id
       slug
-      content
+      description
       title
-      published
-      date
-      place
-      menu
+      dates
+      places {
+        name
+        url
+      }
+      menus
     }
   }
 `
