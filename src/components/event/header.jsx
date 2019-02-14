@@ -1,14 +1,15 @@
 import React, { Fragment } from 'react';
 import { Link } from 'react-router-dom';
-import { EventNav, EventNavItem } from './styles';
+import { Title, Description, EventNav, EventNavItem } from './styles';
 
 function EventHeader(props) {
   return (
     <Fragment>
-      <h1>{props.title}</h1>
+      <Title>{props.event.title}</Title>
+      <Description>{props.event.description}</Description>
       <EventNav>
-        <EventNavItem active={props.active === 'vote'}><Link to={`/${props.slug}`}>Vote</Link></EventNavItem>
-        <EventNavItem active={props.active === 'edit'}><Link to={`/${props.slug}/edit`}>Edit event</Link></EventNavItem>
+        <EventNavItem active={props.active === 'vote'}><Link to={`/${props.event.slug}`}>Vote</Link></EventNavItem>
+        <EventNavItem active={props.active === 'edit'}><Link to={`/${props.event.slug}/edit`}>Edit event</Link></EventNavItem>
       </EventNav>
     </Fragment>
   );

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Global, css } from '@emotion/core';
 import Bg from '../assets/bg-white.png';
-import { colors } from './common.styles';
+import { colors, breakpoints } from './common.styles';
 
 export const GlobalStyles = (props) => (
   <Global
@@ -41,12 +41,15 @@ export const GlobalStyles = (props) => (
 
       .app {
         background-color: rgba(255,255,255,.95);
-        border-radius: 10px;
         width: 100%;
         min-height: calc(100vh - 60px);
-        margin: 30px;
         padding-bottom: 40px;
         color: ${colors.secondary};
+
+        @media (min-width: ${breakpoints.mobile}) {
+          margin: 30px;
+          border-radius: 10px;
+        }
       }
 
       .app-header {

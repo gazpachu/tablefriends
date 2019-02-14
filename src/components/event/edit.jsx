@@ -4,7 +4,7 @@ import  { gql } from 'apollo-boost';
 import { EVENTS_QUERY } from '../home';
 import slugify from '../../helpers';
 import { Container } from './edit.styles.js';
-import { Button, Input } from '../../styles/common.styles';
+import { Button, Input, Textarea, Select } from '../../styles/common.styles';
 
 class Edit extends Component {
   constructor(props) {
@@ -46,20 +46,23 @@ class Edit extends Component {
                   this.props.history.push(`${slugify(title)}/edit`);
                 }}
               >
+                <h3>Event details</h3>
                 <Input
                   type="text"
-                  style={{ minWidth: '60%', marginBottom: '10px' }}
                   value={this.state.title}
                   onChange={e => this.setState({ title: e.target.value })}
                   placeholder="Event name..."
                 />
-                <Input
-                  type="text"
-                  style={{ minWidth: '60%', marginBottom: '10px' }}
+                <Textarea
                   value={this.state.description}
                   onChange={e => this.setState({ description: e.target.value })}
                   placeholder="Event description..."
                 />
+                <h3>Suggested dates and time slots</h3>
+                <Select>
+                  <option>1st April 2019 from 5pm to 8pm</option>
+                  <option>15th April 2019 from 5pm to 8pm</option>
+                </Select>
                 <p>
                   <Button type="submit">Save</Button>
                 </p>

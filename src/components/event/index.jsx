@@ -30,8 +30,7 @@ class Event extends Component {
               {data.event ?
                 <Fragment>
                   <EventHeader
-                    title={data.event.title}
-                    slug={this.props.match.params.slug}
+                    event={data.event}
                     active={active}
                   />
                   {active === 'edit'

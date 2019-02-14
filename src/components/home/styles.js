@@ -40,3 +40,12 @@ export const Item = styled.li`
     color: white;
   }
 `;
+
+export const Events = styled.ul`
+  list-style-type: none;
+  padding: 0;
+`;
+
+export const Event = styled.li`
+
+`;

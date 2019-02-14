@@ -5,6 +5,17 @@ export const Container = styled.section`
   padding: 20px;
 `;
 
+export const Title = styled.h1`
+  margin-bottom: 10px;
+`;
+
+export const Description = styled.h2`
+  margin: 0;
+  padding: 0;
+  font-size: 12px;
+  font-weight: normal;
+`;
+
 export const EventNav = styled.ul`
   list-style-type: none;
   padding: 0;

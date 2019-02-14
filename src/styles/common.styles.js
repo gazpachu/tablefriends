@@ -8,6 +8,10 @@ export const colors = {
   secondary: '#888'
 };
 
+export const breakpoints = {
+  mobile: '768px'
+};
+
 const button = css`
   outline: none;
   background: ${colors.primary};
@@ -34,7 +38,7 @@ export const StyledLink = styled(Link)`
   text-decoration: none;
 `;
 
-export const Input = styled.input`
+const formElement = css`
   background: white;
   border: 1px solid ${colors.primary};
   color: ${colors.primary};
@@ -42,4 +46,24 @@ export const Input = styled.input`
   font-size: 14px;
   padding: 9px 8px;
   outline: none;
+  margin-bottom: 10px;
+  min-width: 60%;
+
+  @media (max-width: ${breakpoints.mobile}) {
+    min-width: 100%;
+  }
+`;
+
+export const Input = styled.input`
+  ${formElement};
+`;
+
+export const Textarea = styled.textarea`
+  ${formElement};
+  min-height: 100px;
+`;
+
+export const Select = styled.select`
+  ${formElement};
+  height: 36px;
 `;
