@@ -4,19 +4,21 @@ import { darken } from "polished";
 import { Link } from 'react-router-dom';
 
 export const colors = {
-  primary: '#A79C8B'
+  primary: '#7e5bef',
+  secondary: '#888'
 };
 
 const button = css`
   outline: none;
   background: ${colors.primary};
-  border: 1px solid black;
+  border: 1px solid white;
   border-radius: 5px;
-  color: black;
+  color: white;
   font-size: 14px;
   padding: 10px 20px;
   cursor: pointer;
   white-space: nowrap;
+  transition: all .2s ease-in;
 
   &:hover {
     background: ${darken(0.2, colors.primary)};
@@ -33,7 +35,7 @@ export const StyledLink = styled(Link)`
 `;
 
 export const Input = styled.input`
-  background: black;
+  background: white;
   border: 1px solid ${colors.primary};
   color: ${colors.primary};
   border-radius: 5px;

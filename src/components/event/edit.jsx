@@ -24,19 +24,26 @@ class Edit extends Component {
           const { events } = cache.readQuery({ query: EVENTS_QUERY });
           cache.writeQuery({
             query: EVENTS_QUERY,
-            data: { events: events.concat([data.createEvent]) },
+            data: { events: events.concat([data.updateEvent]) },
           });
         }}
       >
-        {(createEvent, { data, loading, error }) => {
+        {(updateEvent, { data, loading, error }) => {
           return (
             <Container>
               <form
                 onSubmit={async e => {
                   e.preventDefault();
-                  const { title } = this.state;
-                  await createEvent({ variables: { title: title, slug: slugify(title) } });
-                  this.props.history.push(`$slugify(title)}/edit`);
+                  const { title, description } = this.state;
+                  await updateEvent({
+                    variables: {
+                      id: this.props.event.id,
+                      title: title,
+                      slug: slugify(title),
+                      description: description
+                    }
+                  });
+                  this.props.history.push(`${slugify(title)}/edit`);
                 }}
               >
                 <Input
@@ -66,8 +73,8 @@ class Edit extends Component {
 }
 
 const UPDATE_EVENT_MUTATION = gql`
-  mutation UpdateEventMutation($title: String!, $slug: String!, $description: String) {
-    updateEvent(title: $title, slug: $slug, description: $description) {
+  mutation UpdateEventMutation($id: ID!, $title: String!, $slug: String!, $description: String) {
+    updateEvent(id: $id, title: $title, slug: $slug, description: $description) {
       id
       title
       description

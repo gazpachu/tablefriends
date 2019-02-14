@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import { Mutation } from 'react-apollo';
 import  { gql } from 'apollo-boost';
-import { Container, List, Item } from './styles';
+import { Container, PartyIcon, List, Item } from './styles';
 import slugify from '../../helpers';
 import { Button, Input } from '../../styles/common.styles';
 
@@ -34,7 +34,8 @@ class Home extends Component {
         {(createEvent, { data, loading, error }) => {
           return (
             <Container>
-              <p>TableFriends will help you organise your restaurant event by making your guests vote for:</p>
+              <PartyIcon />
+              <p>Table.Friends will help you organise your restaurant event by making your guests vote for:</p>
               <List>
                 <Item>A day and time</Item>
                 <Item>A restaurant</Item>

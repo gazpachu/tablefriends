@@ -1,4 +1,5 @@
 import styled from '@emotion/styled';
+import { ReactComponent as Party } from '../../assets/party.svg';
 import { colors } from '../../styles/common.styles';
 
 export const Container = styled.section`
@@ -6,18 +7,24 @@ export const Container = styled.section`
   padding: 20px;
 `;
 
+export const PartyIcon = styled(Party)`
+  fill: ${colors.primary};
+  width: 150px;
+  height: 150px;
+`;
+
 export const List = styled.ol`
   list-style-type: none;
   padding: 0;
   counter-reset: line-number;
   margin: 0 auto 30px auto;
-  width: 200px;
 `;
 
 export const Item = styled.li`
   counter-increment: line-number;
   text-align: left;
   margin: 20px;
+  display: inline-block;
 
   &:before {
     content: counter(line-number)" ";
@@ -30,6 +37,6 @@ export const Item = styled.li`
     border-radius: 50%;
     vertical-align: middle;
     margin-right: 10px;
-    color: black;
+    color: white;
   }
 `;

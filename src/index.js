@@ -22,7 +22,7 @@ ReactDOM.render(
       <div className="app">
         <header className="app-header">
           <Link to="/" className="header-link">
-            <h1>TableFriends</h1>
+            <h1>TABLE.FRIENDS</h1>
           </Link>
           <h2>Organise your restaurant events</h2>
         </header>
@@ -34,6 +34,9 @@ ReactDOM.render(
             <Route path="/:slug/edit" component={Event} />
           </Switch>
         </main>
+        <footer>
+          <span>Found a bug or have a suggestion? Please <a href="https://github.com/gazpachu/tablefriends">raise an issue in Github</a></span>
+        </footer>
       </div>
     </Router>
   </ApolloProvider>,

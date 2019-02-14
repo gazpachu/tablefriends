@@ -1,6 +1,6 @@
 import React from 'react';
 import { Global, css } from '@emotion/core';
-import Bg from '../assets/bg.png';
+import Bg from '../assets/bg-white.png';
 import { colors } from './common.styles';
 
 export const GlobalStyles = (props) => (
@@ -19,30 +19,34 @@ export const GlobalStyles = (props) => (
       body {
         margin: 0;
         padding: 0;
-        font-family: 'Open Sans', sans-serif;
+        position: relative;
+        min-height: 100%;
+        font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica Neue,Arial,sans-serif;
         -webkit-font-smoothing: antialiased;
         -moz-osx-font-smoothing: grayscale;
-        background: ${colors.primary} url(${Bg});
+        background: ${colors.secondary} url(${Bg});
       }
 
       a, a:active, a:hover, a:visited {
-        color: ${colors.primary};
+        color: ${colors.secondary};
       }
 
       .root {
         display: flex;
         align-items: center;
         justify-content: center;
-        height: 100vh;
+        height: 100%;
         width: 100%;
       }
 
       .app {
-        background-color: rgba(0,0,0,.85);
+        background-color: rgba(255,255,255,.95);
         border-radius: 10px;
-        width: 90%;
-        min-height: 90%;
-        color: ${colors.primary};
+        width: 100%;
+        min-height: calc(100vh - 60px);
+        margin: 30px;
+        padding-bottom: 40px;
+        color: ${colors.secondary};
       }
 
       .app-header {
@@ -64,7 +68,16 @@ export const GlobalStyles = (props) => (
 
       .header-link {
         text-decoration: none;
-        color: ${colors.primary};
+        color: ${colors.secondary};
+      }
+
+      footer {
+        text-align: center;
+        font-size: 10px;
+        position: absolute;
+        left: 0;
+        bottom: 55px;
+        width: 100%;
       }
     `}
   />

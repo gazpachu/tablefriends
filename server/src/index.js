@@ -14,6 +14,12 @@ const resolvers = {
    createEvent(parent, { title, slug }, context) {
      return context.prisma.createEvent({ title, slug });
    },
+   updateEvent(parent, { id, title, slug, description }, context) {
+     return context.prisma.updateEvent({
+       where: { id },
+       data: { title, slug, description },
+     });
+   },
    deleteEvent(parent, { id }, context) {
      return context.prisma.deleteEvent({ where: { id } });
    },
