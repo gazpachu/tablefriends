@@ -34,7 +34,7 @@ class Event extends Component {
                     active={active}
                   />
                   {active === 'edit'
-                    ? <Edit event={data.event} />
+                    ? <Edit event={data.event} history={this.props.history} />
                     : <Vote event={data.event} />
                   }
                 </Fragment>

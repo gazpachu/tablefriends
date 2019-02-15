@@ -12,7 +12,7 @@ export const breakpoints = {
   mobile: '768px'
 };
 
-const button = css`
+const button = (props) => css`
   outline: none;
   background: ${colors.primary};
   border: 1px solid white;
@@ -27,15 +27,26 @@ const button = css`
   &:hover {
     background: ${darken(0.2, colors.primary)};
   }
+
+  opacity: ${props.disabled && '.5'};
+  pointer-events: ${props.disabled && 'none'};
 `;
 
 export const Button = styled.button`
   ${button};
 `;
 
-export const StyledLink = styled(Link)`
+export const ButtonLink = styled(Link)`
   ${button};
   text-decoration: none;
+`;
+
+export const TabLink = styled(Link)`
+  padding: 10px;
+  margin: 10px;
+  text-decoration: none;
+  color: ${props => props.active ? colors.primary : colors.secondary} !important;
+  border-bottom: 2px solid ${props => props.active ? colors.primary : colors.secondary};
 `;
 
 const formElement = css`
