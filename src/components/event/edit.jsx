@@ -65,14 +65,14 @@ class Edit extends Component {
               <form
                 onSubmit={async e => {
                   e.preventDefault();
-                  const { title, description } = this.state;
                   this.setState({ saving: true });
                   await updateEvent({
                     variables: {
                       id: event.id,
                       title: title,
                       slug: slugify(title),
-                      description: description
+                      description: description,
+                      dates: dates
                     }
                   });
                   this.setState({ saving: false });
@@ -140,11 +140,12 @@ class Edit extends Component {
 }
 
 const UPDATE_EVENT_MUTATION = gql`
-  mutation UpdateEventMutation($id: ID!, $title: String!, $slug: String!, $description: String) {
-    updateEvent(id: $id, title: $title, slug: $slug, description: $description) {
+  mutation UpdateEventMutation($id: ID!, $title: String!, $slug: String!, $description: String, $dates: [String]) {
+    updateEvent(id: $id, title: $title, slug: $slug, description: $description, dates: $dates) {
       id
       title
       description
+      dates
     }
   }
 `;

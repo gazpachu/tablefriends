@@ -14,10 +14,10 @@ const resolvers = {
    createEvent(parent, { title, slug }, context) {
      return context.prisma.createEvent({ title, slug });
    },
-   updateEvent(parent, { id, title, slug, description }, context) {
+   updateEvent(parent, { id, title, slug, description, dates }, context) {
      return context.prisma.updateEvent({
        where: { id },
-       data: { title, slug, description },
+       data: { title, slug, description, dates: { set: dates } },
      });
    },
    deleteEvent(parent, { id }, context) {

@@ -6,7 +6,7 @@ type Query {
 type Mutation {
   createEvent(title: String!, slug: String!): Event
   deleteEvent(id: ID!): Event
-  updateEvent(id: ID!, title: String!, slug: String!, description: String): Event
+  updateEvent(id: ID!, title: String!, slug: String!, description: String, dates: [String]): Event
   createPlace(name: String!): Place
   deletePlace(id: ID!): Place
 }

@@ -28,7 +28,7 @@ const button = (props) => css`
     background: ${darken(0.2, colors.primary)};
   }
 
-  opacity: ${props.disabled && '.5'};
+  opacity: ${props.disabled && '.3'};
   pointer-events: ${props.disabled && 'none'};
 `;
 

@@ -353,6 +353,7 @@ input PlaceUpdateManyInput {
   upsert: [PlaceUpsertWithWhereUniqueNestedInput!]
   delete: [PlaceWhereUniqueInput!]
   connect: [PlaceWhereUniqueInput!]
+  set: [PlaceWhereUniqueInput!]
   disconnect: [PlaceWhereUniqueInput!]
   deleteMany: [PlaceScalarWhereInput!]
   updateMany: [PlaceUpdateManyWithWhereNestedInput!]
