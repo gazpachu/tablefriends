@@ -1,14 +1,19 @@
 type Query {
   events: [Event!]!
   event(slug: String!): Event
+  places: [Place!]!
 }
 
 type Mutation {
   createEvent(title: String!, slug: String!): Event
   deleteEvent(id: ID!): Event
-  updateEvent(id: ID!, title: String!, slug: String!, description: String, dates: [String]): Event
-  createPlace(name: String!): Place
+  updateEvent(id: ID!, title: String!, slug: String!, description: String, dates: [String], places: [PlaceInput]): Event
   deletePlace(id: ID!): Place
+}
+
+input PlaceInput {
+  name: String!
+  url: String
 }
 
 type Place {

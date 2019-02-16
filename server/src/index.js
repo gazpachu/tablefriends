@@ -10,21 +10,34 @@ const resolvers = {
      return context.prisma.event({ slug });
    }
  },
+ Event: {
+   places: (parent, args, context) => {
+     return context.prisma.places();
+   }
+ },
  Mutation: {
    createEvent(parent, { title, slug }, context) {
      return context.prisma.createEvent({ title, slug });
    },
-   updateEvent(parent, { id, title, slug, description, dates }, context) {
+   updateEvent(parent, { id, title, slug, description, dates, places }, context) {
      return context.prisma.updateEvent({
        where: { id },
-       data: { title, slug, description, dates: { set: dates } },
+       data: {
+         title, slug, description, dates: { set: dates },
+         places: {
+           update: {
+             where: { id: places.id },
+             data: {
+               name: places.name,
+               url: places.url
+             }
+           }
+         }
+       }
      });
    },
    deleteEvent(parent, { id }, context) {
      return context.prisma.deleteEvent({ where: { id } });
-   },
-   createPlace(parent, { name, url }, context) {
-     return context.prisma.createPlace({ name, url });
    },
    deletePlace(parent, { id }, context) {
      return context.prisma.deletePlace({ where: { id } });

@@ -58,10 +58,11 @@ export const EVENT_QUERY = gql`
       title
       dates
       places {
+        id
         name
         url
       }
       menus
     }
   }
-`
+`;

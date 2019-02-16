@@ -10,7 +10,6 @@ import { ApolloProvider } from 'react-apollo';
 import ApolloClient from 'apollo-boost';
 import GlobalStyles from './styles/global.styles';
 import Home from './components/home';
-import Places from './components/places'
 import Event from './components/event';
 
 const client = new ApolloClient({ uri: 'http://localhost:4000' })
@@ -29,7 +28,6 @@ ReactDOM.render(
         <main>
           <Switch>
             <Route exact path="/" component={Home} />
-            <Route path="/places" component={Places} />
             <Route path="/:slug" component={Event} />
             <Route path="/:slug/edit" component={Event} />
           </Switch>

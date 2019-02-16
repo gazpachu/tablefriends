@@ -19,3 +19,13 @@ exports.Prisma = prisma_lib_1.makePrismaClientClass({
   endpoint: `https://eu1.prisma.sh/public-mulberrywolf-476/itadakimasu/dev`
 });
 exports.prisma = new exports.Prisma();
+var models = [
+  {
+    name: "Event",
+    embedded: false
+  },
+  {
+    name: "Place",
+    embedded: false
+  }
+];

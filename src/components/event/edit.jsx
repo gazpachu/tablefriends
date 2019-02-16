@@ -1,13 +1,14 @@
 import React, { Component } from 'react';
 import { Mutation } from 'react-apollo';
 import  { gql } from 'apollo-boost';
-import dateFnsFormat from 'date-fns/format';
 // import { Editor } from 'slate-react';
 // import { Value } from 'slate';
 // import { EVENTS_QUERY } from '../home';
 import slugify from '../../helpers';
 import { Container } from './edit.styles.js';
-import { Button, Input, Textarea, Select } from '../../styles/common.styles';
+import { Button, Input, Textarea } from '../../styles/common.styles';
+import Dates from './dates';
+import Places from './places';
 
 // const initialValue = Value.fromJSON({
 //   document: {
@@ -38,15 +39,15 @@ class Edit extends Component {
       title: this.props.event.title,
       description: this.props.event.description || '',
       // description: initialValue,
-      inputDate: null,
       dates: this.props.event.dates || [],
+      places: this.props.event.places || [],
       saving: false
     };
   }
 
   render() {
     const { event } = this.props;
-    const { title, description, dates, inputDate, saving } = this.state;
+    const { title, description, dates, places, saving } = this.state;
 
     return (
       <Mutation
@@ -72,7 +73,8 @@ class Edit extends Component {
                       title: title,
                       slug: slugify(title),
                       description: description,
-                      dates: dates
+                      dates: dates,
+                      places: places
                     }
                   });
                   this.setState({ saving: false });
@@ -95,38 +97,10 @@ class Edit extends Component {
                   onChange={e => this.setState({ description: e.target.value })}
                   placeholder="Event description..."
                 />
-                <h3>Suggested dates and time slots</h3>
-                <Select ref={(select) => { this.selectDates = select; }}>
-                  {dates && dates.map(date => (
-                    <option key={date} value={date}>{dateFnsFormat(new Date(date), 'Do MMMM YYYY, hh:mma')}</option>
-                  ))}
-                </Select>
-                <Button
-                  disabled={dates.length === 0}
-                  onClick={() => {
-                    const newDates = dates.splice(0);
-                    newDates.splice(this.selectDates.selectedIndex, 1);
-                    this.setState({ dates: newDates });
-                  }}
-                >
-                  Remove selected
-                </Button>
-                <Input
-                  defaultValue={inputDate}
-                  type="datetime-local"
-                  onChange={e => this.setState({ inputDate: e.target.value })}
-                  placeholder="Add new date..."
-                />
-                <Button
-                  disabled={!inputDate}
-                  onClick={() => {
-                    const newDates = dates.splice(0);
-                    newDates.push(inputDate);
-                    this.setState({ dates: newDates, inputDate: null });
-                  }}
-                >
-                  Add date and time
-                </Button>
+                <h3>Dates and time slots</h3>
+                <Dates dates={dates} updateDates={(dates) => this.setState({ dates })} />
+                <h3>Restaurants or places</h3>
+                <Places places={places} updatePlaces={(places) => this.setState({ places })} />
                 <p>
                   <Button type="submit" disabled={saving}>Save</Button>
                 </p>
@@ -140,12 +114,16 @@ class Edit extends Component {
 }
 
 const UPDATE_EVENT_MUTATION = gql`
-  mutation UpdateEventMutation($id: ID!, $title: String!, $slug: String!, $description: String, $dates: [String]) {
-    updateEvent(id: $id, title: $title, slug: $slug, description: $description, dates: $dates) {
+  mutation UpdateEventMutation($id: ID!, $title: String!, $slug: String!, $description: String, $dates: [String], $places: [PlaceInput]) {
+    updateEvent(id: $id, title: $title, slug: $slug, description: $description, dates: $dates, places: $places) {
       id
       title
       description
       dates
+      places {
+        name
+        url
+      }
     }
   }
 `;
