@@ -73,8 +73,7 @@ class Edit extends Component {
                       title: title,
                       slug: slugify(title),
                       description: description,
-                      dates: dates,
-                      places: places
+                      dates: dates
                     }
                   });
                   this.setState({ saving: false });
@@ -99,12 +98,12 @@ class Edit extends Component {
                 />
                 <h3>Dates and time slots</h3>
                 <Dates dates={dates} updateDates={(dates) => this.setState({ dates })} />
-                <h3>Restaurants or places</h3>
-                <Places places={places} updatePlaces={(places) => this.setState({ places })} />
                 <p>
                   <Button type="submit" disabled={saving}>Save</Button>
                 </p>
               </form>
+              <h3>Restaurants or places</h3>
+              <Places places={places} eventId={event.id} updatePlaces={(places) => this.setState({ places })} />
             </Container>
           );
         }}
@@ -114,16 +113,12 @@ class Edit extends Component {
 }
 
 const UPDATE_EVENT_MUTATION = gql`
-  mutation UpdateEventMutation($id: ID!, $title: String!, $slug: String!, $description: String, $dates: [String], $places: [PlaceInput]) {
-    updateEvent(id: $id, title: $title, slug: $slug, description: $description, dates: $dates, places: $places) {
+  mutation UpdateEventMutation($id: ID!, $title: String!, $slug: String!, $description: String, $dates: [String]) {
+    updateEvent(id: $id, title: $title, slug: $slug, description: $description, dates: $dates) {
       id
       title
       description
       dates
-      places {
-        name
-        url
-      }
     }
   }
 `;

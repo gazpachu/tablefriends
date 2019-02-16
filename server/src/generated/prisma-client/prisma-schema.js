@@ -36,12 +36,25 @@ input EventCreateInput {
   title: String!
   description: String
   dates: EventCreatedatesInput
-  places: PlaceCreateManyInput
+  places: PlaceCreateManyWithoutEventInput
   menus: EventCreatemenusInput
 }
 
 input EventCreatemenusInput {
   set: [String!]
+}
+
+input EventCreateOneWithoutPlacesInput {
+  create: EventCreateWithoutPlacesInput
+  connect: EventWhereUniqueInput
+}
+
+input EventCreateWithoutPlacesInput {
+  slug: String!
+  title: String!
+  description: String
+  dates: EventCreatedatesInput
+  menus: EventCreatemenusInput
 }
 
 type EventEdge {
@@ -100,7 +113,7 @@ input EventUpdateInput {
   title: String
   description: String
   dates: EventUpdatedatesInput
-  places: PlaceUpdateManyInput
+  places: PlaceUpdateManyWithoutEventInput
   menus: EventUpdatemenusInput
 }
 
@@ -114,6 +127,26 @@ input EventUpdateManyMutationInput {
 
 input EventUpdatemenusInput {
   set: [String!]
+}
+
+input EventUpdateOneRequiredWithoutPlacesInput {
+  create: EventCreateWithoutPlacesInput
+  update: EventUpdateWithoutPlacesDataInput
+  upsert: EventUpsertWithoutPlacesInput
+  connect: EventWhereUniqueInput
+}
+
+input EventUpdateWithoutPlacesDataInput {
+  slug: String
+  title: String
+  description: String
+  dates: EventUpdatedatesInput
+  menus: EventUpdatemenusInput
+}
+
+input EventUpsertWithoutPlacesInput {
+  update: EventUpdateWithoutPlacesDataInput!
+  create: EventCreateWithoutPlacesInput!
 }
 
 input EventWhereInput {
@@ -224,6 +257,7 @@ type Place {
   id: ID!
   name: String!
   url: String
+  event: Event!
 }
 
 type PlaceConnection {
@@ -235,11 +269,17 @@ type PlaceConnection {
 input PlaceCreateInput {
   name: String!
   url: String
+  event: EventCreateOneWithoutPlacesInput!
 }
 
-input PlaceCreateManyInput {
-  create: [PlaceCreateInput!]
+input PlaceCreateManyWithoutEventInput {
+  create: [PlaceCreateWithoutEventInput!]
   connect: [PlaceWhereUniqueInput!]
+}
+
+input PlaceCreateWithoutEventInput {
+  name: String!
+  url: String
 }
 
 type PlaceEdge {
@@ -332,14 +372,10 @@ input PlaceSubscriptionWhereInput {
   NOT: [PlaceSubscriptionWhereInput!]
 }
 
-input PlaceUpdateDataInput {
-  name: String
-  url: String
-}
-
 input PlaceUpdateInput {
   name: String
   url: String
+  event: EventUpdateOneRequiredWithoutPlacesInput
 }
 
 input PlaceUpdateManyDataInput {
@@ -347,20 +383,21 @@ input PlaceUpdateManyDataInput {
   url: String
 }
 
-input PlaceUpdateManyInput {
-  create: [PlaceCreateInput!]
-  update: [PlaceUpdateWithWhereUniqueNestedInput!]
-  upsert: [PlaceUpsertWithWhereUniqueNestedInput!]
-  delete: [PlaceWhereUniqueInput!]
-  connect: [PlaceWhereUniqueInput!]
-  disconnect: [PlaceWhereUniqueInput!]
-  deleteMany: [PlaceScalarWhereInput!]
-  updateMany: [PlaceUpdateManyWithWhereNestedInput!]
-}
-
 input PlaceUpdateManyMutationInput {
   name: String
   url: String
+}
+
+input PlaceUpdateManyWithoutEventInput {
+  create: [PlaceCreateWithoutEventInput!]
+  delete: [PlaceWhereUniqueInput!]
+  connect: [PlaceWhereUniqueInput!]
+  set: [PlaceWhereUniqueInput!]
+  disconnect: [PlaceWhereUniqueInput!]
+  update: [PlaceUpdateWithWhereUniqueWithoutEventInput!]
+  upsert: [PlaceUpsertWithWhereUniqueWithoutEventInput!]
+  deleteMany: [PlaceScalarWhereInput!]
+  updateMany: [PlaceUpdateManyWithWhereNestedInput!]
 }
 
 input PlaceUpdateManyWithWhereNestedInput {
@@ -368,15 +405,20 @@ input PlaceUpdateManyWithWhereNestedInput {
   data: PlaceUpdateManyDataInput!
 }
 
-input PlaceUpdateWithWhereUniqueNestedInput {
-  where: PlaceWhereUniqueInput!
-  data: PlaceUpdateDataInput!
+input PlaceUpdateWithoutEventDataInput {
+  name: String
+  url: String
 }
 
-input PlaceUpsertWithWhereUniqueNestedInput {
+input PlaceUpdateWithWhereUniqueWithoutEventInput {
   where: PlaceWhereUniqueInput!
-  update: PlaceUpdateDataInput!
-  create: PlaceCreateInput!
+  data: PlaceUpdateWithoutEventDataInput!
+}
+
+input PlaceUpsertWithWhereUniqueWithoutEventInput {
+  where: PlaceWhereUniqueInput!
+  update: PlaceUpdateWithoutEventDataInput!
+  create: PlaceCreateWithoutEventInput!
 }
 
 input PlaceWhereInput {
@@ -422,6 +464,7 @@ input PlaceWhereInput {
   url_not_starts_with: String
   url_ends_with: String
   url_not_ends_with: String
+  event: EventWhereInput
   AND: [PlaceWhereInput!]
   OR: [PlaceWhereInput!]
   NOT: [PlaceWhereInput!]

@@ -19,28 +19,24 @@ const resolvers = {
    createEvent(parent, { title, slug }, context) {
      return context.prisma.createEvent({ title, slug });
    },
-   updateEvent(parent, { id, title, slug, description, dates, places }, context) {
+   updateEvent(parent, { id, title, slug, description, dates }, context) {
      return context.prisma.updateEvent({
        where: { id },
-       data: {
-         title, slug, description, dates: { set: dates },
-         places: {
-           update: {
-             where: { id: places.id },
-             data: {
-               name: places.name,
-               url: places.url
-             }
-           }
-         }
-       }
+       data: { title, slug, description, dates: { set: dates } }
      });
    },
    deleteEvent(parent, { id }, context) {
-     return context.prisma.deleteEvent({ where: { id } });
+     return context.prisma.deleteEvent({ id });
+   },
+   createPlace(parent, { name, url, event }, context) {
+     return context.prisma.createPlace({
+       name,
+       url,
+       event: { connect: { id: event } },
+     });
    },
    deletePlace(parent, { id }, context) {
-     return context.prisma.deletePlace({ where: { id } });
+     return context.prisma.deletePlace({ id });
    }
  },
 }

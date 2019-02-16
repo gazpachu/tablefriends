@@ -12,4 +12,5 @@ type Place {
   id: ID! @unique
   name: String!
   url: String
+  event: Event!
 }

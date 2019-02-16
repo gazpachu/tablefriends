@@ -18,8 +18,8 @@ const button = (props) => css`
   border: 1px solid white;
   border-radius: 5px;
   color: white;
-  font-size: 14px;
-  padding: 10px 20px;
+  font-size: ${props.size === 'small' ? '11px' : '14px'};
+  padding: ${props.size === 'small' ? '5px' : '10px 20px'};
   cursor: pointer;
   white-space: nowrap;
   transition: all .2s ease-in;
