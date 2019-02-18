@@ -3,7 +3,7 @@ import { breakpoints } from '../../styles/common.styles';
 
 export const Container = styled.section`
   text-align: center;
-  padding: 40px;
+  padding: 10px 40px;
   padding-bottom: 20px;
   border-bottom: 1px solid;
   margin-bottom: 30px;
@@ -25,6 +25,10 @@ export const Title = styled.h1`
 export const Description = styled.div`
   text-align: justify;
   line-height: 22px;
+`;
+
+export const ShareButtons = styled.div`
+  margin: 20px 0;
 `;
 
 export const EventNav = styled.ul`

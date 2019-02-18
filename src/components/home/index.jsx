@@ -37,7 +37,7 @@ class Home extends Component {
               <Container>
                 <PartyIcon />
                 <p>Are you in a big online group (i.e. whatsapp, facebook, slack) and don't know how to organise a dinner?</p>
-                <p>Table.Friends will help you organise your restaurant event by making your guests vote for:</p>
+                <p>TableFriends will help you organise your restaurant event by making your guests vote for:</p>
                 <List>
                   <Item>A day and time</Item>
                   <Item>A restaurant</Item>
