@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import dateFnsFormat from 'date-fns/format';
-import { Button, Input, Select } from '../../../styles/common.styles';
+import { Button, Input, Select } from '../../../../styles/common.styles';
 
 class Dates extends Component {
   constructor(props) {

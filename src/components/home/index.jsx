@@ -36,14 +36,14 @@ class Home extends Component {
             return (
               <Container>
                 <PartyIcon />
-                <p>Are you in a big online group (i.e. whatsapp, facebook, slack) and don't know how to organise a dinner?</p>
-                <p>TableFriends will help you organise your restaurant event by making your guests vote for:</p>
+                <p>Are you in charge of organising the next big dinner or restaurant meetup?</p>
+                <p>TableFriends will organise your restaurant event for you by making your guests vote for:</p>
                 <List>
                   <Item>A day and time</Item>
                   <Item>A restaurant</Item>
                   <Item>A menu</Item>
                 </List>
-                <h3>Start your event now!</h3>
+                <h3>Start organising your event now!</h3>
                 <form
                   onSubmit={async e => {
                     e.preventDefault();

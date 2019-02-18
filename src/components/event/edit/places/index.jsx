@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import { Mutation } from 'react-apollo';
 import  { gql } from 'apollo-boost';
-import { Input, Button } from '../../../styles/common.styles';
+import { Input, Button } from '../../../../styles/common.styles';
 import { List, Item, RemoveButton } from './styles';
 
 class Places extends Component {

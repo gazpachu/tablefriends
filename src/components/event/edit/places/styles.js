@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import { Button } from '../../../styles/common.styles';
+import { Button } from '../../../../styles/common.styles';
 
 export const Container = styled.section`
   text-align: center;

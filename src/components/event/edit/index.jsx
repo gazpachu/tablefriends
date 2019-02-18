@@ -7,9 +7,9 @@ import  { gql } from 'apollo-boost';
 import slugify from '../../../helpers';
 import { Container } from './styles.js';
 import { Button, Input, Textarea } from '../../../styles/common.styles';
-import Dates from '../dates';
-import Menus from '../menus';
-import Places from '../places';
+import Dates from './dates';
+import Menus from './menus';
+import Places from './places';
 
 // const initialValue = Value.fromJSON({
 //   document: {

@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from 'react';
-import { Button, Input, Select } from '../../../styles/common.styles';
+import { Button, Input, Select } from '../../../../styles/common.styles';
 
 class Menus extends Component {
   constructor(props) {
