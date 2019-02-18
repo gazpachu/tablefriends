@@ -9,18 +9,25 @@ class Places extends Component {
     super(props);
 
     this.state = {
+      places: this.props.places || [],
       inputPlaceName: '',
       inputPlaceURL: ''
     };
   }
 
   render() {
-    const { places, eventId } = this.props;
-    const { inputPlaceName, inputPlaceURL } = this.state;
+    const { eventId } = this.props;
+    const { places, inputPlaceName, inputPlaceURL } = this.state;
 
     return (
       <Fragment>
-        <Mutation mutation={DELETE_MUTATION}>
+        <Mutation
+          mutation={DELETE_MUTATION}
+          update={(cache, { data }) => {
+            const places = this.state.places.filter(item => item.id !== data.deletePlace.id);
+            this.setState({ places });
+          }}
+        >
           {(deletePlace, { data, loading, error }) => {
             return (
               <List>
@@ -45,13 +52,11 @@ class Places extends Component {
         </Mutation>
         <Mutation
           mutation={CREATE_MUTATION}
-          // update={(cache, { data }) => {
-          //   const { drafts } = cache.readQuery({ query: DRAFTS_QUERY })
-          //   cache.writeQuery({
-          //     query: DRAFTS_QUERY,
-          //     data: { drafts: drafts.concat([data.createDraft]) },
-          //   })
-          // }}
+          update={(cache, { data }) => {
+            const places = this.state.places.splice(0);
+            places.push(data.createPlace);
+            this.setState({ places });
+          }}
         >
           {(createPlace, { data, loading, error }) => {
             return (
@@ -107,6 +112,16 @@ const DELETE_MUTATION = gql`
   mutation DeleteMutation($id: ID!) {
     deletePlace(id: $id) {
       id
+    }
+  }
+`;
+
+export const EVENTS_QUERY = gql`
+  query EventsQuery {
+    events {
+      id
+      title
+      slug
     }
   }
 `;

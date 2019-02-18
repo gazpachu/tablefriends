@@ -118,6 +118,6 @@ export const EVENTS_QUERY = gql`
       slug
     }
   }
-`
+`;
 
 export default withRouter(Home);
