@@ -5,7 +5,8 @@ import { Link } from 'react-router-dom';
 
 export const colors = {
   primary: '#7e5bef',
-  secondary: '#888'
+  secondary: '#888',
+  red: '#c74343'
 };
 
 export const breakpoints = {
@@ -14,7 +15,7 @@ export const breakpoints = {
 
 const button = (props) => css`
   outline: none;
-  background: ${colors.primary};
+  background: ${props.color ? colors[props.color] : colors.primary};
   border: 1px solid white;
   border-radius: 5px;
   color: white;
@@ -25,7 +26,7 @@ const button = (props) => css`
   transition: all .2s ease-in;
 
   &:hover {
-    background: ${darken(0.2, colors.primary)};
+    background: ${props.color ? darken(0.2, colors[props.color]) : darken(0.2, colors.primary)};
   }
 
   opacity: ${props.disabled && '.3'};

@@ -47,7 +47,7 @@ class Home extends Component {
                     e.preventDefault();
                     const { title } = this.state;
                     await createEvent({ variables: { title: title, slug: slugify(title) } });
-                    this.props.history.push(`$slugify(title)}/edit`);
+                    this.props.history.push(`${slugify(title)}/edit`);
                   }}
                 >
                   <Input
