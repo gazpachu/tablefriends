@@ -116,14 +116,4 @@ const DELETE_MUTATION = gql`
   }
 `;
 
-export const EVENTS_QUERY = gql`
-  query EventsQuery {
-    events {
-      id
-      title
-      slug
-    }
-  }
-`;
-
 export default Places;

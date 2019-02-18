@@ -1,7 +1,7 @@
 type Query {
   events: [Event!]!
   event(slug: String!): Event
-  places: [Place!]!
+  places(id: ID!): [Place!]!
 }
 
 type Mutation {

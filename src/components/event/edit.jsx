@@ -50,7 +50,7 @@ class Edit extends Component {
   render() {
     const { event } = this.props;
     const { title, description, dates, menus, places, saving } = this.state;
-
+    
     return (
       <Fragment>
         <Mutation

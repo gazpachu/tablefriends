@@ -11,8 +11,8 @@ const resolvers = {
    }
  },
  Event: {
-   places: (parent, args, context) => {
-     return context.prisma.places();
+   places: (parent, { id }, context) => {
+     return context.prisma.places({ where: { event: id } });
    }
  },
  Mutation: {
