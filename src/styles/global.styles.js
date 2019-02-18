@@ -45,6 +45,7 @@ export const GlobalStyles = (props) => (
         min-height: calc(100vh - 60px);
         padding-bottom: 40px;
         color: ${colors.secondary};
+        overflow: hidden;
 
         @media (min-width: ${breakpoints.mobile}) {
           margin: 30px;
@@ -54,12 +55,18 @@ export const GlobalStyles = (props) => (
 
       .app-header {
         text-align: center;
+        background-color: ${colors.primary};
+        color: white;
+        height: 80px;
+
+        a { color: white; }
 
         h1, h2 { font-weight: lighter; }
 
         h1 {
-          border-bottom: 1px solid;
-          margin-bottom: 0;
+          border-bottom: 1px solid rgba(255,255,255,.1);
+          margin: 0;
+          padding-top: 10px;
         }
 
         h2 {

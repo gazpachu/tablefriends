@@ -12,17 +12,17 @@ const resolvers = {
  },
  Event: {
    places: (parent, { id }, context) => {
-     return context.prisma.places({ where: { event: id } });
+     return context.prisma.event({ id: parent.id }).places();
    }
  },
  Mutation: {
    createEvent(parent, { title, slug }, context) {
      return context.prisma.createEvent({ title, slug });
    },
-   updateEvent(parent, { id, title, slug, description, dates, menus }, context) {
+   updateEvent(parent, { id, title, slug, description, photo, dates, menus }, context) {
      return context.prisma.updateEvent({
        where: { id },
-       data: { title, slug, description, dates: { set: dates }, menus: { set: menus } }
+       data: { title, slug, description, photo, dates: { set: dates }, menus: { set: menus } }
      });
    },
    deleteEvent(parent, { id }, context) {

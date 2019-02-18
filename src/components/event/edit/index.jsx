@@ -4,12 +4,12 @@ import  { gql } from 'apollo-boost';
 // import { Editor } from 'slate-react';
 // import { Value } from 'slate';
 // import { EVENTS_QUERY } from '../home';
-import slugify from '../../helpers';
-import { Container } from './edit.styles.js';
-import { Button, Input, Textarea } from '../../styles/common.styles';
-import Dates from './dates';
-import Menus from './menus';
-import Places from './places';
+import slugify from '../../../helpers';
+import { Container } from './styles.js';
+import { Button, Input, Textarea } from '../../../styles/common.styles';
+import Dates from '../dates';
+import Menus from '../menus';
+import Places from '../places';
 
 // const initialValue = Value.fromJSON({
 //   document: {
@@ -39,6 +39,7 @@ class Edit extends Component {
     this.state = {
       title: this.props.event.title,
       description: this.props.event.description || '',
+      photo: this.props.event.photo || '',
       // description: initialValue,
       dates: this.props.event.dates || [],
       menus: this.props.event.menus || [],
@@ -49,8 +50,8 @@ class Edit extends Component {
 
   render() {
     const { event } = this.props;
-    const { title, description, dates, menus, places, saving } = this.state;
-    
+    const { title, description, photo, dates, menus, places, saving } = this.state;
+
     return (
       <Fragment>
         <Mutation
@@ -76,6 +77,7 @@ class Edit extends Component {
                         title: title,
                         slug: slugify(title),
                         description: description,
+                        photo: photo,
                         dates: dates,
                         menus: menus
                       }

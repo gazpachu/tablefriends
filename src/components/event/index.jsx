@@ -4,7 +4,7 @@ import  { gql } from 'apollo-boost';
 import EventHeader from './header';
 import Edit from './edit';
 import Vote from './vote';
-import { Container } from './styles';
+import { Container, EventBody } from './styles';
 
 class Event extends Component {
   render() {
@@ -33,10 +33,12 @@ class Event extends Component {
                     event={data.event}
                     active={active}
                   />
-                  {active === 'edit'
-                    ? <Edit event={data.event} history={this.props.history} />
-                    : <Vote event={data.event} />
-                  }
+                  <EventBody>
+                    {active === 'edit'
+                      ? <Edit event={data.event} history={this.props.history} />
+                      : <Vote event={data.event} />
+                    }
+                  </EventBody>
                 </Fragment>
               : null}
             </Container>

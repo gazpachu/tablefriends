@@ -1,7 +1,7 @@
 import React from 'react';
 import { InlineShareButtons } from 'sharethis-reactjs';
 import { Header, Title, Description, ShareButtons, EventNav, EventNavItem } from './styles';
-import { TabLink } from '../../styles/common.styles';
+import { TabLink } from '../../../styles/common.styles';
 
 function EventHeader(props) {
   return (
