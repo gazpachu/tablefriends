@@ -2,4 +2,4 @@
 
 A POC (Proof Of Concept) of a web app to organise restaurant events.
 
-Based on the [https://github.com/graphql-boilerplates/react-fullstack-graphql](React fullstack graphql) boilerplate. Refer to its readme file for more info about the tech stack.
+Based on the [React fullstack graphql](https://github.com/graphql-boilerplates/react-fullstack-graphql) boilerplate. Refer to its readme file for more info about the tech stack.
