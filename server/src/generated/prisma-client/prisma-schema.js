@@ -392,7 +392,6 @@ input PlaceUpdateManyWithoutEventInput {
   create: [PlaceCreateWithoutEventInput!]
   delete: [PlaceWhereUniqueInput!]
   connect: [PlaceWhereUniqueInput!]
-  set: [PlaceWhereUniqueInput!]
   disconnect: [PlaceWhereUniqueInput!]
   update: [PlaceUpdateWithWhereUniqueWithoutEventInput!]
   upsert: [PlaceUpsertWithWhereUniqueWithoutEventInput!]

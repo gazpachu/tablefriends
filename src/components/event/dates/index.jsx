@@ -7,7 +7,7 @@ class Dates extends Component {
     super(props);
 
     this.state = {
-      inputDate: null
+      inputDate: ''
     };
   }
 
@@ -33,7 +33,7 @@ class Dates extends Component {
           Remove selected
         </Button>
         <Input
-          defaultValue={inputDate}
+          value={inputDate}
           type="datetime-local"
           onChange={e => this.setState({ inputDate: e.target.value })}
           placeholder="Add new date..."
@@ -44,7 +44,7 @@ class Dates extends Component {
             const newDates = dates.splice(0);
             newDates.push(inputDate);
             this.props.updateDates(newDates);
-            this.setState({ inputDate: null });
+            this.setState({ inputDate: '' });
           }}
         >
           Add date and time
