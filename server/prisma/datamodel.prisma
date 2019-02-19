@@ -3,7 +3,7 @@ type Event {
   slug: String! @unique
   title: String!
   description: String
-  dates: [String]
+  dates: [Date]
   places: [Place]
   menus: [String]
 }
@@ -12,5 +12,11 @@ type Place {
   id: ID! @unique
   name: String!
   url: String
+  event: Event!
+}
+
+type Date {
+  id: ID! @unique
+  timestamp: String!
   event: Event!
 }

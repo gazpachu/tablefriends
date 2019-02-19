@@ -5,6 +5,7 @@ import { Input } from '../../../styles/common.styles';
 export const Table = styled.table`
   border-collapse: collapse;
   width: 100%;
+  background-color: white;
 
   table, th, td {
     border: 1px solid #DDD;

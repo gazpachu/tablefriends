@@ -4,7 +4,7 @@ import  { gql } from 'apollo-boost';
 import EventHeader from './header';
 import Edit from './edit';
 import Vote from './vote';
-import { Container, EventBody } from './styles';
+import { Container, Status, EventBody } from './styles';
 
 class Event extends Component {
   render() {
@@ -13,13 +13,17 @@ class Event extends Component {
         {({ data, loading, error }) => {
           if (loading) {
             return (
-              <Container>Loading ...</Container>
+              <Container>
+                <Status>Loading ...</Status>
+              </Container>
             )
           }
 
           if (error) {
             return (
-              <Container>An unexpected error occured.</Container>
+              <Container>
+                <Status>An unexpected error occured.</Status>
+              </Container>
             )
           }
 
@@ -58,7 +62,10 @@ export const EVENT_QUERY = gql`
       slug
       description
       title
-      dates
+      dates {
+        id
+        timestamp
+      }
       places {
         id
         name

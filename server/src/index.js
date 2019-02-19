@@ -13,6 +13,9 @@ const resolvers = {
  Event: {
    places: (parent, { id }, context) => {
      return context.prisma.event({ id: parent.id }).places();
+   },
+   dates: (parent, { id }, context) => {
+     return context.prisma.event({ id: parent.id }).dates();
    }
  },
  Mutation: {
@@ -27,6 +30,15 @@ const resolvers = {
    },
    deleteEvent(parent, { id }, context) {
      return context.prisma.deleteEvent({ id });
+   },
+   createDate(parent, { timestamp, event }, context) {
+     return context.prisma.createDate({
+       timestamp,
+       event: { connect: { id: event } },
+     });
+   },
+   deleteDate(parent, { id }, context) {
+     return context.prisma.deleteDate({ id });
    },
    createPlace(parent, { name, url, event }, context) {
      return context.prisma.createPlace({

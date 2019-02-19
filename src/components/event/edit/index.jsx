@@ -41,16 +41,14 @@ class Edit extends Component {
       description: this.props.event.description || '',
       photo: this.props.event.photo || '',
       // description: initialValue,
-      dates: this.props.event.dates || [],
       menus: this.props.event.menus || [],
-      places: this.props.event.places || [],
       saving: false
     };
   }
 
   render() {
     const { event } = this.props;
-    const { title, description, photo, dates, menus, places, saving } = this.state;
+    const { title, description, photo, menus, saving } = this.state;
 
     return (
       <Fragment>
@@ -78,7 +76,6 @@ class Edit extends Component {
                         slug: slugify(title),
                         description: description,
                         photo: photo,
-                        dates: dates,
                         menus: menus
                       }
                     });
@@ -102,16 +99,16 @@ class Edit extends Component {
                     onChange={e => this.setState({ description: e.target.value })}
                     placeholder="Event description..."
                   />
-                  <h3>Dates and time slots</h3>
-                  <Dates dates={dates} updateDates={(dates) => this.setState({ dates })} />
                   <h3>Menus</h3>
                   <Menus menus={menus} updateMenus={(menus) => this.setState({ menus })} />
                   <p>
                     <Button type="submit" disabled={saving}>Save</Button>
                   </p>
                 </form>
+                <h3>Dates and time slots</h3>
+                <Dates dates={event.dates} eventId={event.id} />
                 <h3>Restaurants or places</h3>
-                <Places places={places} eventId={event.id} updatePlaces={(places) => this.setState({ places })} />
+                <Places places={event.places} eventId={event.id} />
               </Container>
             );
           }}
@@ -147,11 +144,10 @@ class Edit extends Component {
 
 const UPDATE_EVENT_MUTATION = gql`
   mutation UpdateEventMutation($id: ID!, $title: String!, $slug: String!, $description: String, $dates: [String], $menus: [String]) {
-    updateEvent(id: $id, title: $title, slug: $slug, description: $description, dates: $dates, menus: $menus) {
+    updateEvent(id: $id, title: $title, slug: $slug, description: $description, menus: $menus) {
       id
       title
       description
-      dates
       menus
     }
   }
