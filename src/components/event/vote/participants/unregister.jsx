@@ -1,25 +1,56 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { Mutation } from 'react-apollo';
 import  { gql } from 'apollo-boost';
-import { Button, Info } from '../../../../styles/common.styles';
+import { Button, Info, Select } from '../../../../styles/common.styles';
 
 class UnRegister extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      inputParticipant: '',
+      participants: this.props.participants || [],
       status: ''
     };
   }
 
   render() {
-    const { inputParticipant, status } = this.state;
+    const { participants, status } = this.state;
 
     return (
-      <div>
-        <h3>Participant registration</h3>
-      </div>
+      <Fragment>
+        <h3>Participant unregistration</h3>
+        <Mutation
+          mutation={DELETE_MUTATION}
+          update={(cache, { data }) => {
+            const participantName = this.state.participants[this.selectParticipants.selectedIndex].name;
+            const participants = this.state.participants.filter(item => item.id !== data.deleteParticipant.id);
+            this.setState({ participants, status: `${participantName} has been unregistered.` });
+          }}
+        >
+          {(deleteParticipant, { data, loading, error }) => {
+            return (
+              <Fragment>
+                <Select ref={(select) => { this.selectParticipants = select; }}>
+                  {participants && participants.map(participant => (
+                    <option key={participant.id} value={participant.id}>{participant.name}</option>
+                  ))}
+                </Select>
+                <Button
+                  disabled={participants.length === 0}
+                  onClick={async () => {
+                    await deleteParticipant({
+                      variables: { id: participants[this.selectParticipants.selectedIndex].id },
+                    });
+                  }}
+                >
+                  Remove selected
+                </Button>
+                <Info>{status}</Info>
+              </Fragment>
+            )
+          }}
+        </Mutation>
+      </Fragment>
     );
   }
 }

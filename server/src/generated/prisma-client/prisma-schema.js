@@ -241,6 +241,7 @@ type Event {
   dates(where: DateWhereInput, orderBy: DateOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Date!]
   places(where: PlaceWhereInput, orderBy: PlaceOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Place!]
   menus: [String!]!
+  participants(where: ParticipantWhereInput, orderBy: ParticipantOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Participant!]
 }
 
 type EventConnection {
@@ -256,19 +257,20 @@ input EventCreateInput {
   dates: DateCreateManyWithoutEventInput
   places: PlaceCreateManyWithoutEventInput
   menus: EventCreatemenusInput
+  participants: ParticipantCreateManyWithoutEventInput
 }
 
 input EventCreatemenusInput {
   set: [String!]
 }
 
-input EventCreateOneInput {
-  create: EventCreateInput
+input EventCreateOneWithoutDatesInput {
+  create: EventCreateWithoutDatesInput
   connect: EventWhereUniqueInput
 }
 
-input EventCreateOneWithoutDatesInput {
-  create: EventCreateWithoutDatesInput
+input EventCreateOneWithoutParticipantsInput {
+  create: EventCreateWithoutParticipantsInput
   connect: EventWhereUniqueInput
 }
 
@@ -283,6 +285,16 @@ input EventCreateWithoutDatesInput {
   description: String
   places: PlaceCreateManyWithoutEventInput
   menus: EventCreatemenusInput
+  participants: ParticipantCreateManyWithoutEventInput
+}
+
+input EventCreateWithoutParticipantsInput {
+  slug: String!
+  title: String!
+  description: String
+  dates: DateCreateManyWithoutEventInput
+  places: PlaceCreateManyWithoutEventInput
+  menus: EventCreatemenusInput
 }
 
 input EventCreateWithoutPlacesInput {
@@ -291,6 +303,7 @@ input EventCreateWithoutPlacesInput {
   description: String
   dates: DateCreateManyWithoutEventInput
   menus: EventCreatemenusInput
+  participants: ParticipantCreateManyWithoutEventInput
 }
 
 type EventEdge {
@@ -339,15 +352,6 @@ input EventSubscriptionWhereInput {
   NOT: [EventSubscriptionWhereInput!]
 }
 
-input EventUpdateDataInput {
-  slug: String
-  title: String
-  description: String
-  dates: DateUpdateManyWithoutEventInput
-  places: PlaceUpdateManyWithoutEventInput
-  menus: EventUpdatemenusInput
-}
-
 input EventUpdateInput {
   slug: String
   title: String
@@ -355,6 +359,7 @@ input EventUpdateInput {
   dates: DateUpdateManyWithoutEventInput
   places: PlaceUpdateManyWithoutEventInput
   menus: EventUpdatemenusInput
+  participants: ParticipantUpdateManyWithoutEventInput
 }
 
 input EventUpdateManyMutationInput {
@@ -368,17 +373,17 @@ input EventUpdatemenusInput {
   set: [String!]
 }
 
-input EventUpdateOneRequiredInput {
-  create: EventCreateInput
-  update: EventUpdateDataInput
-  upsert: EventUpsertNestedInput
-  connect: EventWhereUniqueInput
-}
-
 input EventUpdateOneRequiredWithoutDatesInput {
   create: EventCreateWithoutDatesInput
   update: EventUpdateWithoutDatesDataInput
   upsert: EventUpsertWithoutDatesInput
+  connect: EventWhereUniqueInput
+}
+
+input EventUpdateOneRequiredWithoutParticipantsInput {
+  create: EventCreateWithoutParticipantsInput
+  update: EventUpdateWithoutParticipantsDataInput
+  upsert: EventUpsertWithoutParticipantsInput
   connect: EventWhereUniqueInput
 }
 
@@ -395,6 +400,16 @@ input EventUpdateWithoutDatesDataInput {
   description: String
   places: PlaceUpdateManyWithoutEventInput
   menus: EventUpdatemenusInput
+  participants: ParticipantUpdateManyWithoutEventInput
+}
+
+input EventUpdateWithoutParticipantsDataInput {
+  slug: String
+  title: String
+  description: String
+  dates: DateUpdateManyWithoutEventInput
+  places: PlaceUpdateManyWithoutEventInput
+  menus: EventUpdatemenusInput
 }
 
 input EventUpdateWithoutPlacesDataInput {
@@ -403,16 +418,17 @@ input EventUpdateWithoutPlacesDataInput {
   description: String
   dates: DateUpdateManyWithoutEventInput
   menus: EventUpdatemenusInput
-}
-
-input EventUpsertNestedInput {
-  update: EventUpdateDataInput!
-  create: EventCreateInput!
+  participants: ParticipantUpdateManyWithoutEventInput
 }
 
 input EventUpsertWithoutDatesInput {
   update: EventUpdateWithoutDatesDataInput!
   create: EventCreateWithoutDatesInput!
+}
+
+input EventUpsertWithoutParticipantsInput {
+  update: EventUpdateWithoutParticipantsDataInput!
+  create: EventCreateWithoutParticipantsInput!
 }
 
 input EventUpsertWithoutPlacesInput {
@@ -483,6 +499,9 @@ input EventWhereInput {
   places_every: PlaceWhereInput
   places_some: PlaceWhereInput
   places_none: PlaceWhereInput
+  participants_every: ParticipantWhereInput
+  participants_some: ParticipantWhereInput
+  participants_none: ParticipantWhereInput
   AND: [EventWhereInput!]
   OR: [EventWhereInput!]
   NOT: [EventWhereInput!]
@@ -555,7 +574,17 @@ type ParticipantConnection {
 input ParticipantCreateInput {
   name: String!
   dates: DateCreateManyInput
-  event: EventCreateOneInput!
+  event: EventCreateOneWithoutParticipantsInput!
+}
+
+input ParticipantCreateManyWithoutEventInput {
+  create: [ParticipantCreateWithoutEventInput!]
+  connect: [ParticipantWhereUniqueInput!]
+}
+
+input ParticipantCreateWithoutEventInput {
+  name: String!
+  dates: DateCreateManyInput
 }
 
 type ParticipantEdge {
@@ -579,6 +608,40 @@ type ParticipantPreviousValues {
   name: String!
 }
 
+input ParticipantScalarWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  name: String
+  name_not: String
+  name_in: [String!]
+  name_not_in: [String!]
+  name_lt: String
+  name_lte: String
+  name_gt: String
+  name_gte: String
+  name_contains: String
+  name_not_contains: String
+  name_starts_with: String
+  name_not_starts_with: String
+  name_ends_with: String
+  name_not_ends_with: String
+  AND: [ParticipantScalarWhereInput!]
+  OR: [ParticipantScalarWhereInput!]
+  NOT: [ParticipantScalarWhereInput!]
+}
+
 type ParticipantSubscriptionPayload {
   mutation: MutationType!
   node: Participant
@@ -600,11 +663,47 @@ input ParticipantSubscriptionWhereInput {
 input ParticipantUpdateInput {
   name: String
   dates: DateUpdateManyInput
-  event: EventUpdateOneRequiredInput
+  event: EventUpdateOneRequiredWithoutParticipantsInput
+}
+
+input ParticipantUpdateManyDataInput {
+  name: String
 }
 
 input ParticipantUpdateManyMutationInput {
   name: String
+}
+
+input ParticipantUpdateManyWithoutEventInput {
+  create: [ParticipantCreateWithoutEventInput!]
+  delete: [ParticipantWhereUniqueInput!]
+  connect: [ParticipantWhereUniqueInput!]
+  disconnect: [ParticipantWhereUniqueInput!]
+  update: [ParticipantUpdateWithWhereUniqueWithoutEventInput!]
+  upsert: [ParticipantUpsertWithWhereUniqueWithoutEventInput!]
+  deleteMany: [ParticipantScalarWhereInput!]
+  updateMany: [ParticipantUpdateManyWithWhereNestedInput!]
+}
+
+input ParticipantUpdateManyWithWhereNestedInput {
+  where: ParticipantScalarWhereInput!
+  data: ParticipantUpdateManyDataInput!
+}
+
+input ParticipantUpdateWithoutEventDataInput {
+  name: String
+  dates: DateUpdateManyInput
+}
+
+input ParticipantUpdateWithWhereUniqueWithoutEventInput {
+  where: ParticipantWhereUniqueInput!
+  data: ParticipantUpdateWithoutEventDataInput!
+}
+
+input ParticipantUpsertWithWhereUniqueWithoutEventInput {
+  where: ParticipantWhereUniqueInput!
+  update: ParticipantUpdateWithoutEventDataInput!
+  create: ParticipantCreateWithoutEventInput!
 }
 
 input ParticipantWhereInput {

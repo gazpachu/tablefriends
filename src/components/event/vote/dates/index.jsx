@@ -4,7 +4,7 @@ import { Table, Heading, Cell, UserIcon } from '../styles';
 
 class VoteDates extends Component {
   render() {
-    const { dates } = this.props;
+    const { dates, participants } = this.props;
 
     return (
       <Fragment>
@@ -20,25 +20,21 @@ class VoteDates extends Component {
           </thead>
           <tbody>
             <tr>
-              <td>xx participants</td>
+              <Cell>{participants.length} participants</Cell>
               {dates && dates.map(date => (
                 <Cell key={`${date.id}-participant`}>x</Cell>
               ))}
             </tr>
-            <tr>
-              <td />
-              {dates && dates.map(date => (
-                <Cell key={`${date.id}-input-cell`}>
-                  <input type="checkbox" />
-                </Cell>
-              ))}
-            </tr>
-            <tr>
-              <td><UserIcon className="fas fa-user-circle" />John Smith</td>
-              {dates && dates.map(date => (
-                <Cell key={`${date.id}-cell`}>check</Cell>
-              ))}
-            </tr>
+            {participants && participants.map(participant => (
+              <tr key={participant.id}>
+                <Cell style={{ textAlign: 'left' }}><UserIcon className="fas fa-user-circle" />{participant.name}</Cell>
+                {dates && dates.map(date => (
+                  <Cell key={`${date.id}-cell`}>
+                    <input type="checkbox" />
+                  </Cell>
+                ))}
+              </tr>
+            ))}
           </tbody>
         </Table>
       </Fragment>

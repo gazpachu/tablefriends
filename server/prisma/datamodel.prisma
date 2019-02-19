@@ -6,6 +6,7 @@ type Event {
   dates: [Date]
   places: [Place]
   menus: [String]
+  participants: [Participant]
 }
 
 type Place {

@@ -18,8 +18,8 @@ class Vote extends Component {
     return (
       <div>
         <Register eventId={event.id} />
-        <VoteDates dates={event.dates} />
-        <UnRegister eventId={event.id} />
+        <VoteDates dates={event.dates} participants={event.participants} />
+        <UnRegister participants={event.participants} />
       </div>
     );
   }
