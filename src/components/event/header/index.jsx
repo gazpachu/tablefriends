@@ -42,7 +42,7 @@ function EventHeader(props) {
       </ShareButtons>
       <EventNav>
         <EventNavItem>
-          <TabLink active={props.active === 'vote' ? 1 : 0} to={`/${props.event.slug}`}>Vote</TabLink>
+          <TabLink active={props.active === 'vote' ? 1 : 0} to={`/${props.event.slug}`}>Register &amp; Vote</TabLink>
         </EventNavItem>
         <EventNavItem>
           <TabLink active={props.active === 'edit' ? 1 : 0} to={`/${props.event.slug}/edit`}>Edit event</TabLink>

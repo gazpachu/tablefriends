@@ -1,6 +1,5 @@
 import { css } from '@emotion/core';
 import styled from '@emotion/styled';
-import { Input } from '../../../styles/common.styles';
 
 export const Table = styled.table`
   border-collapse: collapse;
@@ -26,8 +25,4 @@ export const Cell = styled.td`
 
 export const UserIcon = styled.i`
   margin-right: 5px;
-`;
-
-export const UserInput = styled(Input)`
-  margin-top: 10px;
 `;

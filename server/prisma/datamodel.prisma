@@ -20,3 +20,10 @@ type Date {
   timestamp: String!
   event: Event!
 }
+
+type Participant {
+  id: ID! @unique
+  name: String!
+  dates: [Date]
+  event: Event!
+}

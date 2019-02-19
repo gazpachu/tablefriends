@@ -79,3 +79,7 @@ export const Select = styled.select`
   ${formElement};
   height: 36px;
 `;
+
+export const Info = styled.div`
+  font-size: 10px;
+`;

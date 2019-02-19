@@ -13,6 +13,10 @@ var models = [
     embedded: false
   },
   {
+    name: "Participant",
+    embedded: false
+  },
+  {
     name: "Place",
     embedded: false
   }
@@ -30,6 +34,10 @@ var models = [
   },
   {
     name: "Event",
+    embedded: false
+  },
+  {
+    name: "Participant",
     embedded: false
   },
   {

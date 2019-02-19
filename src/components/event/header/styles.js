@@ -16,15 +16,15 @@ export const Title = styled.h1`
 export const Description = styled.div`
   text-align: justify;
   line-height: 22px;
-  margin: 0 40px;
+  margin: 40px;
 
   @media (max-width: ${breakpoints.mobile}) {
-    margin: 0 20px;
+    margin: 40px 20px;
   }
 `;
 
 export const ShareButtons = styled.div`
-  margin: 20px 0;
+  margin: 20px 0 60px;
 `;
 
 export const EventNav = styled.ul`

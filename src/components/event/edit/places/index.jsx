@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import { Mutation } from 'react-apollo';
 import  { gql } from 'apollo-boost';
-import { Input, Button } from '../../../../styles/common.styles';
+import { Input, Button, Info } from '../../../../styles/common.styles';
 import { List, Item, RemoveButton } from './styles';
 
 class Places extends Component {
@@ -81,6 +81,7 @@ class Places extends Component {
                   onChange={e => this.setState({ inputPlaceURL: e.target.value })}
                   placeholder="URL..."
                 />
+                <Info>The URL can be a website, a GoogleMaps link or anything you want</Info>
                 <p>
                   <Button
                     type="submit"

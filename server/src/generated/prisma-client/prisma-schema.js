@@ -7,6 +7,10 @@ type AggregateEvent {
   count: Int!
 }
 
+type AggregateParticipant {
+  count: Int!
+}
+
 type AggregatePlace {
   count: Int!
 }
@@ -30,6 +34,11 @@ type DateConnection {
 input DateCreateInput {
   timestamp: String!
   event: EventCreateOneWithoutDatesInput!
+}
+
+input DateCreateManyInput {
+  create: [DateCreateInput!]
+  connect: [DateWhereUniqueInput!]
 }
 
 input DateCreateManyWithoutEventInput {
@@ -114,6 +123,11 @@ input DateSubscriptionWhereInput {
   NOT: [DateSubscriptionWhereInput!]
 }
 
+input DateUpdateDataInput {
+  timestamp: String
+  event: EventUpdateOneRequiredWithoutDatesInput
+}
+
 input DateUpdateInput {
   timestamp: String
   event: EventUpdateOneRequiredWithoutDatesInput
@@ -121,6 +135,17 @@ input DateUpdateInput {
 
 input DateUpdateManyDataInput {
   timestamp: String
+}
+
+input DateUpdateManyInput {
+  create: [DateCreateInput!]
+  update: [DateUpdateWithWhereUniqueNestedInput!]
+  upsert: [DateUpsertWithWhereUniqueNestedInput!]
+  delete: [DateWhereUniqueInput!]
+  connect: [DateWhereUniqueInput!]
+  disconnect: [DateWhereUniqueInput!]
+  deleteMany: [DateScalarWhereInput!]
+  updateMany: [DateUpdateManyWithWhereNestedInput!]
 }
 
 input DateUpdateManyMutationInput {
@@ -147,9 +172,20 @@ input DateUpdateWithoutEventDataInput {
   timestamp: String
 }
 
+input DateUpdateWithWhereUniqueNestedInput {
+  where: DateWhereUniqueInput!
+  data: DateUpdateDataInput!
+}
+
 input DateUpdateWithWhereUniqueWithoutEventInput {
   where: DateWhereUniqueInput!
   data: DateUpdateWithoutEventDataInput!
+}
+
+input DateUpsertWithWhereUniqueNestedInput {
+  where: DateWhereUniqueInput!
+  update: DateUpdateDataInput!
+  create: DateCreateInput!
 }
 
 input DateUpsertWithWhereUniqueWithoutEventInput {
@@ -226,6 +262,11 @@ input EventCreatemenusInput {
   set: [String!]
 }
 
+input EventCreateOneInput {
+  create: EventCreateInput
+  connect: EventWhereUniqueInput
+}
+
 input EventCreateOneWithoutDatesInput {
   create: EventCreateWithoutDatesInput
   connect: EventWhereUniqueInput
@@ -298,6 +339,15 @@ input EventSubscriptionWhereInput {
   NOT: [EventSubscriptionWhereInput!]
 }
 
+input EventUpdateDataInput {
+  slug: String
+  title: String
+  description: String
+  dates: DateUpdateManyWithoutEventInput
+  places: PlaceUpdateManyWithoutEventInput
+  menus: EventUpdatemenusInput
+}
+
 input EventUpdateInput {
   slug: String
   title: String
@@ -316,6 +366,13 @@ input EventUpdateManyMutationInput {
 
 input EventUpdatemenusInput {
   set: [String!]
+}
+
+input EventUpdateOneRequiredInput {
+  create: EventCreateInput
+  update: EventUpdateDataInput
+  upsert: EventUpsertNestedInput
+  connect: EventWhereUniqueInput
 }
 
 input EventUpdateOneRequiredWithoutDatesInput {
@@ -346,6 +403,11 @@ input EventUpdateWithoutPlacesDataInput {
   description: String
   dates: DateUpdateManyWithoutEventInput
   menus: EventUpdatemenusInput
+}
+
+input EventUpsertNestedInput {
+  update: EventUpdateDataInput!
+  create: EventCreateInput!
 }
 
 input EventUpsertWithoutDatesInput {
@@ -446,6 +508,12 @@ type Mutation {
   upsertEvent(where: EventWhereUniqueInput!, create: EventCreateInput!, update: EventUpdateInput!): Event!
   deleteEvent(where: EventWhereUniqueInput!): Event
   deleteManyEvents(where: EventWhereInput): BatchPayload!
+  createParticipant(data: ParticipantCreateInput!): Participant!
+  updateParticipant(data: ParticipantUpdateInput!, where: ParticipantWhereUniqueInput!): Participant
+  updateManyParticipants(data: ParticipantUpdateManyMutationInput!, where: ParticipantWhereInput): BatchPayload!
+  upsertParticipant(where: ParticipantWhereUniqueInput!, create: ParticipantCreateInput!, update: ParticipantUpdateInput!): Participant!
+  deleteParticipant(where: ParticipantWhereUniqueInput!): Participant
+  deleteManyParticipants(where: ParticipantWhereInput): BatchPayload!
   createPlace(data: PlaceCreateInput!): Place!
   updatePlace(data: PlaceUpdateInput!, where: PlaceWhereUniqueInput!): Place
   updateManyPlaces(data: PlaceUpdateManyMutationInput!, where: PlaceWhereInput): BatchPayload!
@@ -469,6 +537,116 @@ type PageInfo {
   hasPreviousPage: Boolean!
   startCursor: String
   endCursor: String
+}
+
+type Participant {
+  id: ID!
+  name: String!
+  dates(where: DateWhereInput, orderBy: DateOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Date!]
+  event: Event!
+}
+
+type ParticipantConnection {
+  pageInfo: PageInfo!
+  edges: [ParticipantEdge]!
+  aggregate: AggregateParticipant!
+}
+
+input ParticipantCreateInput {
+  name: String!
+  dates: DateCreateManyInput
+  event: EventCreateOneInput!
+}
+
+type ParticipantEdge {
+  node: Participant!
+  cursor: String!
+}
+
+enum ParticipantOrderByInput {
+  id_ASC
+  id_DESC
+  name_ASC
+  name_DESC
+  createdAt_ASC
+  createdAt_DESC
+  updatedAt_ASC
+  updatedAt_DESC
+}
+
+type ParticipantPreviousValues {
+  id: ID!
+  name: String!
+}
+
+type ParticipantSubscriptionPayload {
+  mutation: MutationType!
+  node: Participant
+  updatedFields: [String!]
+  previousValues: ParticipantPreviousValues
+}
+
+input ParticipantSubscriptionWhereInput {
+  mutation_in: [MutationType!]
+  updatedFields_contains: String
+  updatedFields_contains_every: [String!]
+  updatedFields_contains_some: [String!]
+  node: ParticipantWhereInput
+  AND: [ParticipantSubscriptionWhereInput!]
+  OR: [ParticipantSubscriptionWhereInput!]
+  NOT: [ParticipantSubscriptionWhereInput!]
+}
+
+input ParticipantUpdateInput {
+  name: String
+  dates: DateUpdateManyInput
+  event: EventUpdateOneRequiredInput
+}
+
+input ParticipantUpdateManyMutationInput {
+  name: String
+}
+
+input ParticipantWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  name: String
+  name_not: String
+  name_in: [String!]
+  name_not_in: [String!]
+  name_lt: String
+  name_lte: String
+  name_gt: String
+  name_gte: String
+  name_contains: String
+  name_not_contains: String
+  name_starts_with: String
+  name_not_starts_with: String
+  name_ends_with: String
+  name_not_ends_with: String
+  dates_every: DateWhereInput
+  dates_some: DateWhereInput
+  dates_none: DateWhereInput
+  event: EventWhereInput
+  AND: [ParticipantWhereInput!]
+  OR: [ParticipantWhereInput!]
+  NOT: [ParticipantWhereInput!]
+}
+
+input ParticipantWhereUniqueInput {
+  id: ID
 }
 
 type Place {
@@ -698,6 +876,9 @@ type Query {
   event(where: EventWhereUniqueInput!): Event
   events(where: EventWhereInput, orderBy: EventOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Event]!
   eventsConnection(where: EventWhereInput, orderBy: EventOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): EventConnection!
+  participant(where: ParticipantWhereUniqueInput!): Participant
+  participants(where: ParticipantWhereInput, orderBy: ParticipantOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Participant]!
+  participantsConnection(where: ParticipantWhereInput, orderBy: ParticipantOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): ParticipantConnection!
   place(where: PlaceWhereUniqueInput!): Place
   places(where: PlaceWhereInput, orderBy: PlaceOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Place]!
   placesConnection(where: PlaceWhereInput, orderBy: PlaceOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): PlaceConnection!
@@ -707,6 +888,7 @@ type Query {
 type Subscription {
   date(where: DateSubscriptionWhereInput): DateSubscriptionPayload
   event(where: EventSubscriptionWhereInput): EventSubscriptionPayload
+  participant(where: ParticipantSubscriptionWhereInput): ParticipantSubscriptionPayload
   place(where: PlaceSubscriptionWhereInput): PlaceSubscriptionPayload
 }
 `
