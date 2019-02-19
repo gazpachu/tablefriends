@@ -62,6 +62,12 @@ const resolvers = {
    deleteParticipant(parent, { id }, context) {
      return context.prisma.deleteParticipant({ id });
    },
+   updateParticipant(parent, { id, dates }, context) {
+     return context.prisma.updateParticipant({
+       where: { id },
+       data: { dates: { set: dates } }
+     });
+   },
  },
 }
 

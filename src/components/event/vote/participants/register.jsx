@@ -25,12 +25,12 @@ class Register extends Component {
           mutation={CREATE_MUTATION}
           update={(cache, { data }) => {
             this.setState({ inputParticipant: '', status: `${data.createParticipant.name} is now confirmed for the event.` });
-            // const { participants } = cache.readQuery({ query: EVENT_QUERY });
-            // console.log(cache.readQuery({ query: EVENT_QUERY }));
-            // cache.writeQuery({
-            //   query: EVENT_QUERY,
-            //   data: { participants: event.concat([data.createParticipant]) },
-            // });
+            const { participants } = cache.readQuery({ query: EVENT_QUERY });
+            console.log(participants);
+            cache.writeQuery({
+              query: EVENT_QUERY,
+              data: { participants: participants.concat([data.createParticipant]) },
+            });
           }}
         >
           {(createParticipant, { data, loading, error }) => {
@@ -49,15 +49,13 @@ class Register extends Component {
                   onChange={e => this.setState({ inputParticipant: e.target.value })}
                   placeholder="Participant name..."
                 />
+                <Button
+                  type="submit"
+                  disabled={!inputParticipant}
+                >
+                  Register
+                </Button>
                 <Info>{status}</Info>
-                <p>
-                  <Button
-                    type="submit"
-                    disabled={!inputParticipant}
-                  >
-                    Register
-                  </Button>
-                </p>
               </form>
             );
           }}

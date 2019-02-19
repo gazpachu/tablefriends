@@ -1,6 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import { Mutation } from 'react-apollo';
 import  { gql } from 'apollo-boost';
+import { EVENT_QUERY } from '../..';
 import { Button, Info, Select } from '../../../../styles/common.styles';
 
 class UnRegister extends Component {
@@ -25,6 +26,11 @@ class UnRegister extends Component {
             const participantName = this.state.participants[this.selectParticipants.selectedIndex].name;
             const participants = this.state.participants.filter(item => item.id !== data.deleteParticipant.id);
             this.setState({ participants, status: `${participantName} has been unregistered.` });
+
+            cache.writeQuery({
+              query: EVENT_QUERY,
+              data: { participants }
+            });
           }}
         >
           {(deleteParticipant, { data, loading, error }) => {

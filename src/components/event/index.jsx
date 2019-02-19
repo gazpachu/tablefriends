@@ -74,6 +74,7 @@ export const EVENT_QUERY = gql`
       participants {
         id
         name
+        dates
       }
       menus
     }

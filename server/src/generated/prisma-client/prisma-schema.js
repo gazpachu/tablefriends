@@ -36,11 +36,6 @@ input DateCreateInput {
   event: EventCreateOneWithoutDatesInput!
 }
 
-input DateCreateManyInput {
-  create: [DateCreateInput!]
-  connect: [DateWhereUniqueInput!]
-}
-
 input DateCreateManyWithoutEventInput {
   create: [DateCreateWithoutEventInput!]
   connect: [DateWhereUniqueInput!]
@@ -123,11 +118,6 @@ input DateSubscriptionWhereInput {
   NOT: [DateSubscriptionWhereInput!]
 }
 
-input DateUpdateDataInput {
-  timestamp: String
-  event: EventUpdateOneRequiredWithoutDatesInput
-}
-
 input DateUpdateInput {
   timestamp: String
   event: EventUpdateOneRequiredWithoutDatesInput
@@ -135,17 +125,6 @@ input DateUpdateInput {
 
 input DateUpdateManyDataInput {
   timestamp: String
-}
-
-input DateUpdateManyInput {
-  create: [DateCreateInput!]
-  update: [DateUpdateWithWhereUniqueNestedInput!]
-  upsert: [DateUpsertWithWhereUniqueNestedInput!]
-  delete: [DateWhereUniqueInput!]
-  connect: [DateWhereUniqueInput!]
-  disconnect: [DateWhereUniqueInput!]
-  deleteMany: [DateScalarWhereInput!]
-  updateMany: [DateUpdateManyWithWhereNestedInput!]
 }
 
 input DateUpdateManyMutationInput {
@@ -172,20 +151,9 @@ input DateUpdateWithoutEventDataInput {
   timestamp: String
 }
 
-input DateUpdateWithWhereUniqueNestedInput {
-  where: DateWhereUniqueInput!
-  data: DateUpdateDataInput!
-}
-
 input DateUpdateWithWhereUniqueWithoutEventInput {
   where: DateWhereUniqueInput!
   data: DateUpdateWithoutEventDataInput!
-}
-
-input DateUpsertWithWhereUniqueNestedInput {
-  where: DateWhereUniqueInput!
-  update: DateUpdateDataInput!
-  create: DateCreateInput!
 }
 
 input DateUpsertWithWhereUniqueWithoutEventInput {
@@ -561,7 +529,7 @@ type PageInfo {
 type Participant {
   id: ID!
   name: String!
-  dates(where: DateWhereInput, orderBy: DateOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Date!]
+  dates: [String!]!
   event: Event!
 }
 
@@ -571,9 +539,13 @@ type ParticipantConnection {
   aggregate: AggregateParticipant!
 }
 
+input ParticipantCreatedatesInput {
+  set: [String!]
+}
+
 input ParticipantCreateInput {
   name: String!
-  dates: DateCreateManyInput
+  dates: ParticipantCreatedatesInput
   event: EventCreateOneWithoutParticipantsInput!
 }
 
@@ -584,7 +556,7 @@ input ParticipantCreateManyWithoutEventInput {
 
 input ParticipantCreateWithoutEventInput {
   name: String!
-  dates: DateCreateManyInput
+  dates: ParticipantCreatedatesInput
 }
 
 type ParticipantEdge {
@@ -606,6 +578,7 @@ enum ParticipantOrderByInput {
 type ParticipantPreviousValues {
   id: ID!
   name: String!
+  dates: [String!]!
 }
 
 input ParticipantScalarWhereInput {
@@ -660,18 +633,24 @@ input ParticipantSubscriptionWhereInput {
   NOT: [ParticipantSubscriptionWhereInput!]
 }
 
+input ParticipantUpdatedatesInput {
+  set: [String!]
+}
+
 input ParticipantUpdateInput {
   name: String
-  dates: DateUpdateManyInput
+  dates: ParticipantUpdatedatesInput
   event: EventUpdateOneRequiredWithoutParticipantsInput
 }
 
 input ParticipantUpdateManyDataInput {
   name: String
+  dates: ParticipantUpdatedatesInput
 }
 
 input ParticipantUpdateManyMutationInput {
   name: String
+  dates: ParticipantUpdatedatesInput
 }
 
 input ParticipantUpdateManyWithoutEventInput {
@@ -692,7 +671,7 @@ input ParticipantUpdateManyWithWhereNestedInput {
 
 input ParticipantUpdateWithoutEventDataInput {
   name: String
-  dates: DateUpdateManyInput
+  dates: ParticipantUpdatedatesInput
 }
 
 input ParticipantUpdateWithWhereUniqueWithoutEventInput {
@@ -735,9 +714,6 @@ input ParticipantWhereInput {
   name_not_starts_with: String
   name_ends_with: String
   name_not_ends_with: String
-  dates_every: DateWhereInput
-  dates_some: DateWhereInput
-  dates_none: DateWhereInput
   event: EventWhereInput
   AND: [ParticipantWhereInput!]
   OR: [ParticipantWhereInput!]

@@ -143,7 +143,7 @@ class Edit extends Component {
 }
 
 const UPDATE_EVENT_MUTATION = gql`
-  mutation UpdateEventMutation($id: ID!, $title: String!, $slug: String!, $description: String, $dates: [String], $menus: [String]) {
+  mutation UpdateEventMutation($id: ID!, $title: String!, $slug: String!, $description: String, $menus: [String]) {
     updateEvent(id: $id, title: $title, slug: $slug, description: $description, menus: $menus) {
       id
       title

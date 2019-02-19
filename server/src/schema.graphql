@@ -16,6 +16,7 @@ type Mutation {
   deletePlace(id: ID!): Place
   createParticipant(name: String!, event: ID!): Participant
   deleteParticipant(id: ID!): Participant
+  updateParticipant(id: ID!, dates: [String]): Participant
 }
 
 type Event {
@@ -46,6 +47,6 @@ type Date {
 type Participant {
   id: ID!
   name: String
-  dates: [Date]
+  dates: [String]
   event: Event!
 }

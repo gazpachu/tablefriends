@@ -281,18 +281,16 @@ export type EventOrderByInput =
 
 export type MutationType = "CREATED" | "UPDATED" | "DELETED";
 
-export interface ParticipantUpdateWithWhereUniqueWithoutEventInput {
-  where: ParticipantWhereUniqueInput;
-  data: ParticipantUpdateWithoutEventDataInput;
+export interface EventUpdatemenusInput {
+  set?: String[] | String;
 }
 
 export type DateWhereUniqueInput = AtLeastOne<{
   id: ID_Input;
 }>;
 
-export interface DateUpdateWithWhereUniqueNestedInput {
-  where: DateWhereUniqueInput;
-  data: DateUpdateDataInput;
+export interface ParticipantUpdatedatesInput {
+  set?: String[] | String;
 }
 
 export interface PlaceWhereInput {
@@ -344,9 +342,10 @@ export interface PlaceWhereInput {
   NOT?: PlaceWhereInput[] | PlaceWhereInput;
 }
 
-export interface DateUpdateDataInput {
-  timestamp?: String;
-  event?: EventUpdateOneRequiredWithoutDatesInput;
+export interface ParticipantUpsertWithWhereUniqueWithoutEventInput {
+  where: ParticipantWhereUniqueInput;
+  update: ParticipantUpdateWithoutEventDataInput;
+  create: ParticipantCreateWithoutEventInput;
 }
 
 export interface EventWhereInput {
@@ -420,10 +419,38 @@ export interface EventWhereInput {
   NOT?: EventWhereInput[] | EventWhereInput;
 }
 
-export interface DateUpsertWithWhereUniqueNestedInput {
-  where: DateWhereUniqueInput;
-  update: DateUpdateDataInput;
-  create: DateCreateInput;
+export interface ParticipantScalarWhereInput {
+  id?: ID_Input;
+  id_not?: ID_Input;
+  id_in?: ID_Input[] | ID_Input;
+  id_not_in?: ID_Input[] | ID_Input;
+  id_lt?: ID_Input;
+  id_lte?: ID_Input;
+  id_gt?: ID_Input;
+  id_gte?: ID_Input;
+  id_contains?: ID_Input;
+  id_not_contains?: ID_Input;
+  id_starts_with?: ID_Input;
+  id_not_starts_with?: ID_Input;
+  id_ends_with?: ID_Input;
+  id_not_ends_with?: ID_Input;
+  name?: String;
+  name_not?: String;
+  name_in?: String[] | String;
+  name_not_in?: String[] | String;
+  name_lt?: String;
+  name_lte?: String;
+  name_gt?: String;
+  name_gte?: String;
+  name_contains?: String;
+  name_not_contains?: String;
+  name_starts_with?: String;
+  name_not_starts_with?: String;
+  name_ends_with?: String;
+  name_not_ends_with?: String;
+  AND?: ParticipantScalarWhereInput[] | ParticipantScalarWhereInput;
+  OR?: ParticipantScalarWhereInput[] | ParticipantScalarWhereInput;
+  NOT?: ParticipantScalarWhereInput[] | ParticipantScalarWhereInput;
 }
 
 export interface DateWhereInput {
@@ -461,60 +488,44 @@ export interface DateWhereInput {
   NOT?: DateWhereInput[] | DateWhereInput;
 }
 
+export interface EventUpdateWithoutDatesDataInput {
+  slug?: String;
+  title?: String;
+  description?: String;
+  places?: PlaceUpdateManyWithoutEventInput;
+  menus?: EventUpdatemenusInput;
+  participants?: ParticipantUpdateManyWithoutEventInput;
+}
+
+export interface DateUpdateManyDataInput {
+  timestamp?: String;
+}
+
+export interface PlaceUpdateManyWithoutEventInput {
+  create?: PlaceCreateWithoutEventInput[] | PlaceCreateWithoutEventInput;
+  delete?: PlaceWhereUniqueInput[] | PlaceWhereUniqueInput;
+  connect?: PlaceWhereUniqueInput[] | PlaceWhereUniqueInput;
+  disconnect?: PlaceWhereUniqueInput[] | PlaceWhereUniqueInput;
+  update?:
+    | PlaceUpdateWithWhereUniqueWithoutEventInput[]
+    | PlaceUpdateWithWhereUniqueWithoutEventInput;
+  upsert?:
+    | PlaceUpsertWithWhereUniqueWithoutEventInput[]
+    | PlaceUpsertWithWhereUniqueWithoutEventInput;
+  deleteMany?: PlaceScalarWhereInput[] | PlaceScalarWhereInput;
+  updateMany?:
+    | PlaceUpdateManyWithWhereNestedInput[]
+    | PlaceUpdateManyWithWhereNestedInput;
+}
+
+export interface ParticipantUpdateManyWithWhereNestedInput {
+  where: ParticipantScalarWhereInput;
+  data: ParticipantUpdateManyDataInput;
+}
+
 export interface PlaceUpdateWithWhereUniqueWithoutEventInput {
   where: PlaceWhereUniqueInput;
   data: PlaceUpdateWithoutEventDataInput;
-}
-
-export interface DateUpsertWithWhereUniqueWithoutEventInput {
-  where: DateWhereUniqueInput;
-  update: DateUpdateWithoutEventDataInput;
-  create: DateCreateWithoutEventInput;
-}
-
-export interface PlaceUpdateWithoutEventDataInput {
-  name?: String;
-  url?: String;
-}
-
-export interface DateScalarWhereInput {
-  id?: ID_Input;
-  id_not?: ID_Input;
-  id_in?: ID_Input[] | ID_Input;
-  id_not_in?: ID_Input[] | ID_Input;
-  id_lt?: ID_Input;
-  id_lte?: ID_Input;
-  id_gt?: ID_Input;
-  id_gte?: ID_Input;
-  id_contains?: ID_Input;
-  id_not_contains?: ID_Input;
-  id_starts_with?: ID_Input;
-  id_not_starts_with?: ID_Input;
-  id_ends_with?: ID_Input;
-  id_not_ends_with?: ID_Input;
-  timestamp?: String;
-  timestamp_not?: String;
-  timestamp_in?: String[] | String;
-  timestamp_not_in?: String[] | String;
-  timestamp_lt?: String;
-  timestamp_lte?: String;
-  timestamp_gt?: String;
-  timestamp_gte?: String;
-  timestamp_contains?: String;
-  timestamp_not_contains?: String;
-  timestamp_starts_with?: String;
-  timestamp_not_starts_with?: String;
-  timestamp_ends_with?: String;
-  timestamp_not_ends_with?: String;
-  AND?: DateScalarWhereInput[] | DateScalarWhereInput;
-  OR?: DateScalarWhereInput[] | DateScalarWhereInput;
-  NOT?: DateScalarWhereInput[] | DateScalarWhereInput;
-}
-
-export interface PlaceUpsertWithWhereUniqueWithoutEventInput {
-  where: PlaceWhereUniqueInput;
-  update: PlaceUpdateWithoutEventDataInput;
-  create: PlaceCreateWithoutEventInput;
 }
 
 export interface ParticipantSubscriptionWhereInput {
@@ -527,6 +538,33 @@ export interface ParticipantSubscriptionWhereInput {
   OR?: ParticipantSubscriptionWhereInput[] | ParticipantSubscriptionWhereInput;
   NOT?: ParticipantSubscriptionWhereInput[] | ParticipantSubscriptionWhereInput;
 }
+
+export interface PlaceUpdateWithoutEventDataInput {
+  name?: String;
+  url?: String;
+}
+
+export interface DateSubscriptionWhereInput {
+  mutation_in?: MutationType[] | MutationType;
+  updatedFields_contains?: String;
+  updatedFields_contains_every?: String[] | String;
+  updatedFields_contains_some?: String[] | String;
+  node?: DateWhereInput;
+  AND?: DateSubscriptionWhereInput[] | DateSubscriptionWhereInput;
+  OR?: DateSubscriptionWhereInput[] | DateSubscriptionWhereInput;
+  NOT?: DateSubscriptionWhereInput[] | DateSubscriptionWhereInput;
+}
+
+export interface PlaceUpsertWithWhereUniqueWithoutEventInput {
+  where: PlaceWhereUniqueInput;
+  update: PlaceUpdateWithoutEventDataInput;
+  create: PlaceCreateWithoutEventInput;
+}
+
+export type EventWhereUniqueInput = AtLeastOne<{
+  id: ID_Input;
+  slug?: String;
+}>;
 
 export interface PlaceScalarWhereInput {
   id?: ID_Input;
@@ -576,32 +614,6 @@ export interface PlaceScalarWhereInput {
   NOT?: PlaceScalarWhereInput[] | PlaceScalarWhereInput;
 }
 
-export interface DateSubscriptionWhereInput {
-  mutation_in?: MutationType[] | MutationType;
-  updatedFields_contains?: String;
-  updatedFields_contains_every?: String[] | String;
-  updatedFields_contains_some?: String[] | String;
-  node?: DateWhereInput;
-  AND?: DateSubscriptionWhereInput[] | DateSubscriptionWhereInput;
-  OR?: DateSubscriptionWhereInput[] | DateSubscriptionWhereInput;
-  NOT?: DateSubscriptionWhereInput[] | DateSubscriptionWhereInput;
-}
-
-export interface PlaceUpdateManyWithWhereNestedInput {
-  where: PlaceScalarWhereInput;
-  data: PlaceUpdateManyDataInput;
-}
-
-export type EventWhereUniqueInput = AtLeastOne<{
-  id: ID_Input;
-  slug?: String;
-}>;
-
-export interface PlaceUpdateManyDataInput {
-  name?: String;
-  url?: String;
-}
-
 export interface EventUpdateWithoutPlacesDataInput {
   slug?: String;
   title?: String;
@@ -611,8 +623,9 @@ export interface EventUpdateWithoutPlacesDataInput {
   participants?: ParticipantUpdateManyWithoutEventInput;
 }
 
-export interface EventUpdatemenusInput {
-  set?: String[] | String;
+export interface PlaceUpdateManyWithWhereNestedInput {
+  where: PlaceScalarWhereInput;
+  data: PlaceUpdateManyDataInput;
 }
 
 export interface PlaceUpdateInput {
@@ -621,23 +634,9 @@ export interface PlaceUpdateInput {
   event?: EventUpdateOneRequiredWithoutPlacesInput;
 }
 
-export interface ParticipantUpdateManyWithoutEventInput {
-  create?:
-    | ParticipantCreateWithoutEventInput[]
-    | ParticipantCreateWithoutEventInput;
-  delete?: ParticipantWhereUniqueInput[] | ParticipantWhereUniqueInput;
-  connect?: ParticipantWhereUniqueInput[] | ParticipantWhereUniqueInput;
-  disconnect?: ParticipantWhereUniqueInput[] | ParticipantWhereUniqueInput;
-  update?:
-    | ParticipantUpdateWithWhereUniqueWithoutEventInput[]
-    | ParticipantUpdateWithWhereUniqueWithoutEventInput;
-  upsert?:
-    | ParticipantUpsertWithWhereUniqueWithoutEventInput[]
-    | ParticipantUpsertWithWhereUniqueWithoutEventInput;
-  deleteMany?: ParticipantScalarWhereInput[] | ParticipantScalarWhereInput;
-  updateMany?:
-    | ParticipantUpdateManyWithWhereNestedInput[]
-    | ParticipantUpdateManyWithWhereNestedInput;
+export interface PlaceUpdateManyDataInput {
+  name?: String;
+  url?: String;
 }
 
 export interface EventCreateWithoutPlacesInput {
@@ -662,30 +661,33 @@ export interface PlaceCreateInput {
   event: EventCreateOneWithoutPlacesInput;
 }
 
-export interface ParticipantUpdateWithoutEventDataInput {
-  name?: String;
-  dates?: DateUpdateManyInput;
+export interface ParticipantUpdateManyWithoutEventInput {
+  create?:
+    | ParticipantCreateWithoutEventInput[]
+    | ParticipantCreateWithoutEventInput;
+  delete?: ParticipantWhereUniqueInput[] | ParticipantWhereUniqueInput;
+  connect?: ParticipantWhereUniqueInput[] | ParticipantWhereUniqueInput;
+  disconnect?: ParticipantWhereUniqueInput[] | ParticipantWhereUniqueInput;
+  update?:
+    | ParticipantUpdateWithWhereUniqueWithoutEventInput[]
+    | ParticipantUpdateWithWhereUniqueWithoutEventInput;
+  upsert?:
+    | ParticipantUpsertWithWhereUniqueWithoutEventInput[]
+    | ParticipantUpsertWithWhereUniqueWithoutEventInput;
+  deleteMany?: ParticipantScalarWhereInput[] | ParticipantScalarWhereInput;
+  updateMany?:
+    | ParticipantUpdateManyWithWhereNestedInput[]
+    | ParticipantUpdateManyWithWhereNestedInput;
 }
 
 export interface ParticipantUpdateManyMutationInput {
   name?: String;
+  dates?: ParticipantUpdatedatesInput;
 }
 
-export interface DateUpdateManyInput {
-  create?: DateCreateInput[] | DateCreateInput;
-  update?:
-    | DateUpdateWithWhereUniqueNestedInput[]
-    | DateUpdateWithWhereUniqueNestedInput;
-  upsert?:
-    | DateUpsertWithWhereUniqueNestedInput[]
-    | DateUpsertWithWhereUniqueNestedInput;
-  delete?: DateWhereUniqueInput[] | DateWhereUniqueInput;
-  connect?: DateWhereUniqueInput[] | DateWhereUniqueInput;
-  disconnect?: DateWhereUniqueInput[] | DateWhereUniqueInput;
-  deleteMany?: DateScalarWhereInput[] | DateScalarWhereInput;
-  updateMany?:
-    | DateUpdateManyWithWhereNestedInput[]
-    | DateUpdateManyWithWhereNestedInput;
+export interface ParticipantUpdateWithWhereUniqueWithoutEventInput {
+  where: ParticipantWhereUniqueInput;
+  data: ParticipantUpdateWithoutEventDataInput;
 }
 
 export interface EventUpdateWithoutParticipantsDataInput {
@@ -695,6 +697,16 @@ export interface EventUpdateWithoutParticipantsDataInput {
   dates?: DateUpdateManyWithoutEventInput;
   places?: PlaceUpdateManyWithoutEventInput;
   menus?: EventUpdatemenusInput;
+}
+
+export interface ParticipantUpdateWithoutEventDataInput {
+  name?: String;
+  dates?: ParticipantUpdatedatesInput;
+}
+
+export interface DateCreateInput {
+  timestamp: String;
+  event: EventCreateOneWithoutDatesInput;
 }
 
 export interface ParticipantWhereInput {
@@ -726,24 +738,10 @@ export interface ParticipantWhereInput {
   name_not_starts_with?: String;
   name_ends_with?: String;
   name_not_ends_with?: String;
-  dates_every?: DateWhereInput;
-  dates_some?: DateWhereInput;
-  dates_none?: DateWhereInput;
   event?: EventWhereInput;
   AND?: ParticipantWhereInput[] | ParticipantWhereInput;
   OR?: ParticipantWhereInput[] | ParticipantWhereInput;
   NOT?: ParticipantWhereInput[] | ParticipantWhereInput;
-}
-
-export interface DateCreateInput {
-  timestamp: String;
-  event: EventCreateOneWithoutDatesInput;
-}
-
-export interface ParticipantUpdateInput {
-  name?: String;
-  dates?: DateUpdateManyInput;
-  event?: EventUpdateOneRequiredWithoutParticipantsInput;
 }
 
 export interface EventCreateWithoutDatesInput {
@@ -755,6 +753,17 @@ export interface EventCreateWithoutDatesInput {
   participants?: ParticipantCreateManyWithoutEventInput;
 }
 
+export interface ParticipantUpdateInput {
+  name?: String;
+  dates?: ParticipantUpdatedatesInput;
+  event?: EventUpdateOneRequiredWithoutParticipantsInput;
+}
+
+export interface PlaceCreateWithoutEventInput {
+  name: String;
+  url?: String;
+}
+
 export interface EventCreateWithoutParticipantsInput {
   slug: String;
   title: String;
@@ -764,16 +773,6 @@ export interface EventCreateWithoutParticipantsInput {
   menus?: EventCreatemenusInput;
 }
 
-export interface PlaceCreateWithoutEventInput {
-  name: String;
-  url?: String;
-}
-
-export interface EventCreateOneWithoutParticipantsInput {
-  create?: EventCreateWithoutParticipantsInput;
-  connect?: EventWhereUniqueInput;
-}
-
 export interface ParticipantCreateManyWithoutEventInput {
   create?:
     | ParticipantCreateWithoutEventInput[]
@@ -781,18 +780,18 @@ export interface ParticipantCreateManyWithoutEventInput {
   connect?: ParticipantWhereUniqueInput[] | ParticipantWhereUniqueInput;
 }
 
-export interface DateUpdateManyWithWhereNestedInput {
-  where: DateScalarWhereInput;
-  data: DateUpdateManyDataInput;
+export interface EventCreateOneWithoutParticipantsInput {
+  create?: EventCreateWithoutParticipantsInput;
+  connect?: EventWhereUniqueInput;
 }
 
-export interface DateCreateManyInput {
-  create?: DateCreateInput[] | DateCreateInput;
-  connect?: DateWhereUniqueInput[] | DateWhereUniqueInput;
+export interface ParticipantCreatedatesInput {
+  set?: String[] | String;
 }
 
-export interface DateUpdateManyDataInput {
-  timestamp?: String;
+export interface ParticipantUpdateManyDataInput {
+  name?: String;
+  dates?: ParticipantUpdatedatesInput;
 }
 
 export interface EventUpdateOneRequiredWithoutDatesInput {
@@ -802,61 +801,9 @@ export interface EventUpdateOneRequiredWithoutDatesInput {
   connect?: EventWhereUniqueInput;
 }
 
-export interface ParticipantUpsertWithWhereUniqueWithoutEventInput {
-  where: ParticipantWhereUniqueInput;
-  update: ParticipantUpdateWithoutEventDataInput;
-  create: ParticipantCreateWithoutEventInput;
-}
-
-export interface PlaceUpdateManyWithoutEventInput {
-  create?: PlaceCreateWithoutEventInput[] | PlaceCreateWithoutEventInput;
-  delete?: PlaceWhereUniqueInput[] | PlaceWhereUniqueInput;
-  connect?: PlaceWhereUniqueInput[] | PlaceWhereUniqueInput;
-  disconnect?: PlaceWhereUniqueInput[] | PlaceWhereUniqueInput;
-  update?:
-    | PlaceUpdateWithWhereUniqueWithoutEventInput[]
-    | PlaceUpdateWithWhereUniqueWithoutEventInput;
-  upsert?:
-    | PlaceUpsertWithWhereUniqueWithoutEventInput[]
-    | PlaceUpsertWithWhereUniqueWithoutEventInput;
-  deleteMany?: PlaceScalarWhereInput[] | PlaceScalarWhereInput;
-  updateMany?:
-    | PlaceUpdateManyWithWhereNestedInput[]
-    | PlaceUpdateManyWithWhereNestedInput;
-}
-
-export interface ParticipantScalarWhereInput {
-  id?: ID_Input;
-  id_not?: ID_Input;
-  id_in?: ID_Input[] | ID_Input;
-  id_not_in?: ID_Input[] | ID_Input;
-  id_lt?: ID_Input;
-  id_lte?: ID_Input;
-  id_gt?: ID_Input;
-  id_gte?: ID_Input;
-  id_contains?: ID_Input;
-  id_not_contains?: ID_Input;
-  id_starts_with?: ID_Input;
-  id_not_starts_with?: ID_Input;
-  id_ends_with?: ID_Input;
-  id_not_ends_with?: ID_Input;
-  name?: String;
-  name_not?: String;
-  name_in?: String[] | String;
-  name_not_in?: String[] | String;
-  name_lt?: String;
-  name_lte?: String;
-  name_gt?: String;
-  name_gte?: String;
-  name_contains?: String;
-  name_not_contains?: String;
-  name_starts_with?: String;
-  name_not_starts_with?: String;
-  name_ends_with?: String;
-  name_not_ends_with?: String;
-  AND?: ParticipantScalarWhereInput[] | ParticipantScalarWhereInput;
-  OR?: ParticipantScalarWhereInput[] | ParticipantScalarWhereInput;
-  NOT?: ParticipantScalarWhereInput[] | ParticipantScalarWhereInput;
+export interface EventUpsertWithoutDatesInput {
+  update: EventUpdateWithoutDatesDataInput;
+  create: EventCreateWithoutDatesInput;
 }
 
 export interface EventSubscriptionWhereInput {
@@ -870,9 +817,8 @@ export interface EventSubscriptionWhereInput {
   NOT?: EventSubscriptionWhereInput[] | EventSubscriptionWhereInput;
 }
 
-export interface ParticipantUpdateManyWithWhereNestedInput {
-  where: ParticipantScalarWhereInput;
-  data: ParticipantUpdateManyDataInput;
+export interface DateUpdateManyMutationInput {
+  timestamp?: String;
 }
 
 export interface EventUpsertWithoutPlacesInput {
@@ -880,42 +826,15 @@ export interface EventUpsertWithoutPlacesInput {
   create: EventCreateWithoutPlacesInput;
 }
 
-export interface ParticipantUpdateManyDataInput {
-  name?: String;
+export interface ParticipantCreateInput {
+  name: String;
+  dates?: ParticipantCreatedatesInput;
+  event: EventCreateOneWithoutParticipantsInput;
 }
 
 export type ParticipantWhereUniqueInput = AtLeastOne<{
   id: ID_Input;
 }>;
-
-export interface EventUpsertWithoutDatesInput {
-  update: EventUpdateWithoutDatesDataInput;
-  create: EventCreateWithoutDatesInput;
-}
-
-export type PlaceWhereUniqueInput = AtLeastOne<{
-  id: ID_Input;
-}>;
-
-export interface DateUpdateManyMutationInput {
-  timestamp?: String;
-}
-
-export interface PlaceCreateManyWithoutEventInput {
-  create?: PlaceCreateWithoutEventInput[] | PlaceCreateWithoutEventInput;
-  connect?: PlaceWhereUniqueInput[] | PlaceWhereUniqueInput;
-}
-
-export interface ParticipantCreateInput {
-  name: String;
-  dates?: DateCreateManyInput;
-  event: EventCreateOneWithoutParticipantsInput;
-}
-
-export interface ParticipantCreateWithoutEventInput {
-  name: String;
-  dates?: DateCreateManyInput;
-}
 
 export interface EventUpdateManyMutationInput {
   slug?: String;
@@ -924,14 +843,9 @@ export interface EventUpdateManyMutationInput {
   menus?: EventUpdatemenusInput;
 }
 
-export interface EventUpdateWithoutDatesDataInput {
-  slug?: String;
-  title?: String;
-  description?: String;
-  places?: PlaceUpdateManyWithoutEventInput;
-  menus?: EventUpdatemenusInput;
-  participants?: ParticipantUpdateManyWithoutEventInput;
-}
+export type PlaceWhereUniqueInput = AtLeastOne<{
+  id: ID_Input;
+}>;
 
 export interface EventCreateInput {
   slug: String;
@@ -943,9 +857,9 @@ export interface EventCreateInput {
   participants?: ParticipantCreateManyWithoutEventInput;
 }
 
-export interface PlaceUpdateManyMutationInput {
-  name?: String;
-  url?: String;
+export interface PlaceCreateManyWithoutEventInput {
+  create?: PlaceCreateWithoutEventInput[] | PlaceCreateWithoutEventInput;
+  connect?: PlaceWhereUniqueInput[] | PlaceWhereUniqueInput;
 }
 
 export interface DateCreateManyWithoutEventInput {
@@ -953,27 +867,41 @@ export interface DateCreateManyWithoutEventInput {
   connect?: DateWhereUniqueInput[] | DateWhereUniqueInput;
 }
 
-export interface EventCreateOneWithoutPlacesInput {
-  create?: EventCreateWithoutPlacesInput;
-  connect?: EventWhereUniqueInput;
+export interface ParticipantCreateWithoutEventInput {
+  name: String;
+  dates?: ParticipantCreatedatesInput;
 }
 
 export interface DateCreateWithoutEventInput {
   timestamp: String;
 }
 
-export interface EventCreateOneWithoutDatesInput {
-  create?: EventCreateWithoutDatesInput;
+export interface PlaceSubscriptionWhereInput {
+  mutation_in?: MutationType[] | MutationType;
+  updatedFields_contains?: String;
+  updatedFields_contains_every?: String[] | String;
+  updatedFields_contains_some?: String[] | String;
+  node?: PlaceWhereInput;
+  AND?: PlaceSubscriptionWhereInput[] | PlaceSubscriptionWhereInput;
+  OR?: PlaceSubscriptionWhereInput[] | PlaceSubscriptionWhereInput;
+  NOT?: PlaceSubscriptionWhereInput[] | PlaceSubscriptionWhereInput;
+}
+
+export interface EventUpdateInput {
+  slug?: String;
+  title?: String;
+  description?: String;
+  dates?: DateUpdateManyWithoutEventInput;
+  places?: PlaceUpdateManyWithoutEventInput;
+  menus?: EventUpdatemenusInput;
+  participants?: ParticipantUpdateManyWithoutEventInput;
+}
+
+export interface EventUpdateOneRequiredWithoutPlacesInput {
+  create?: EventCreateWithoutPlacesInput;
+  update?: EventUpdateWithoutPlacesDataInput;
+  upsert?: EventUpsertWithoutPlacesInput;
   connect?: EventWhereUniqueInput;
-}
-
-export interface DateUpdateWithoutEventDataInput {
-  timestamp?: String;
-}
-
-export interface DateUpdateWithWhereUniqueWithoutEventInput {
-  where: DateWhereUniqueInput;
-  data: DateUpdateWithoutEventDataInput;
 }
 
 export interface DateUpdateManyWithoutEventInput {
@@ -993,46 +921,87 @@ export interface DateUpdateManyWithoutEventInput {
     | DateUpdateManyWithWhereNestedInput;
 }
 
-export interface EventUpdateInput {
-  slug?: String;
-  title?: String;
-  description?: String;
-  dates?: DateUpdateManyWithoutEventInput;
-  places?: PlaceUpdateManyWithoutEventInput;
-  menus?: EventUpdatemenusInput;
-  participants?: ParticipantUpdateManyWithoutEventInput;
+export interface EventUpsertWithoutParticipantsInput {
+  update: EventUpdateWithoutParticipantsDataInput;
+  create: EventCreateWithoutParticipantsInput;
+}
+
+export interface DateUpdateWithWhereUniqueWithoutEventInput {
+  where: DateWhereUniqueInput;
+  data: DateUpdateWithoutEventDataInput;
 }
 
 export interface EventCreatemenusInput {
   set?: String[] | String;
 }
 
-export interface EventUpsertWithoutParticipantsInput {
-  update: EventUpdateWithoutParticipantsDataInput;
-  create: EventCreateWithoutParticipantsInput;
+export interface DateUpdateManyWithWhereNestedInput {
+  where: DateScalarWhereInput;
+  data: DateUpdateManyDataInput;
 }
 
-export interface EventUpdateOneRequiredWithoutPlacesInput {
-  create?: EventCreateWithoutPlacesInput;
-  update?: EventUpdateWithoutPlacesDataInput;
-  upsert?: EventUpsertWithoutPlacesInput;
-  connect?: EventWhereUniqueInput;
+export interface DateScalarWhereInput {
+  id?: ID_Input;
+  id_not?: ID_Input;
+  id_in?: ID_Input[] | ID_Input;
+  id_not_in?: ID_Input[] | ID_Input;
+  id_lt?: ID_Input;
+  id_lte?: ID_Input;
+  id_gt?: ID_Input;
+  id_gte?: ID_Input;
+  id_contains?: ID_Input;
+  id_not_contains?: ID_Input;
+  id_starts_with?: ID_Input;
+  id_not_starts_with?: ID_Input;
+  id_ends_with?: ID_Input;
+  id_not_ends_with?: ID_Input;
+  timestamp?: String;
+  timestamp_not?: String;
+  timestamp_in?: String[] | String;
+  timestamp_not_in?: String[] | String;
+  timestamp_lt?: String;
+  timestamp_lte?: String;
+  timestamp_gt?: String;
+  timestamp_gte?: String;
+  timestamp_contains?: String;
+  timestamp_not_contains?: String;
+  timestamp_starts_with?: String;
+  timestamp_not_starts_with?: String;
+  timestamp_ends_with?: String;
+  timestamp_not_ends_with?: String;
+  AND?: DateScalarWhereInput[] | DateScalarWhereInput;
+  OR?: DateScalarWhereInput[] | DateScalarWhereInput;
+  NOT?: DateScalarWhereInput[] | DateScalarWhereInput;
 }
 
-export interface PlaceSubscriptionWhereInput {
-  mutation_in?: MutationType[] | MutationType;
-  updatedFields_contains?: String;
-  updatedFields_contains_every?: String[] | String;
-  updatedFields_contains_some?: String[] | String;
-  node?: PlaceWhereInput;
-  AND?: PlaceSubscriptionWhereInput[] | PlaceSubscriptionWhereInput;
-  OR?: PlaceSubscriptionWhereInput[] | PlaceSubscriptionWhereInput;
-  NOT?: PlaceSubscriptionWhereInput[] | PlaceSubscriptionWhereInput;
+export interface DateUpsertWithWhereUniqueWithoutEventInput {
+  where: DateWhereUniqueInput;
+  update: DateUpdateWithoutEventDataInput;
+  create: DateCreateWithoutEventInput;
+}
+
+export interface DateUpdateWithoutEventDataInput {
+  timestamp?: String;
 }
 
 export interface DateUpdateInput {
   timestamp?: String;
   event?: EventUpdateOneRequiredWithoutDatesInput;
+}
+
+export interface EventCreateOneWithoutDatesInput {
+  create?: EventCreateWithoutDatesInput;
+  connect?: EventWhereUniqueInput;
+}
+
+export interface EventCreateOneWithoutPlacesInput {
+  create?: EventCreateWithoutPlacesInput;
+  connect?: EventWhereUniqueInput;
+}
+
+export interface PlaceUpdateManyMutationInput {
+  name?: String;
+  url?: String;
 }
 
 export interface NodeNode {
@@ -1412,22 +1381,13 @@ export interface DatePreviousValuesSubscription
 export interface Participant {
   id: ID_Output;
   name: String;
+  dates: String[];
 }
 
 export interface ParticipantPromise extends Promise<Participant>, Fragmentable {
   id: () => Promise<ID_Output>;
   name: () => Promise<String>;
-  dates: <T = FragmentableArray<Date>>(
-    args?: {
-      where?: DateWhereInput;
-      orderBy?: DateOrderByInput;
-      skip?: Int;
-      after?: String;
-      before?: String;
-      first?: Int;
-      last?: Int;
-    }
-  ) => T;
+  dates: () => Promise<String[]>;
   event: <T = EventPromise>() => T;
 }
 
@@ -1436,17 +1396,7 @@ export interface ParticipantSubscription
     Fragmentable {
   id: () => Promise<AsyncIterator<ID_Output>>;
   name: () => Promise<AsyncIterator<String>>;
-  dates: <T = Promise<AsyncIterator<DateSubscription>>>(
-    args?: {
-      where?: DateWhereInput;
-      orderBy?: DateOrderByInput;
-      skip?: Int;
-      after?: String;
-      before?: String;
-      first?: Int;
-      last?: Int;
-    }
-  ) => T;
+  dates: () => Promise<AsyncIterator<String[]>>;
   event: <T = EventSubscription>() => T;
 }
 
@@ -1543,6 +1493,7 @@ export interface EventSubscriptionPayloadSubscription
 export interface ParticipantPreviousValues {
   id: ID_Output;
   name: String;
+  dates: String[];
 }
 
 export interface ParticipantPreviousValuesPromise
@@ -1550,6 +1501,7 @@ export interface ParticipantPreviousValuesPromise
     Fragmentable {
   id: () => Promise<ID_Output>;
   name: () => Promise<String>;
+  dates: () => Promise<String[]>;
 }
 
 export interface ParticipantPreviousValuesSubscription
@@ -1557,6 +1509,7 @@ export interface ParticipantPreviousValuesSubscription
     Fragmentable {
   id: () => Promise<AsyncIterator<ID_Output>>;
   name: () => Promise<AsyncIterator<String>>;
+  dates: () => Promise<AsyncIterator<String[]>>;
 }
 
 export interface PlaceConnection {}
