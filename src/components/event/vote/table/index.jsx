@@ -1,25 +1,40 @@
 import React, { Component, Fragment } from 'react';
 import { Mutation } from 'react-apollo';
-import  { gql } from 'apollo-boost';
-import { Table, Heading, Cell, UserIcon } from '../styles';
+import CellHeading from './cellHeading';
+import { Table, Cell, UserIcon } from '../styles';
 
-class VotePlaces extends Component {
+class VoteTable extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
       saving: false
     };
+
+    this.calculateTotal = this.calculateTotal.bind(this);
+  }
+
+  calculateTotal(id) {
+    const { participants, type } = this.props;
+    let total = 0;
+
+    for (let i = 0; i < participants.length; i += 1) {
+      const items = participants[i][type].filter(j => j === id);
+      total += items ? items.length : 0;
+    }
+
+    return `${total} vote${total > 1 || total === 0 ? 's' : ''}`;
   }
 
   render() {
-    const { places, participants } = this.props;
+    const { items, type, participants, mutation } = this.props;
 
     return (
       <Fragment>
         <Mutation
-          mutation={UPDATE_PARTICIPANT_MUTATION}
+          mutation={mutation}
           update={(cache, { data }) => {
+            this.setState({ saving: false });
             // const { events } = cache.readQuery({ query: EVENTS_QUERY });
             // cache.writeQuery({
             //   query: EVENTS_QUERY,
@@ -33,42 +48,43 @@ class VotePlaces extends Component {
                 <thead>
                   <tr>
                     <Cell />
-                    {places && places.map(place => (
-                      <Heading key={`${place.id}-heading`}>{place.name}</Heading>
+                    {items && items.map(item => (
+                      <CellHeading key={`${item.id}-heading`} item={item} type={type} />
                     ))}
                   </tr>
                 </thead>
                 <tbody>
                   <tr>
                     <Cell>{participants.length} participants</Cell>
-                    {places && places.map(place => (
-                      <Cell key={`${place.id}-participant`}>x</Cell>
+                    {items && items.map(item => (
+                      <Cell key={`${item.id}-participant`}>{this.calculateTotal(item.id)}</Cell>
                     ))}
                   </tr>
                   {participants && participants.map(participant => (
                     <tr key={participant.id}>
                       <Cell style={{ textAlign: 'left' }}><UserIcon className="fas fa-user-circle" />{participant.name}</Cell>
-                      {places && places.map(place => (
-                        <Cell key={`${place.id}-cell`}>
+                      {items && items.map(item => (
+                        <Cell key={`${item.id}-cell`}>
                           <input
                             type="checkbox"
-                            defaultChecked={participant.places.find(item => item === place.id)}
+                            defaultChecked={participant[type].find(id => id === item.id)}
                             onChange={async () => {
-                              const newPlaces = participant.places ? participant.places.splice(0) : [];
+                              this.setState({ saving: true });
+                              const newItems = participant[type] ? participant[type].splice(0) : [];
                               let found = false;
-                              for (let i = 0; i < newPlaces.length; i += 1) {
-                                if (newPlaces[i] === place.id) {
-                                  newPlaces.splice(i, 1);
+                              for (let i = 0; i < newItems.length; i += 1) {
+                                if (newItems[i] === item.id) {
+                                  newItems.splice(i, 1);
                                   found = true;
                                 }
                               }
                               if (!found) {
-                                newPlaces.push(place.id);
+                                newItems.push(item.id);
                               }
                               await updateParticipant({
                                 variables: {
                                   id: participant.id,
-                                  places: newPlaces
+                                  [type]: newItems
                                 }
                               });
                             }}
@@ -87,13 +103,4 @@ class VotePlaces extends Component {
   }
 }
 
-const UPDATE_PARTICIPANT_MUTATION = gql`
-  mutation UpdateParticipantMutation($id: ID!, $places: [ID]) {
-    updateParticipant(id: $id, places: $places) {
-      id
-      places
-    }
-  }
-`;
-
-export default VotePlaces;
+export default VoteTable;

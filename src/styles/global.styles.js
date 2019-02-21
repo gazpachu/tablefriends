@@ -67,6 +67,12 @@ export const GlobalStyles = (props) => (
           border-bottom: 1px solid rgba(255,255,255,.1);
           margin: 0;
           padding-top: 10px;
+
+          &:after {
+            content: 'beta';
+            position: absolute;
+            font-size: 11px;
+          }
         }
 
         h2 {

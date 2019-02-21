@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
+import  { gql } from 'apollo-boost';
 import Register from './participants/register';
 import UnRegister from './participants/unregister';
-import VoteDates from './dates';
-import VotePlaces from './places';
+import VoteTable from './table';
 import { Nav, NavItem, TabButton } from '../../../styles/common.styles';
 
 class Vote extends Component {
@@ -40,12 +40,44 @@ class Vote extends Component {
             </TabButton>
           </NavItem>
         </Nav>
-        {activeSection === 'dates' && <VoteDates dates={event.dates} participants={event.participants} />}
-        {activeSection === 'places' && <VotePlaces places={event.places} participants={event.participants} />}
+        {activeSection === 'dates' &&
+          <VoteTable
+            type="dates"
+            items={event.dates}
+            participants={event.participants}
+            mutation={UPDATE_PARTICIPANT_DATES}
+          />
+        }
+        {activeSection === 'places' &&
+          <VoteTable
+            type="places"
+            items={event.places}
+            participants={event.participants}
+            mutation={UPDATE_PARTICIPANT_PLACES}
+          />
+        }
         <UnRegister participants={event.participants} />
       </div>
     );
   }
 }
+
+const UPDATE_PARTICIPANT_DATES = gql`
+  mutation UpdateParticipantDates($id: ID!, $dates: [ID]) {
+    updateParticipant(id: $id, dates: $dates) {
+      id
+      dates
+    }
+  }
+`;
+
+const UPDATE_PARTICIPANT_PLACES = gql`
+  mutation UpdateParticipantPlaces($id: ID!, $places: [ID]) {
+    updateParticipant(id: $id, places: $places) {
+      id
+      places
+    }
+  }
+`;
 
 export default Vote;
