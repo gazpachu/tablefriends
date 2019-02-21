@@ -26,12 +26,3 @@ export const Description = styled.div`
 export const ShareButtons = styled.div`
   margin: 20px 0 60px;
 `;
-
-export const EventNav = styled.ul`
-  list-style-type: none;
-  padding: 0;
-`;
-
-export const EventNavItem = styled.li`
-  display: inline-block;
-`;

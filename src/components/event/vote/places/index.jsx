@@ -1,10 +1,9 @@
 import React, { Component, Fragment } from 'react';
-import dateFnsFormat from 'date-fns/format';
 import { Mutation } from 'react-apollo';
 import  { gql } from 'apollo-boost';
 import { Table, Heading, Cell, UserIcon } from '../styles';
 
-class VoteDates extends Component {
+class VotePlaces extends Component {
   constructor(props) {
     super(props);
 
@@ -14,7 +13,7 @@ class VoteDates extends Component {
   }
 
   render() {
-    const { dates, participants } = this.props;
+    const { places, participants } = this.props;
 
     return (
       <Fragment>
@@ -34,42 +33,42 @@ class VoteDates extends Component {
                 <thead>
                   <tr>
                     <Cell />
-                    {dates && dates.map(date => (
-                      <Heading key={`${date.id}-heading`}>{dateFnsFormat(new Date(date.timestamp), 'MMM D ddd hh:mma')}</Heading>
+                    {places && places.map(place => (
+                      <Heading key={`${place.id}-heading`}>{place.name}</Heading>
                     ))}
                   </tr>
                 </thead>
                 <tbody>
                   <tr>
                     <Cell>{participants.length} participants</Cell>
-                    {dates && dates.map(date => (
-                      <Cell key={`${date.id}-participant`}>x</Cell>
+                    {places && places.map(place => (
+                      <Cell key={`${place.id}-participant`}>x</Cell>
                     ))}
                   </tr>
                   {participants && participants.map(participant => (
                     <tr key={participant.id}>
                       <Cell style={{ textAlign: 'left' }}><UserIcon className="fas fa-user-circle" />{participant.name}</Cell>
-                      {dates && dates.map(date => (
-                        <Cell key={`${date.id}-cell`}>
+                      {places && places.map(place => (
+                        <Cell key={`${place.id}-cell`}>
                           <input
                             type="checkbox"
-                            defaultChecked={participant.dates.find(item => item === date.id)}
+                            defaultChecked={participant.places.find(item => item === place.id)}
                             onChange={async () => {
-                              const newDates = participant.dates ? participant.dates.splice(0) : [];
+                              const newPlaces = participant.places ? participant.places.splice(0) : [];
                               let found = false;
-                              for (let i = 0; i < newDates.length; i += 1) {
-                                if (newDates[i] === date.id) {
-                                  newDates.splice(i, 1);
+                              for (let i = 0; i < newPlaces.length; i += 1) {
+                                if (newPlaces[i] === place.id) {
+                                  newPlaces.splice(i, 1);
                                   found = true;
                                 }
                               }
                               if (!found) {
-                                newDates.push(date.id);
+                                newPlaces.push(place.id);
                               }
                               await updateParticipant({
                                 variables: {
                                   id: participant.id,
-                                  dates: newDates
+                                  places: newPlaces
                                 }
                               });
                             }}
@@ -89,12 +88,12 @@ class VoteDates extends Component {
 }
 
 const UPDATE_PARTICIPANT_MUTATION = gql`
-  mutation UpdateParticipantMutation($id: ID!, $dates: [ID]) {
-    updateParticipant(id: $id, dates: $dates) {
+  mutation UpdateParticipantMutation($id: ID!, $places: [ID]) {
+    updateParticipant(id: $id, places: $places) {
       id
-      dates
+      places
     }
   }
 `;
 
-export default VoteDates;
+export default VotePlaces;

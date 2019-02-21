@@ -529,7 +529,8 @@ type PageInfo {
 type Participant {
   id: ID!
   name: String!
-  dates: [String!]!
+  dates: [ID!]!
+  places: [ID!]!
   event: Event!
 }
 
@@ -540,12 +541,13 @@ type ParticipantConnection {
 }
 
 input ParticipantCreatedatesInput {
-  set: [String!]
+  set: [ID!]
 }
 
 input ParticipantCreateInput {
   name: String!
   dates: ParticipantCreatedatesInput
+  places: ParticipantCreateplacesInput
   event: EventCreateOneWithoutParticipantsInput!
 }
 
@@ -554,9 +556,14 @@ input ParticipantCreateManyWithoutEventInput {
   connect: [ParticipantWhereUniqueInput!]
 }
 
+input ParticipantCreateplacesInput {
+  set: [ID!]
+}
+
 input ParticipantCreateWithoutEventInput {
   name: String!
   dates: ParticipantCreatedatesInput
+  places: ParticipantCreateplacesInput
 }
 
 type ParticipantEdge {
@@ -578,7 +585,8 @@ enum ParticipantOrderByInput {
 type ParticipantPreviousValues {
   id: ID!
   name: String!
-  dates: [String!]!
+  dates: [ID!]!
+  places: [ID!]!
 }
 
 input ParticipantScalarWhereInput {
@@ -634,23 +642,26 @@ input ParticipantSubscriptionWhereInput {
 }
 
 input ParticipantUpdatedatesInput {
-  set: [String!]
+  set: [ID!]
 }
 
 input ParticipantUpdateInput {
   name: String
   dates: ParticipantUpdatedatesInput
+  places: ParticipantUpdateplacesInput
   event: EventUpdateOneRequiredWithoutParticipantsInput
 }
 
 input ParticipantUpdateManyDataInput {
   name: String
   dates: ParticipantUpdatedatesInput
+  places: ParticipantUpdateplacesInput
 }
 
 input ParticipantUpdateManyMutationInput {
   name: String
   dates: ParticipantUpdatedatesInput
+  places: ParticipantUpdateplacesInput
 }
 
 input ParticipantUpdateManyWithoutEventInput {
@@ -669,9 +680,14 @@ input ParticipantUpdateManyWithWhereNestedInput {
   data: ParticipantUpdateManyDataInput!
 }
 
+input ParticipantUpdateplacesInput {
+  set: [ID!]
+}
+
 input ParticipantUpdateWithoutEventDataInput {
   name: String
   dates: ParticipantUpdatedatesInput
+  places: ParticipantUpdateplacesInput
 }
 
 input ParticipantUpdateWithWhereUniqueWithoutEventInput {

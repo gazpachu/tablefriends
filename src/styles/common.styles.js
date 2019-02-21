@@ -42,12 +42,34 @@ export const ButtonLink = styled(Link)`
   text-decoration: none;
 `;
 
-export const TabLink = styled(Link)`
+export const Nav = styled.ul`
+  list-style-type: none;
+  padding: 0;
+`;
+
+export const NavItem = styled.li`
+  display: inline-block;
+`;
+
+const tabItem = props => css`
   padding: 10px;
   margin: 10px;
+  font-size: 14px;
+  color: ${props.active ? colors.primary : colors.secondary} !important;
+  border-bottom: 2px solid ${props.active ? colors.primary : colors.secondary};
+`;
+
+export const TabButton = styled.button`
+  outline: none;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  ${tabItem};
+`;
+
+export const TabLink = styled(Link)`
+  ${tabItem};
   text-decoration: none;
-  color: ${props => props.active ? colors.primary : colors.secondary} !important;
-  border-bottom: 2px solid ${props => props.active ? colors.primary : colors.secondary};
 `;
 
 const formElement = css`

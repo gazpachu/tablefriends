@@ -25,6 +25,7 @@ type Date {
 type Participant {
   id: ID! @unique
   name: String!
-  dates: [String]
+  dates: [ID]
+  places: [ID]
   event: Event!
 }
