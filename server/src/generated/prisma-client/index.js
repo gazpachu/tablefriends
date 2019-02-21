@@ -13,6 +13,10 @@ var models = [
     embedded: false
   },
   {
+    name: "Menu",
+    embedded: false
+  },
+  {
     name: "Participant",
     embedded: false
   },
@@ -34,6 +38,10 @@ var models = [
   },
   {
     name: "Event",
+    embedded: false
+  },
+  {
+    name: "Menu",
     embedded: false
   },
   {

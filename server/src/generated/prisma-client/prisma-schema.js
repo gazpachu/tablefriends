@@ -7,6 +7,10 @@ type AggregateEvent {
   count: Int!
 }
 
+type AggregateMenu {
+  count: Int!
+}
+
 type AggregateParticipant {
   count: Int!
 }
@@ -208,7 +212,7 @@ type Event {
   description: String
   dates(where: DateWhereInput, orderBy: DateOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Date!]
   places(where: PlaceWhereInput, orderBy: PlaceOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Place!]
-  menus: [String!]!
+  menus(where: MenuWhereInput, orderBy: MenuOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Menu!]
   participants(where: ParticipantWhereInput, orderBy: ParticipantOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Participant!]
 }
 
@@ -224,16 +228,17 @@ input EventCreateInput {
   description: String
   dates: DateCreateManyWithoutEventInput
   places: PlaceCreateManyWithoutEventInput
-  menus: EventCreatemenusInput
+  menus: MenuCreateManyWithoutEventInput
   participants: ParticipantCreateManyWithoutEventInput
-}
-
-input EventCreatemenusInput {
-  set: [String!]
 }
 
 input EventCreateOneWithoutDatesInput {
   create: EventCreateWithoutDatesInput
+  connect: EventWhereUniqueInput
+}
+
+input EventCreateOneWithoutMenusInput {
+  create: EventCreateWithoutMenusInput
   connect: EventWhereUniqueInput
 }
 
@@ -252,7 +257,16 @@ input EventCreateWithoutDatesInput {
   title: String!
   description: String
   places: PlaceCreateManyWithoutEventInput
-  menus: EventCreatemenusInput
+  menus: MenuCreateManyWithoutEventInput
+  participants: ParticipantCreateManyWithoutEventInput
+}
+
+input EventCreateWithoutMenusInput {
+  slug: String!
+  title: String!
+  description: String
+  dates: DateCreateManyWithoutEventInput
+  places: PlaceCreateManyWithoutEventInput
   participants: ParticipantCreateManyWithoutEventInput
 }
 
@@ -262,7 +276,7 @@ input EventCreateWithoutParticipantsInput {
   description: String
   dates: DateCreateManyWithoutEventInput
   places: PlaceCreateManyWithoutEventInput
-  menus: EventCreatemenusInput
+  menus: MenuCreateManyWithoutEventInput
 }
 
 input EventCreateWithoutPlacesInput {
@@ -270,7 +284,7 @@ input EventCreateWithoutPlacesInput {
   title: String!
   description: String
   dates: DateCreateManyWithoutEventInput
-  menus: EventCreatemenusInput
+  menus: MenuCreateManyWithoutEventInput
   participants: ParticipantCreateManyWithoutEventInput
 }
 
@@ -299,7 +313,6 @@ type EventPreviousValues {
   slug: String!
   title: String!
   description: String
-  menus: [String!]!
 }
 
 type EventSubscriptionPayload {
@@ -326,7 +339,7 @@ input EventUpdateInput {
   description: String
   dates: DateUpdateManyWithoutEventInput
   places: PlaceUpdateManyWithoutEventInput
-  menus: EventUpdatemenusInput
+  menus: MenuUpdateManyWithoutEventInput
   participants: ParticipantUpdateManyWithoutEventInput
 }
 
@@ -334,17 +347,19 @@ input EventUpdateManyMutationInput {
   slug: String
   title: String
   description: String
-  menus: EventUpdatemenusInput
-}
-
-input EventUpdatemenusInput {
-  set: [String!]
 }
 
 input EventUpdateOneRequiredWithoutDatesInput {
   create: EventCreateWithoutDatesInput
   update: EventUpdateWithoutDatesDataInput
   upsert: EventUpsertWithoutDatesInput
+  connect: EventWhereUniqueInput
+}
+
+input EventUpdateOneRequiredWithoutMenusInput {
+  create: EventCreateWithoutMenusInput
+  update: EventUpdateWithoutMenusDataInput
+  upsert: EventUpsertWithoutMenusInput
   connect: EventWhereUniqueInput
 }
 
@@ -367,7 +382,16 @@ input EventUpdateWithoutDatesDataInput {
   title: String
   description: String
   places: PlaceUpdateManyWithoutEventInput
-  menus: EventUpdatemenusInput
+  menus: MenuUpdateManyWithoutEventInput
+  participants: ParticipantUpdateManyWithoutEventInput
+}
+
+input EventUpdateWithoutMenusDataInput {
+  slug: String
+  title: String
+  description: String
+  dates: DateUpdateManyWithoutEventInput
+  places: PlaceUpdateManyWithoutEventInput
   participants: ParticipantUpdateManyWithoutEventInput
 }
 
@@ -377,7 +401,7 @@ input EventUpdateWithoutParticipantsDataInput {
   description: String
   dates: DateUpdateManyWithoutEventInput
   places: PlaceUpdateManyWithoutEventInput
-  menus: EventUpdatemenusInput
+  menus: MenuUpdateManyWithoutEventInput
 }
 
 input EventUpdateWithoutPlacesDataInput {
@@ -385,13 +409,18 @@ input EventUpdateWithoutPlacesDataInput {
   title: String
   description: String
   dates: DateUpdateManyWithoutEventInput
-  menus: EventUpdatemenusInput
+  menus: MenuUpdateManyWithoutEventInput
   participants: ParticipantUpdateManyWithoutEventInput
 }
 
 input EventUpsertWithoutDatesInput {
   update: EventUpdateWithoutDatesDataInput!
   create: EventCreateWithoutDatesInput!
+}
+
+input EventUpsertWithoutMenusInput {
+  update: EventUpdateWithoutMenusDataInput!
+  create: EventCreateWithoutMenusInput!
 }
 
 input EventUpsertWithoutParticipantsInput {
@@ -467,6 +496,9 @@ input EventWhereInput {
   places_every: PlaceWhereInput
   places_some: PlaceWhereInput
   places_none: PlaceWhereInput
+  menus_every: MenuWhereInput
+  menus_some: MenuWhereInput
+  menus_none: MenuWhereInput
   participants_every: ParticipantWhereInput
   participants_some: ParticipantWhereInput
   participants_none: ParticipantWhereInput
@@ -482,6 +514,226 @@ input EventWhereUniqueInput {
 
 scalar Long
 
+type Menu {
+  id: ID!
+  name: String!
+  url: String
+  event: Event!
+}
+
+type MenuConnection {
+  pageInfo: PageInfo!
+  edges: [MenuEdge]!
+  aggregate: AggregateMenu!
+}
+
+input MenuCreateInput {
+  name: String!
+  url: String
+  event: EventCreateOneWithoutMenusInput!
+}
+
+input MenuCreateManyWithoutEventInput {
+  create: [MenuCreateWithoutEventInput!]
+  connect: [MenuWhereUniqueInput!]
+}
+
+input MenuCreateWithoutEventInput {
+  name: String!
+  url: String
+}
+
+type MenuEdge {
+  node: Menu!
+  cursor: String!
+}
+
+enum MenuOrderByInput {
+  id_ASC
+  id_DESC
+  name_ASC
+  name_DESC
+  url_ASC
+  url_DESC
+  createdAt_ASC
+  createdAt_DESC
+  updatedAt_ASC
+  updatedAt_DESC
+}
+
+type MenuPreviousValues {
+  id: ID!
+  name: String!
+  url: String
+}
+
+input MenuScalarWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  name: String
+  name_not: String
+  name_in: [String!]
+  name_not_in: [String!]
+  name_lt: String
+  name_lte: String
+  name_gt: String
+  name_gte: String
+  name_contains: String
+  name_not_contains: String
+  name_starts_with: String
+  name_not_starts_with: String
+  name_ends_with: String
+  name_not_ends_with: String
+  url: String
+  url_not: String
+  url_in: [String!]
+  url_not_in: [String!]
+  url_lt: String
+  url_lte: String
+  url_gt: String
+  url_gte: String
+  url_contains: String
+  url_not_contains: String
+  url_starts_with: String
+  url_not_starts_with: String
+  url_ends_with: String
+  url_not_ends_with: String
+  AND: [MenuScalarWhereInput!]
+  OR: [MenuScalarWhereInput!]
+  NOT: [MenuScalarWhereInput!]
+}
+
+type MenuSubscriptionPayload {
+  mutation: MutationType!
+  node: Menu
+  updatedFields: [String!]
+  previousValues: MenuPreviousValues
+}
+
+input MenuSubscriptionWhereInput {
+  mutation_in: [MutationType!]
+  updatedFields_contains: String
+  updatedFields_contains_every: [String!]
+  updatedFields_contains_some: [String!]
+  node: MenuWhereInput
+  AND: [MenuSubscriptionWhereInput!]
+  OR: [MenuSubscriptionWhereInput!]
+  NOT: [MenuSubscriptionWhereInput!]
+}
+
+input MenuUpdateInput {
+  name: String
+  url: String
+  event: EventUpdateOneRequiredWithoutMenusInput
+}
+
+input MenuUpdateManyDataInput {
+  name: String
+  url: String
+}
+
+input MenuUpdateManyMutationInput {
+  name: String
+  url: String
+}
+
+input MenuUpdateManyWithoutEventInput {
+  create: [MenuCreateWithoutEventInput!]
+  delete: [MenuWhereUniqueInput!]
+  connect: [MenuWhereUniqueInput!]
+  disconnect: [MenuWhereUniqueInput!]
+  update: [MenuUpdateWithWhereUniqueWithoutEventInput!]
+  upsert: [MenuUpsertWithWhereUniqueWithoutEventInput!]
+  deleteMany: [MenuScalarWhereInput!]
+  updateMany: [MenuUpdateManyWithWhereNestedInput!]
+}
+
+input MenuUpdateManyWithWhereNestedInput {
+  where: MenuScalarWhereInput!
+  data: MenuUpdateManyDataInput!
+}
+
+input MenuUpdateWithoutEventDataInput {
+  name: String
+  url: String
+}
+
+input MenuUpdateWithWhereUniqueWithoutEventInput {
+  where: MenuWhereUniqueInput!
+  data: MenuUpdateWithoutEventDataInput!
+}
+
+input MenuUpsertWithWhereUniqueWithoutEventInput {
+  where: MenuWhereUniqueInput!
+  update: MenuUpdateWithoutEventDataInput!
+  create: MenuCreateWithoutEventInput!
+}
+
+input MenuWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  name: String
+  name_not: String
+  name_in: [String!]
+  name_not_in: [String!]
+  name_lt: String
+  name_lte: String
+  name_gt: String
+  name_gte: String
+  name_contains: String
+  name_not_contains: String
+  name_starts_with: String
+  name_not_starts_with: String
+  name_ends_with: String
+  name_not_ends_with: String
+  url: String
+  url_not: String
+  url_in: [String!]
+  url_not_in: [String!]
+  url_lt: String
+  url_lte: String
+  url_gt: String
+  url_gte: String
+  url_contains: String
+  url_not_contains: String
+  url_starts_with: String
+  url_not_starts_with: String
+  url_ends_with: String
+  url_not_ends_with: String
+  event: EventWhereInput
+  AND: [MenuWhereInput!]
+  OR: [MenuWhereInput!]
+  NOT: [MenuWhereInput!]
+}
+
+input MenuWhereUniqueInput {
+  id: ID
+}
+
 type Mutation {
   createDate(data: DateCreateInput!): Date!
   updateDate(data: DateUpdateInput!, where: DateWhereUniqueInput!): Date
@@ -495,6 +747,12 @@ type Mutation {
   upsertEvent(where: EventWhereUniqueInput!, create: EventCreateInput!, update: EventUpdateInput!): Event!
   deleteEvent(where: EventWhereUniqueInput!): Event
   deleteManyEvents(where: EventWhereInput): BatchPayload!
+  createMenu(data: MenuCreateInput!): Menu!
+  updateMenu(data: MenuUpdateInput!, where: MenuWhereUniqueInput!): Menu
+  updateManyMenus(data: MenuUpdateManyMutationInput!, where: MenuWhereInput): BatchPayload!
+  upsertMenu(where: MenuWhereUniqueInput!, create: MenuCreateInput!, update: MenuUpdateInput!): Menu!
+  deleteMenu(where: MenuWhereUniqueInput!): Menu
+  deleteManyMenus(where: MenuWhereInput): BatchPayload!
   createParticipant(data: ParticipantCreateInput!): Participant!
   updateParticipant(data: ParticipantUpdateInput!, where: ParticipantWhereUniqueInput!): Participant
   updateManyParticipants(data: ParticipantUpdateManyMutationInput!, where: ParticipantWhereInput): BatchPayload!
@@ -531,6 +789,7 @@ type Participant {
   name: String!
   dates: [ID!]!
   places: [ID!]!
+  menus: [ID!]!
   event: Event!
 }
 
@@ -548,12 +807,17 @@ input ParticipantCreateInput {
   name: String!
   dates: ParticipantCreatedatesInput
   places: ParticipantCreateplacesInput
+  menus: ParticipantCreatemenusInput
   event: EventCreateOneWithoutParticipantsInput!
 }
 
 input ParticipantCreateManyWithoutEventInput {
   create: [ParticipantCreateWithoutEventInput!]
   connect: [ParticipantWhereUniqueInput!]
+}
+
+input ParticipantCreatemenusInput {
+  set: [ID!]
 }
 
 input ParticipantCreateplacesInput {
@@ -564,6 +828,7 @@ input ParticipantCreateWithoutEventInput {
   name: String!
   dates: ParticipantCreatedatesInput
   places: ParticipantCreateplacesInput
+  menus: ParticipantCreatemenusInput
 }
 
 type ParticipantEdge {
@@ -587,6 +852,7 @@ type ParticipantPreviousValues {
   name: String!
   dates: [ID!]!
   places: [ID!]!
+  menus: [ID!]!
 }
 
 input ParticipantScalarWhereInput {
@@ -649,6 +915,7 @@ input ParticipantUpdateInput {
   name: String
   dates: ParticipantUpdatedatesInput
   places: ParticipantUpdateplacesInput
+  menus: ParticipantUpdatemenusInput
   event: EventUpdateOneRequiredWithoutParticipantsInput
 }
 
@@ -656,12 +923,14 @@ input ParticipantUpdateManyDataInput {
   name: String
   dates: ParticipantUpdatedatesInput
   places: ParticipantUpdateplacesInput
+  menus: ParticipantUpdatemenusInput
 }
 
 input ParticipantUpdateManyMutationInput {
   name: String
   dates: ParticipantUpdatedatesInput
   places: ParticipantUpdateplacesInput
+  menus: ParticipantUpdatemenusInput
 }
 
 input ParticipantUpdateManyWithoutEventInput {
@@ -680,6 +949,10 @@ input ParticipantUpdateManyWithWhereNestedInput {
   data: ParticipantUpdateManyDataInput!
 }
 
+input ParticipantUpdatemenusInput {
+  set: [ID!]
+}
+
 input ParticipantUpdateplacesInput {
   set: [ID!]
 }
@@ -688,6 +961,7 @@ input ParticipantUpdateWithoutEventDataInput {
   name: String
   dates: ParticipantUpdatedatesInput
   places: ParticipantUpdateplacesInput
+  menus: ParticipantUpdatemenusInput
 }
 
 input ParticipantUpdateWithWhereUniqueWithoutEventInput {
@@ -967,6 +1241,9 @@ type Query {
   event(where: EventWhereUniqueInput!): Event
   events(where: EventWhereInput, orderBy: EventOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Event]!
   eventsConnection(where: EventWhereInput, orderBy: EventOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): EventConnection!
+  menu(where: MenuWhereUniqueInput!): Menu
+  menus(where: MenuWhereInput, orderBy: MenuOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Menu]!
+  menusConnection(where: MenuWhereInput, orderBy: MenuOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): MenuConnection!
   participant(where: ParticipantWhereUniqueInput!): Participant
   participants(where: ParticipantWhereInput, orderBy: ParticipantOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Participant]!
   participantsConnection(where: ParticipantWhereInput, orderBy: ParticipantOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): ParticipantConnection!
@@ -979,6 +1256,7 @@ type Query {
 type Subscription {
   date(where: DateSubscriptionWhereInput): DateSubscriptionPayload
   event(where: EventSubscriptionWhereInput): EventSubscriptionPayload
+  menu(where: MenuSubscriptionWhereInput): MenuSubscriptionPayload
   participant(where: ParticipantSubscriptionWhereInput): ParticipantSubscriptionPayload
   place(where: PlaceSubscriptionWhereInput): PlaceSubscriptionPayload
 }

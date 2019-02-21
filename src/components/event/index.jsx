@@ -71,13 +71,18 @@ export const EVENT_QUERY = gql`
         name
         url
       }
+      menus {
+        id
+        name
+        url
+      }
       participants {
         id
         name
         dates
         places
+        menus
       }
-      menus
     }
   }
 `;

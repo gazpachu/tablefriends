@@ -39,6 +39,14 @@ class Vote extends Component {
               Places &amp; restaurants
             </TabButton>
           </NavItem>
+          <NavItem>
+            <TabButton
+              active={activeSection === 'menus' ? 1 : 0}
+              onClick={() => this.setState({ activeSection: 'menus' })}
+            >
+              Menus
+            </TabButton>
+          </NavItem>
         </Nav>
         {activeSection === 'dates' &&
           <VoteTable
@@ -54,6 +62,14 @@ class Vote extends Component {
             items={event.places}
             participants={event.participants}
             mutation={UPDATE_PARTICIPANT_PLACES}
+          />
+        }
+        {activeSection === 'menus' &&
+          <VoteTable
+            type="menus"
+            items={event.menus}
+            participants={event.participants}
+            mutation={UPDATE_PARTICIPANT_MENUS}
           />
         }
         <UnRegister participants={event.participants} />
@@ -76,6 +92,15 @@ const UPDATE_PARTICIPANT_PLACES = gql`
     updateParticipant(id: $id, places: $places) {
       id
       places
+    }
+  }
+`;
+
+const UPDATE_PARTICIPANT_MENUS = gql`
+  mutation UpdateParticipantMenus($id: ID!, $menus: [ID]) {
+    updateParticipant(id: $id, menus: $menus) {
+      id
+      menus
     }
   }
 `;

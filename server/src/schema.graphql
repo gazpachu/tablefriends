@@ -3,20 +3,23 @@ type Query {
   event(slug: String!): Event
   places: [Place!]!
   dates: [Date!]!
+  menus: [Menu!]!
   participants: [Participant!]!
 }
 
 type Mutation {
   createEvent(title: String!, slug: String!): Event
   deleteEvent(id: ID!): Event
-  updateEvent(id: ID!, title: String!, slug: String!, description: String, photo: String, dates: [String], menus: [String]): Event
+  updateEvent(id: ID!, title: String!, slug: String!, description: String, photo: String): Event
   createDate(timestamp: String!, event: ID!): Date
   deleteDate(id: ID!): Date
   createPlace(name: String!, url: String, event: ID!): Place
   deletePlace(id: ID!): Place
+  createMenu(name: String!, url: String, event: ID!): Menu
+  deleteMenu(id: ID!): Menu
   createParticipant(name: String!, event: ID!): Participant
   deleteParticipant(id: ID!): Participant
-  updateParticipant(id: ID!, dates: [ID], places: [ID]): Participant
+  updateParticipant(id: ID!, dates: [ID], places: [ID], menus: [ID]): Participant
 }
 
 type Event {
@@ -27,8 +30,14 @@ type Event {
   photo: String
   dates: [Date]
   places: [Place]
-  menus: [String]
+  menus: [Menu]
   participants: [Participant]
+}
+
+type Date {
+  id: ID!
+  timestamp: String!
+  event: Event!
 }
 
 type Place {
@@ -38,9 +47,10 @@ type Place {
   event: Event!
 }
 
-type Date {
+type Menu {
   id: ID!
-  timestamp: String!
+  name: String!
+  url: String
   event: Event!
 }
 
@@ -49,5 +59,6 @@ type Participant {
   name: String
   dates: [ID]
   places: [ID]
+  menus: [ID]
   event: Event!
 }

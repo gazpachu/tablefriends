@@ -5,8 +5,14 @@ type Event {
   description: String
   dates: [Date]
   places: [Place]
-  menus: [String]
+  menus: [Menu]
   participants: [Participant]
+}
+
+type Date {
+  id: ID! @unique
+  timestamp: String!
+  event: Event!
 }
 
 type Place {
@@ -16,9 +22,10 @@ type Place {
   event: Event!
 }
 
-type Date {
+type Menu {
   id: ID! @unique
-  timestamp: String!
+  name: String!
+  url: String
   event: Event!
 }
 
@@ -27,5 +34,6 @@ type Participant {
   name: String!
   dates: [ID]
   places: [ID]
+  menus: [ID]
   event: Event!
 }

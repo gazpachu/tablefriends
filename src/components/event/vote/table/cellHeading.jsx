@@ -7,6 +7,7 @@ const CellHeading = props => {
   switch(props.type) {
     case 'dates': content = dateFnsFormat(new Date(props.item.timestamp), 'MMM D ddd hh:mma'); break;
     case 'places': content = props.item.name; break;
+    case 'menus': content = props.item.name; break; 
     default: content = '';
   }
 

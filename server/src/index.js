@@ -11,12 +11,15 @@ const resolvers = {
    }
  },
  Event: {
+  dates: (parent, { id }, context) => {
+    return context.prisma.event({ id: parent.id }).dates();
+  },
    places: (parent, { id }, context) => {
      return context.prisma.event({ id: parent.id }).places();
    },
-   dates: (parent, { id }, context) => {
-     return context.prisma.event({ id: parent.id }).dates();
-   },
+   menus: (parent, { id }, context) => {
+    return context.prisma.event({ id: parent.id }).menus();
+  },
    participants: (parent, { id }, context) => {
      return context.prisma.event({ id: parent.id }).participants();
    }
@@ -25,10 +28,10 @@ const resolvers = {
    createEvent(parent, { title, slug }, context) {
      return context.prisma.createEvent({ title, slug });
    },
-   updateEvent(parent, { id, title, slug, description, photo, dates, menus }, context) {
+   updateEvent(parent, { id, title, slug, description, photo }, context) {
      return context.prisma.updateEvent({
        where: { id },
-       data: { title, slug, description, photo, dates: { set: dates }, menus: { set: menus } }
+       data: { title, slug, description, photo }
      });
    },
    deleteEvent(parent, { id }, context) {
@@ -53,6 +56,16 @@ const resolvers = {
    deletePlace(parent, { id }, context) {
      return context.prisma.deletePlace({ id });
    },
+   createMenu(parent, { name, url, event }, context) {
+    return context.prisma.createMenu({
+      name,
+      url,
+      event: { connect: { id: event } },
+    });
+  },
+  deleteMenu(parent, { id }, context) {
+    return context.prisma.deleteMenu({ id });
+  },
    createParticipant(parent, { name, event }, context) {
      return context.prisma.createParticipant({
        name,
@@ -62,12 +75,13 @@ const resolvers = {
    deleteParticipant(parent, { id }, context) {
      return context.prisma.deleteParticipant({ id });
    },
-   updateParticipant(parent, { id, dates, places }, context) {
+   updateParticipant(parent, { id, dates, places, menus }, context) {
      return context.prisma.updateParticipant({
        where: { id },
        data: {
          dates: { set: dates },
-         places: { set: places }
+         places: { set: places },
+         menus: { set: menus }
       }
      });
    },

@@ -12,6 +12,7 @@ type AtLeastOne<T, U = { [K in keyof T]: Pick<T, K> }> = Partial<T> &
 export interface Exists {
   date: (where?: DateWhereInput) => Promise<boolean>;
   event: (where?: EventWhereInput) => Promise<boolean>;
+  menu: (where?: MenuWhereInput) => Promise<boolean>;
   participant: (where?: ParticipantWhereInput) => Promise<boolean>;
   place: (where?: PlaceWhereInput) => Promise<boolean>;
 }
@@ -73,6 +74,25 @@ export interface Prisma {
     first?: Int;
     last?: Int;
   }) => EventConnectionPromise;
+  menu: (where: MenuWhereUniqueInput) => MenuPromise;
+  menus: (args?: {
+    where?: MenuWhereInput;
+    orderBy?: MenuOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => FragmentableArray<Menu>;
+  menusConnection: (args?: {
+    where?: MenuWhereInput;
+    orderBy?: MenuOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => MenuConnectionPromise;
   participant: (where: ParticipantWhereUniqueInput) => ParticipantPromise;
   participants: (args?: {
     where?: ParticipantWhereInput;
@@ -149,6 +169,22 @@ export interface Prisma {
   }) => EventPromise;
   deleteEvent: (where: EventWhereUniqueInput) => EventPromise;
   deleteManyEvents: (where?: EventWhereInput) => BatchPayloadPromise;
+  createMenu: (data: MenuCreateInput) => MenuPromise;
+  updateMenu: (args: {
+    data: MenuUpdateInput;
+    where: MenuWhereUniqueInput;
+  }) => MenuPromise;
+  updateManyMenus: (args: {
+    data: MenuUpdateManyMutationInput;
+    where?: MenuWhereInput;
+  }) => BatchPayloadPromise;
+  upsertMenu: (args: {
+    where: MenuWhereUniqueInput;
+    create: MenuCreateInput;
+    update: MenuUpdateInput;
+  }) => MenuPromise;
+  deleteMenu: (where: MenuWhereUniqueInput) => MenuPromise;
+  deleteManyMenus: (where?: MenuWhereInput) => BatchPayloadPromise;
   createParticipant: (data: ParticipantCreateInput) => ParticipantPromise;
   updateParticipant: (args: {
     data: ParticipantUpdateInput;
@@ -198,6 +234,9 @@ export interface Subscription {
   event: (
     where?: EventSubscriptionWhereInput
   ) => EventSubscriptionPayloadSubscription;
+  menu: (
+    where?: MenuSubscriptionWhereInput
+  ) => MenuSubscriptionPayloadSubscription;
   participant: (
     where?: ParticipantSubscriptionWhereInput
   ) => ParticipantSubscriptionPayloadSubscription;
@@ -236,6 +275,18 @@ export type PlaceOrderByInput =
   | "updatedAt_ASC"
   | "updatedAt_DESC";
 
+export type MenuOrderByInput =
+  | "id_ASC"
+  | "id_DESC"
+  | "name_ASC"
+  | "name_DESC"
+  | "url_ASC"
+  | "url_DESC"
+  | "createdAt_ASC"
+  | "createdAt_DESC"
+  | "updatedAt_ASC"
+  | "updatedAt_DESC";
+
 export type ParticipantOrderByInput =
   | "id_ASC"
   | "id_DESC"
@@ -262,13 +313,70 @@ export type EventOrderByInput =
 
 export type MutationType = "CREATED" | "UPDATED" | "DELETED";
 
-export interface EventUpdatemenusInput {
-  set?: String[] | String;
+export interface MenuUpdateManyWithWhereNestedInput {
+  where: MenuScalarWhereInput;
+  data: MenuUpdateManyDataInput;
 }
 
 export type DateWhereUniqueInput = AtLeastOne<{
   id: ID_Input;
 }>;
+
+export interface ParticipantUpdateWithoutEventDataInput {
+  name?: String;
+  dates?: ParticipantUpdatedatesInput;
+  places?: ParticipantUpdateplacesInput;
+  menus?: ParticipantUpdatemenusInput;
+}
+
+export interface MenuWhereInput {
+  id?: ID_Input;
+  id_not?: ID_Input;
+  id_in?: ID_Input[] | ID_Input;
+  id_not_in?: ID_Input[] | ID_Input;
+  id_lt?: ID_Input;
+  id_lte?: ID_Input;
+  id_gt?: ID_Input;
+  id_gte?: ID_Input;
+  id_contains?: ID_Input;
+  id_not_contains?: ID_Input;
+  id_starts_with?: ID_Input;
+  id_not_starts_with?: ID_Input;
+  id_ends_with?: ID_Input;
+  id_not_ends_with?: ID_Input;
+  name?: String;
+  name_not?: String;
+  name_in?: String[] | String;
+  name_not_in?: String[] | String;
+  name_lt?: String;
+  name_lte?: String;
+  name_gt?: String;
+  name_gte?: String;
+  name_contains?: String;
+  name_not_contains?: String;
+  name_starts_with?: String;
+  name_not_starts_with?: String;
+  name_ends_with?: String;
+  name_not_ends_with?: String;
+  url?: String;
+  url_not?: String;
+  url_in?: String[] | String;
+  url_not_in?: String[] | String;
+  url_lt?: String;
+  url_lte?: String;
+  url_gt?: String;
+  url_gte?: String;
+  url_contains?: String;
+  url_not_contains?: String;
+  url_starts_with?: String;
+  url_not_starts_with?: String;
+  url_ends_with?: String;
+  url_not_ends_with?: String;
+  event?: EventWhereInput;
+  AND?: MenuWhereInput[] | MenuWhereInput;
+  OR?: MenuWhereInput[] | MenuWhereInput;
+  NOT?: MenuWhereInput[] | MenuWhereInput;
+}
 
 export interface ParticipantUpdatedatesInput {
   set?: ID_Input[] | ID_Input;
@@ -390,6 +498,9 @@ export interface EventWhereInput {
   places_every?: PlaceWhereInput;
   places_some?: PlaceWhereInput;
   places_none?: PlaceWhereInput;
+  menus_every?: MenuWhereInput;
+  menus_some?: MenuWhereInput;
+  menus_none?: MenuWhereInput;
   participants_every?: ParticipantWhereInput;
   participants_some?: ParticipantWhereInput;
   participants_none?: ParticipantWhereInput;
@@ -398,10 +509,8 @@ export interface EventWhereInput {
   NOT?: EventWhereInput[] | EventWhereInput;
 }
 
-export interface ParticipantUpsertWithWhereUniqueWithoutEventInput {
-  where: ParticipantWhereUniqueInput;
-  update: ParticipantUpdateWithoutEventDataInput;
-  create: ParticipantCreateWithoutEventInput;
+export interface ParticipantUpdatemenusInput {
+  set?: ID_Input[] | ID_Input;
 }
 
 export interface DateWhereInput {
@@ -439,100 +548,15 @@ export interface DateWhereInput {
   NOT?: DateWhereInput[] | DateWhereInput;
 }
 
-export interface EventUpdateWithoutDatesDataInput {
-  slug?: String;
-  title?: String;
-  description?: String;
-  places?: PlaceUpdateManyWithoutEventInput;
-  menus?: EventUpdatemenusInput;
-  participants?: ParticipantUpdateManyWithoutEventInput;
-}
-
-export interface DateUpdateManyDataInput {
-  timestamp?: String;
-}
-
-export interface PlaceUpdateManyWithoutEventInput {
-  create?: PlaceCreateWithoutEventInput[] | PlaceCreateWithoutEventInput;
-  delete?: PlaceWhereUniqueInput[] | PlaceWhereUniqueInput;
-  connect?: PlaceWhereUniqueInput[] | PlaceWhereUniqueInput;
-  disconnect?: PlaceWhereUniqueInput[] | PlaceWhereUniqueInput;
-  update?:
-    | PlaceUpdateWithWhereUniqueWithoutEventInput[]
-    | PlaceUpdateWithWhereUniqueWithoutEventInput;
-  upsert?:
-    | PlaceUpsertWithWhereUniqueWithoutEventInput[]
-    | PlaceUpsertWithWhereUniqueWithoutEventInput;
-  deleteMany?: PlaceScalarWhereInput[] | PlaceScalarWhereInput;
-  updateMany?:
-    | PlaceUpdateManyWithWhereNestedInput[]
-    | PlaceUpdateManyWithWhereNestedInput;
-}
-
-export interface ParticipantScalarWhereInput {
-  id?: ID_Input;
-  id_not?: ID_Input;
-  id_in?: ID_Input[] | ID_Input;
-  id_not_in?: ID_Input[] | ID_Input;
-  id_lt?: ID_Input;
-  id_lte?: ID_Input;
-  id_gt?: ID_Input;
-  id_gte?: ID_Input;
-  id_contains?: ID_Input;
-  id_not_contains?: ID_Input;
-  id_starts_with?: ID_Input;
-  id_not_starts_with?: ID_Input;
-  id_ends_with?: ID_Input;
-  id_not_ends_with?: ID_Input;
-  name?: String;
-  name_not?: String;
-  name_in?: String[] | String;
-  name_not_in?: String[] | String;
-  name_lt?: String;
-  name_lte?: String;
-  name_gt?: String;
-  name_gte?: String;
-  name_contains?: String;
-  name_not_contains?: String;
-  name_starts_with?: String;
-  name_not_starts_with?: String;
-  name_ends_with?: String;
-  name_not_ends_with?: String;
-  AND?: ParticipantScalarWhereInput[] | ParticipantScalarWhereInput;
-  OR?: ParticipantScalarWhereInput[] | ParticipantScalarWhereInput;
-  NOT?: ParticipantScalarWhereInput[] | ParticipantScalarWhereInput;
-}
-
-export interface PlaceUpdateWithWhereUniqueWithoutEventInput {
-  where: PlaceWhereUniqueInput;
-  data: PlaceUpdateWithoutEventDataInput;
-}
-
-export interface ParticipantSubscriptionWhereInput {
-  mutation_in?: MutationType[] | MutationType;
-  updatedFields_contains?: String;
-  updatedFields_contains_every?: String[] | String;
-  updatedFields_contains_some?: String[] | String;
-  node?: ParticipantWhereInput;
-  AND?: ParticipantSubscriptionWhereInput[] | ParticipantSubscriptionWhereInput;
-  OR?: ParticipantSubscriptionWhereInput[] | ParticipantSubscriptionWhereInput;
-  NOT?: ParticipantSubscriptionWhereInput[] | ParticipantSubscriptionWhereInput;
-}
-
 export interface PlaceUpdateWithoutEventDataInput {
   name?: String;
   url?: String;
 }
 
-export interface DateSubscriptionWhereInput {
-  mutation_in?: MutationType[] | MutationType;
-  updatedFields_contains?: String;
-  updatedFields_contains_every?: String[] | String;
-  updatedFields_contains_some?: String[] | String;
-  node?: DateWhereInput;
-  AND?: DateSubscriptionWhereInput[] | DateSubscriptionWhereInput;
-  OR?: DateSubscriptionWhereInput[] | DateSubscriptionWhereInput;
-  NOT?: DateSubscriptionWhereInput[] | DateSubscriptionWhereInput;
+export interface MenuUpdateInput {
+  name?: String;
+  url?: String;
+  event?: EventUpdateOneRequiredWithoutMenusInput;
 }
 
 export interface PlaceUpsertWithWhereUniqueWithoutEventInput {
@@ -541,10 +565,11 @@ export interface PlaceUpsertWithWhereUniqueWithoutEventInput {
   create: PlaceCreateWithoutEventInput;
 }
 
-export type EventWhereUniqueInput = AtLeastOne<{
-  id: ID_Input;
-  slug?: String;
-}>;
+export interface ParticipantUpsertWithWhereUniqueWithoutEventInput {
+  where: ParticipantWhereUniqueInput;
+  update: ParticipantUpdateWithoutEventDataInput;
+  create: ParticipantCreateWithoutEventInput;
+}
 
 export interface PlaceScalarWhereInput {
   id?: ID_Input;
@@ -594,18 +619,80 @@ export interface PlaceScalarWhereInput {
   NOT?: PlaceScalarWhereInput[] | PlaceScalarWhereInput;
 }
 
-export interface EventUpdateWithoutPlacesDataInput {
-  slug?: String;
-  title?: String;
-  description?: String;
-  dates?: DateUpdateManyWithoutEventInput;
-  menus?: EventUpdatemenusInput;
-  participants?: ParticipantUpdateManyWithoutEventInput;
+export interface ParticipantSubscriptionWhereInput {
+  mutation_in?: MutationType[] | MutationType;
+  updatedFields_contains?: String;
+  updatedFields_contains_every?: String[] | String;
+  updatedFields_contains_some?: String[] | String;
+  node?: ParticipantWhereInput;
+  AND?: ParticipantSubscriptionWhereInput[] | ParticipantSubscriptionWhereInput;
+  OR?: ParticipantSubscriptionWhereInput[] | ParticipantSubscriptionWhereInput;
+  NOT?: ParticipantSubscriptionWhereInput[] | ParticipantSubscriptionWhereInput;
 }
 
 export interface PlaceUpdateManyWithWhereNestedInput {
   where: PlaceScalarWhereInput;
   data: PlaceUpdateManyDataInput;
+}
+
+export interface EventSubscriptionWhereInput {
+  mutation_in?: MutationType[] | MutationType;
+  updatedFields_contains?: String;
+  updatedFields_contains_every?: String[] | String;
+  updatedFields_contains_some?: String[] | String;
+  node?: EventWhereInput;
+  AND?: EventSubscriptionWhereInput[] | EventSubscriptionWhereInput;
+  OR?: EventSubscriptionWhereInput[] | EventSubscriptionWhereInput;
+  NOT?: EventSubscriptionWhereInput[] | EventSubscriptionWhereInput;
+}
+
+export interface PlaceUpdateManyDataInput {
+  name?: String;
+  url?: String;
+}
+
+export type EventWhereUniqueInput = AtLeastOne<{
+  id: ID_Input;
+  slug?: String;
+}>;
+
+export interface MenuUpdateManyWithoutEventInput {
+  create?: MenuCreateWithoutEventInput[] | MenuCreateWithoutEventInput;
+  delete?: MenuWhereUniqueInput[] | MenuWhereUniqueInput;
+  connect?: MenuWhereUniqueInput[] | MenuWhereUniqueInput;
+  disconnect?: MenuWhereUniqueInput[] | MenuWhereUniqueInput;
+  update?:
+    | MenuUpdateWithWhereUniqueWithoutEventInput[]
+    | MenuUpdateWithWhereUniqueWithoutEventInput;
+  upsert?:
+    | MenuUpsertWithWhereUniqueWithoutEventInput[]
+    | MenuUpsertWithWhereUniqueWithoutEventInput;
+  deleteMany?: MenuScalarWhereInput[] | MenuScalarWhereInput;
+  updateMany?:
+    | MenuUpdateManyWithWhereNestedInput[]
+    | MenuUpdateManyWithWhereNestedInput;
+}
+
+export interface EventUpsertWithoutPlacesInput {
+  update: EventUpdateWithoutPlacesDataInput;
+  create: EventCreateWithoutPlacesInput;
+}
+
+export interface MenuUpdateWithWhereUniqueWithoutEventInput {
+  where: MenuWhereUniqueInput;
+  data: MenuUpdateWithoutEventDataInput;
+}
+
+export interface EventUpdateOneRequiredWithoutPlacesInput {
+  create?: EventCreateWithoutPlacesInput;
+  update?: EventUpdateWithoutPlacesDataInput;
+  upsert?: EventUpsertWithoutPlacesInput;
+  connect?: EventWhereUniqueInput;
+}
+
+export interface MenuUpdateWithoutEventDataInput {
+  name?: String;
+  url?: String;
 }
 
 export interface PlaceUpdateInput {
@@ -614,31 +701,97 @@ export interface PlaceUpdateInput {
   event?: EventUpdateOneRequiredWithoutPlacesInput;
 }
 
-export interface PlaceUpdateManyDataInput {
-  name?: String;
-  url?: String;
+export interface MenuUpsertWithWhereUniqueWithoutEventInput {
+  where: MenuWhereUniqueInput;
+  update: MenuUpdateWithoutEventDataInput;
+  create: MenuCreateWithoutEventInput;
 }
 
-export interface EventCreateWithoutPlacesInput {
-  slug: String;
-  title: String;
-  description?: String;
-  dates?: DateCreateManyWithoutEventInput;
-  menus?: EventCreatemenusInput;
-  participants?: ParticipantCreateManyWithoutEventInput;
-}
-
-export interface EventUpdateOneRequiredWithoutParticipantsInput {
-  create?: EventCreateWithoutParticipantsInput;
-  update?: EventUpdateWithoutParticipantsDataInput;
-  upsert?: EventUpsertWithoutParticipantsInput;
+export interface EventCreateOneWithoutPlacesInput {
+  create?: EventCreateWithoutPlacesInput;
   connect?: EventWhereUniqueInput;
+}
+
+export interface MenuScalarWhereInput {
+  id?: ID_Input;
+  id_not?: ID_Input;
+  id_in?: ID_Input[] | ID_Input;
+  id_not_in?: ID_Input[] | ID_Input;
+  id_lt?: ID_Input;
+  id_lte?: ID_Input;
+  id_gt?: ID_Input;
+  id_gte?: ID_Input;
+  id_contains?: ID_Input;
+  id_not_contains?: ID_Input;
+  id_starts_with?: ID_Input;
+  id_not_starts_with?: ID_Input;
+  id_ends_with?: ID_Input;
+  id_not_ends_with?: ID_Input;
+  name?: String;
+  name_not?: String;
+  name_in?: String[] | String;
+  name_not_in?: String[] | String;
+  name_lt?: String;
+  name_lte?: String;
+  name_gt?: String;
+  name_gte?: String;
+  name_contains?: String;
+  name_not_contains?: String;
+  name_starts_with?: String;
+  name_not_starts_with?: String;
+  name_ends_with?: String;
+  name_not_ends_with?: String;
+  url?: String;
+  url_not?: String;
+  url_in?: String[] | String;
+  url_not_in?: String[] | String;
+  url_lt?: String;
+  url_lte?: String;
+  url_gt?: String;
+  url_gte?: String;
+  url_contains?: String;
+  url_not_contains?: String;
+  url_starts_with?: String;
+  url_not_starts_with?: String;
+  url_ends_with?: String;
+  url_not_ends_with?: String;
+  AND?: MenuScalarWhereInput[] | MenuScalarWhereInput;
+  OR?: MenuScalarWhereInput[] | MenuScalarWhereInput;
+  NOT?: MenuScalarWhereInput[] | MenuScalarWhereInput;
 }
 
 export interface PlaceCreateInput {
   name: String;
   url?: String;
   event: EventCreateOneWithoutPlacesInput;
+}
+
+export interface EventCreateWithoutParticipantsInput {
+  slug: String;
+  title: String;
+  description?: String;
+  dates?: DateCreateManyWithoutEventInput;
+  places?: PlaceCreateManyWithoutEventInput;
+  menus?: MenuCreateManyWithoutEventInput;
+}
+
+export interface EventUpsertWithoutParticipantsInput {
+  update: EventUpdateWithoutParticipantsDataInput;
+  create: EventCreateWithoutParticipantsInput;
+}
+
+export interface MenuUpdateManyDataInput {
+  name?: String;
+  url?: String;
+}
+
+export interface EventUpdateWithoutParticipantsDataInput {
+  slug?: String;
+  title?: String;
+  description?: String;
+  dates?: DateUpdateManyWithoutEventInput;
+  places?: PlaceUpdateManyWithoutEventInput;
+  menus?: MenuUpdateManyWithoutEventInput;
 }
 
 export interface ParticipantUpdateManyWithoutEventInput {
@@ -660,30 +813,17 @@ export interface ParticipantUpdateManyWithoutEventInput {
     | ParticipantUpdateManyWithWhereNestedInput;
 }
 
-export interface ParticipantUpdateManyMutationInput {
+export interface ParticipantUpdateInput {
   name?: String;
   dates?: ParticipantUpdatedatesInput;
   places?: ParticipantUpdateplacesInput;
+  menus?: ParticipantUpdatemenusInput;
+  event?: EventUpdateOneRequiredWithoutParticipantsInput;
 }
 
 export interface ParticipantUpdateWithWhereUniqueWithoutEventInput {
   where: ParticipantWhereUniqueInput;
   data: ParticipantUpdateWithoutEventDataInput;
-}
-
-export interface EventUpdateWithoutParticipantsDataInput {
-  slug?: String;
-  title?: String;
-  description?: String;
-  dates?: DateUpdateManyWithoutEventInput;
-  places?: PlaceUpdateManyWithoutEventInput;
-  menus?: EventUpdatemenusInput;
-}
-
-export interface ParticipantUpdateWithoutEventDataInput {
-  name?: String;
-  dates?: ParticipantUpdatedatesInput;
-  places?: ParticipantUpdateplacesInput;
 }
 
 export interface DateCreateInput {
@@ -731,15 +871,13 @@ export interface EventCreateWithoutDatesInput {
   title: String;
   description?: String;
   places?: PlaceCreateManyWithoutEventInput;
-  menus?: EventCreatemenusInput;
+  menus?: MenuCreateManyWithoutEventInput;
   participants?: ParticipantCreateManyWithoutEventInput;
 }
 
-export interface ParticipantUpdateInput {
-  name?: String;
-  dates?: ParticipantUpdatedatesInput;
-  places?: ParticipantUpdateplacesInput;
-  event?: EventUpdateOneRequiredWithoutParticipantsInput;
+export interface EventCreateOneWithoutParticipantsInput {
+  create?: EventCreateWithoutParticipantsInput;
+  connect?: EventWhereUniqueInput;
 }
 
 export interface PlaceCreateWithoutEventInput {
@@ -747,13 +885,180 @@ export interface PlaceCreateWithoutEventInput {
   url?: String;
 }
 
-export interface EventCreateWithoutParticipantsInput {
+export interface ParticipantCreateInput {
+  name: String;
+  dates?: ParticipantCreatedatesInput;
+  places?: ParticipantCreateplacesInput;
+  menus?: ParticipantCreatemenusInput;
+  event: EventCreateOneWithoutParticipantsInput;
+}
+
+export interface MenuCreateWithoutEventInput {
+  name: String;
+  url?: String;
+}
+
+export interface MenuUpdateManyMutationInput {
+  name?: String;
+  url?: String;
+}
+
+export interface ParticipantCreateWithoutEventInput {
+  name: String;
+  dates?: ParticipantCreatedatesInput;
+  places?: ParticipantCreateplacesInput;
+  menus?: ParticipantCreatemenusInput;
+}
+
+export interface EventUpsertWithoutMenusInput {
+  update: EventUpdateWithoutMenusDataInput;
+  create: EventCreateWithoutMenusInput;
+}
+
+export interface ParticipantCreateplacesInput {
+  set?: ID_Input[] | ID_Input;
+}
+
+export interface ParticipantScalarWhereInput {
+  id?: ID_Input;
+  id_not?: ID_Input;
+  id_in?: ID_Input[] | ID_Input;
+  id_not_in?: ID_Input[] | ID_Input;
+  id_lt?: ID_Input;
+  id_lte?: ID_Input;
+  id_gt?: ID_Input;
+  id_gte?: ID_Input;
+  id_contains?: ID_Input;
+  id_not_contains?: ID_Input;
+  id_starts_with?: ID_Input;
+  id_not_starts_with?: ID_Input;
+  id_ends_with?: ID_Input;
+  id_not_ends_with?: ID_Input;
+  name?: String;
+  name_not?: String;
+  name_in?: String[] | String;
+  name_not_in?: String[] | String;
+  name_lt?: String;
+  name_lte?: String;
+  name_gt?: String;
+  name_gte?: String;
+  name_contains?: String;
+  name_not_contains?: String;
+  name_starts_with?: String;
+  name_not_starts_with?: String;
+  name_ends_with?: String;
+  name_not_ends_with?: String;
+  AND?: ParticipantScalarWhereInput[] | ParticipantScalarWhereInput;
+  OR?: ParticipantScalarWhereInput[] | ParticipantScalarWhereInput;
+  NOT?: ParticipantScalarWhereInput[] | ParticipantScalarWhereInput;
+}
+
+export interface DateUpdateInput {
+  timestamp?: String;
+  event?: EventUpdateOneRequiredWithoutDatesInput;
+}
+
+export interface ParticipantUpdateManyWithWhereNestedInput {
+  where: ParticipantScalarWhereInput;
+  data: ParticipantUpdateManyDataInput;
+}
+
+export interface EventUpdateWithoutDatesDataInput {
+  slug?: String;
+  title?: String;
+  description?: String;
+  places?: PlaceUpdateManyWithoutEventInput;
+  menus?: MenuUpdateManyWithoutEventInput;
+  participants?: ParticipantUpdateManyWithoutEventInput;
+}
+
+export interface ParticipantUpdateManyDataInput {
+  name?: String;
+  dates?: ParticipantUpdatedatesInput;
+  places?: ParticipantUpdateplacesInput;
+  menus?: ParticipantUpdatemenusInput;
+}
+
+export interface PlaceUpdateWithWhereUniqueWithoutEventInput {
+  where: PlaceWhereUniqueInput;
+  data: PlaceUpdateWithoutEventDataInput;
+}
+
+export interface EventUpsertWithoutDatesInput {
+  update: EventUpdateWithoutDatesDataInput;
+  create: EventCreateWithoutDatesInput;
+}
+
+export interface MenuSubscriptionWhereInput {
+  mutation_in?: MutationType[] | MutationType;
+  updatedFields_contains?: String;
+  updatedFields_contains_every?: String[] | String;
+  updatedFields_contains_some?: String[] | String;
+  node?: MenuWhereInput;
+  AND?: MenuSubscriptionWhereInput[] | MenuSubscriptionWhereInput;
+  OR?: MenuSubscriptionWhereInput[] | MenuSubscriptionWhereInput;
+  NOT?: MenuSubscriptionWhereInput[] | MenuSubscriptionWhereInput;
+}
+
+export interface DateUpdateManyMutationInput {
+  timestamp?: String;
+}
+
+export interface PlaceUpdateManyMutationInput {
+  name?: String;
+  url?: String;
+}
+
+export interface EventUpdateWithoutMenusDataInput {
+  slug?: String;
+  title?: String;
+  description?: String;
+  dates?: DateUpdateManyWithoutEventInput;
+  places?: PlaceUpdateManyWithoutEventInput;
+  participants?: ParticipantUpdateManyWithoutEventInput;
+}
+
+export type MenuWhereUniqueInput = AtLeastOne<{
+  id: ID_Input;
+}>;
+
+export interface EventUpdateOneRequiredWithoutMenusInput {
+  create?: EventCreateWithoutMenusInput;
+  update?: EventUpdateWithoutMenusDataInput;
+  upsert?: EventUpsertWithoutMenusInput;
+  connect?: EventWhereUniqueInput;
+}
+
+export type ParticipantWhereUniqueInput = AtLeastOne<{
+  id: ID_Input;
+}>;
+
+export interface EventCreateInput {
   slug: String;
   title: String;
   description?: String;
   dates?: DateCreateManyWithoutEventInput;
   places?: PlaceCreateManyWithoutEventInput;
-  menus?: EventCreatemenusInput;
+  menus?: MenuCreateManyWithoutEventInput;
+  participants?: ParticipantCreateManyWithoutEventInput;
+}
+
+export type PlaceWhereUniqueInput = AtLeastOne<{
+  id: ID_Input;
+}>;
+
+export interface DateCreateManyWithoutEventInput {
+  create?: DateCreateWithoutEventInput[] | DateCreateWithoutEventInput;
+  connect?: DateWhereUniqueInput[] | DateWhereUniqueInput;
+}
+
+export interface PlaceCreateManyWithoutEventInput {
+  create?: PlaceCreateWithoutEventInput[] | PlaceCreateWithoutEventInput;
+  connect?: PlaceWhereUniqueInput[] | PlaceWhereUniqueInput;
+}
+
+export interface DateCreateWithoutEventInput {
+  timestamp: String;
 }
 
 export interface ParticipantCreateManyWithoutEventInput {
@@ -763,138 +1068,18 @@ export interface ParticipantCreateManyWithoutEventInput {
   connect?: ParticipantWhereUniqueInput[] | ParticipantWhereUniqueInput;
 }
 
-export interface EventCreateOneWithoutParticipantsInput {
-  create?: EventCreateWithoutParticipantsInput;
-  connect?: EventWhereUniqueInput;
-}
-
-export interface ParticipantCreatedatesInput {
-  set?: ID_Input[] | ID_Input;
-}
-
-export interface ParticipantUpdateManyWithWhereNestedInput {
-  where: ParticipantScalarWhereInput;
-  data: ParticipantUpdateManyDataInput;
-}
-
-export interface DateUpdateInput {
-  timestamp?: String;
-  event?: EventUpdateOneRequiredWithoutDatesInput;
-}
-
-export interface ParticipantUpdateManyDataInput {
-  name?: String;
-  dates?: ParticipantUpdatedatesInput;
-  places?: ParticipantUpdateplacesInput;
-}
-
-export interface PlaceSubscriptionWhereInput {
-  mutation_in?: MutationType[] | MutationType;
-  updatedFields_contains?: String;
-  updatedFields_contains_every?: String[] | String;
-  updatedFields_contains_some?: String[] | String;
-  node?: PlaceWhereInput;
-  AND?: PlaceSubscriptionWhereInput[] | PlaceSubscriptionWhereInput;
-  OR?: PlaceSubscriptionWhereInput[] | PlaceSubscriptionWhereInput;
-  NOT?: PlaceSubscriptionWhereInput[] | PlaceSubscriptionWhereInput;
-}
-
-export interface EventUpsertWithoutDatesInput {
-  update: EventUpdateWithoutDatesDataInput;
-  create: EventCreateWithoutDatesInput;
-}
-
-export interface PlaceUpdateManyMutationInput {
-  name?: String;
-  url?: String;
-}
-
-export interface DateUpdateManyMutationInput {
-  timestamp?: String;
-}
-
-export interface EventUpdateOneRequiredWithoutPlacesInput {
-  create?: EventCreateWithoutPlacesInput;
-  update?: EventUpdateWithoutPlacesDataInput;
-  upsert?: EventUpsertWithoutPlacesInput;
-  connect?: EventWhereUniqueInput;
-}
-
-export interface ParticipantCreateInput {
-  name: String;
-  dates?: ParticipantCreatedatesInput;
-  places?: ParticipantCreateplacesInput;
-  event: EventCreateOneWithoutParticipantsInput;
-}
-
-export interface EventCreateOneWithoutPlacesInput {
-  create?: EventCreateWithoutPlacesInput;
-  connect?: EventWhereUniqueInput;
-}
-
-export interface EventUpdateManyMutationInput {
-  slug?: String;
-  title?: String;
-  description?: String;
-  menus?: EventUpdatemenusInput;
-}
-
-export interface EventUpsertWithoutParticipantsInput {
-  update: EventUpdateWithoutParticipantsDataInput;
-  create: EventCreateWithoutParticipantsInput;
-}
-
-export interface EventCreateInput {
-  slug: String;
-  title: String;
-  description?: String;
-  dates?: DateCreateManyWithoutEventInput;
-  places?: PlaceCreateManyWithoutEventInput;
-  menus?: EventCreatemenusInput;
-  participants?: ParticipantCreateManyWithoutEventInput;
-}
-
-export interface EventCreateOneWithoutDatesInput {
-  create?: EventCreateWithoutDatesInput;
-  connect?: EventWhereUniqueInput;
-}
-
-export interface DateCreateManyWithoutEventInput {
-  create?: DateCreateWithoutEventInput[] | DateCreateWithoutEventInput;
-  connect?: DateWhereUniqueInput[] | DateWhereUniqueInput;
-}
-
-export interface EventCreatemenusInput {
-  set?: String[] | String;
-}
-
-export interface DateCreateWithoutEventInput {
-  timestamp: String;
-}
-
-export interface ParticipantCreateplacesInput {
-  set?: ID_Input[] | ID_Input;
-}
-
 export interface EventUpdateInput {
   slug?: String;
   title?: String;
   description?: String;
   dates?: DateUpdateManyWithoutEventInput;
   places?: PlaceUpdateManyWithoutEventInput;
-  menus?: EventUpdatemenusInput;
+  menus?: MenuUpdateManyWithoutEventInput;
   participants?: ParticipantUpdateManyWithoutEventInput;
 }
 
-export interface EventSubscriptionWhereInput {
-  mutation_in?: MutationType[] | MutationType;
-  updatedFields_contains?: String;
-  updatedFields_contains_every?: String[] | String;
-  updatedFields_contains_some?: String[] | String;
-  node?: EventWhereInput;
-  AND?: EventSubscriptionWhereInput[] | EventSubscriptionWhereInput;
-  OR?: EventSubscriptionWhereInput[] | EventSubscriptionWhereInput;
-  NOT?: EventSubscriptionWhereInput[] | EventSubscriptionWhereInput;
+export interface ParticipantCreatemenusInput {
+  set?: ID_Input[] | ID_Input;
 }
 
 export interface DateUpdateManyWithoutEventInput {
@@ -914,24 +1099,63 @@ export interface DateUpdateManyWithoutEventInput {
     | DateUpdateManyWithWhereNestedInput;
 }
 
-export type ParticipantWhereUniqueInput = AtLeastOne<{
-  id: ID_Input;
-}>;
+export interface PlaceUpdateManyWithoutEventInput {
+  create?: PlaceCreateWithoutEventInput[] | PlaceCreateWithoutEventInput;
+  delete?: PlaceWhereUniqueInput[] | PlaceWhereUniqueInput;
+  connect?: PlaceWhereUniqueInput[] | PlaceWhereUniqueInput;
+  disconnect?: PlaceWhereUniqueInput[] | PlaceWhereUniqueInput;
+  update?:
+    | PlaceUpdateWithWhereUniqueWithoutEventInput[]
+    | PlaceUpdateWithWhereUniqueWithoutEventInput;
+  upsert?:
+    | PlaceUpsertWithWhereUniqueWithoutEventInput[]
+    | PlaceUpsertWithWhereUniqueWithoutEventInput;
+  deleteMany?: PlaceScalarWhereInput[] | PlaceScalarWhereInput;
+  updateMany?:
+    | PlaceUpdateManyWithWhereNestedInput[]
+    | PlaceUpdateManyWithWhereNestedInput;
+}
 
 export interface DateUpdateWithWhereUniqueWithoutEventInput {
   where: DateWhereUniqueInput;
   data: DateUpdateWithoutEventDataInput;
 }
 
-export interface ParticipantCreateWithoutEventInput {
-  name: String;
-  dates?: ParticipantCreatedatesInput;
-  places?: ParticipantCreateplacesInput;
+export interface DateSubscriptionWhereInput {
+  mutation_in?: MutationType[] | MutationType;
+  updatedFields_contains?: String;
+  updatedFields_contains_every?: String[] | String;
+  updatedFields_contains_some?: String[] | String;
+  node?: DateWhereInput;
+  AND?: DateSubscriptionWhereInput[] | DateSubscriptionWhereInput;
+  OR?: DateSubscriptionWhereInput[] | DateSubscriptionWhereInput;
+  NOT?: DateSubscriptionWhereInput[] | DateSubscriptionWhereInput;
 }
 
-export interface DateUpdateManyWithWhereNestedInput {
-  where: DateScalarWhereInput;
-  data: DateUpdateManyDataInput;
+export interface DateUpdateWithoutEventDataInput {
+  timestamp?: String;
+}
+
+export interface EventCreateWithoutPlacesInput {
+  slug: String;
+  title: String;
+  description?: String;
+  dates?: DateCreateManyWithoutEventInput;
+  menus?: MenuCreateManyWithoutEventInput;
+  participants?: ParticipantCreateManyWithoutEventInput;
+}
+
+export interface DateUpsertWithWhereUniqueWithoutEventInput {
+  where: DateWhereUniqueInput;
+  update: DateUpdateWithoutEventDataInput;
+  create: DateCreateWithoutEventInput;
+}
+
+export interface EventUpdateOneRequiredWithoutParticipantsInput {
+  create?: EventCreateWithoutParticipantsInput;
+  update?: EventUpdateWithoutParticipantsDataInput;
+  upsert?: EventUpsertWithoutParticipantsInput;
+  connect?: EventWhereUniqueInput;
 }
 
 export interface DateScalarWhereInput {
@@ -968,14 +1192,14 @@ export interface DateScalarWhereInput {
   NOT?: DateScalarWhereInput[] | DateScalarWhereInput;
 }
 
-export interface DateUpsertWithWhereUniqueWithoutEventInput {
-  where: DateWhereUniqueInput;
-  update: DateUpdateWithoutEventDataInput;
-  create: DateCreateWithoutEventInput;
+export interface MenuCreateManyWithoutEventInput {
+  create?: MenuCreateWithoutEventInput[] | MenuCreateWithoutEventInput;
+  connect?: MenuWhereUniqueInput[] | MenuWhereUniqueInput;
 }
 
-export interface DateUpdateWithoutEventDataInput {
-  timestamp?: String;
+export interface DateUpdateManyWithWhereNestedInput {
+  where: DateScalarWhereInput;
+  data: DateUpdateManyDataInput;
 }
 
 export interface EventUpdateOneRequiredWithoutDatesInput {
@@ -985,18 +1209,70 @@ export interface EventUpdateOneRequiredWithoutDatesInput {
   connect?: EventWhereUniqueInput;
 }
 
-export interface PlaceCreateManyWithoutEventInput {
-  create?: PlaceCreateWithoutEventInput[] | PlaceCreateWithoutEventInput;
-  connect?: PlaceWhereUniqueInput[] | PlaceWhereUniqueInput;
+export interface DateUpdateManyDataInput {
+  timestamp?: String;
 }
 
-export type PlaceWhereUniqueInput = AtLeastOne<{
-  id: ID_Input;
-}>;
+export interface EventUpdateWithoutPlacesDataInput {
+  slug?: String;
+  title?: String;
+  description?: String;
+  dates?: DateUpdateManyWithoutEventInput;
+  menus?: MenuUpdateManyWithoutEventInput;
+  participants?: ParticipantUpdateManyWithoutEventInput;
+}
 
-export interface EventUpsertWithoutPlacesInput {
-  update: EventUpdateWithoutPlacesDataInput;
-  create: EventCreateWithoutPlacesInput;
+export interface EventCreateWithoutMenusInput {
+  slug: String;
+  title: String;
+  description?: String;
+  dates?: DateCreateManyWithoutEventInput;
+  places?: PlaceCreateManyWithoutEventInput;
+  participants?: ParticipantCreateManyWithoutEventInput;
+}
+
+export interface EventCreateOneWithoutMenusInput {
+  create?: EventCreateWithoutMenusInput;
+  connect?: EventWhereUniqueInput;
+}
+
+export interface MenuCreateInput {
+  name: String;
+  url?: String;
+  event: EventCreateOneWithoutMenusInput;
+}
+
+export interface EventUpdateManyMutationInput {
+  slug?: String;
+  title?: String;
+  description?: String;
+}
+
+export interface ParticipantUpdateManyMutationInput {
+  name?: String;
+  dates?: ParticipantUpdatedatesInput;
+  places?: ParticipantUpdateplacesInput;
+  menus?: ParticipantUpdatemenusInput;
+}
+
+export interface PlaceSubscriptionWhereInput {
+  mutation_in?: MutationType[] | MutationType;
+  updatedFields_contains?: String;
+  updatedFields_contains_every?: String[] | String;
+  updatedFields_contains_some?: String[] | String;
+  node?: PlaceWhereInput;
+  AND?: PlaceSubscriptionWhereInput[] | PlaceSubscriptionWhereInput;
+  OR?: PlaceSubscriptionWhereInput[] | PlaceSubscriptionWhereInput;
+  NOT?: PlaceSubscriptionWhereInput[] | PlaceSubscriptionWhereInput;
+}
+
+export interface ParticipantCreatedatesInput {
+  set?: ID_Input[] | ID_Input;
+}
+
+export interface EventCreateOneWithoutDatesInput {
+  create?: EventCreateWithoutDatesInput;
+  connect?: EventWhereUniqueInput;
 }
 
 export interface NodeNode {
@@ -1023,6 +1299,119 @@ export interface PlacePreviousValuesSubscription
   id: () => Promise<AsyncIterator<ID_Output>>;
   name: () => Promise<AsyncIterator<String>>;
   url: () => Promise<AsyncIterator<String>>;
+}
+
+export interface EventConnection {}
+
+export interface EventConnectionPromise
+  extends Promise<EventConnection>,
+    Fragmentable {
+  pageInfo: <T = PageInfoPromise>() => T;
+  edges: <T = FragmentableArray<EventEdge>>() => T;
+  aggregate: <T = AggregateEventPromise>() => T;
+}
+
+export interface EventConnectionSubscription
+  extends Promise<AsyncIterator<EventConnection>>,
+    Fragmentable {
+  pageInfo: <T = PageInfoSubscription>() => T;
+  edges: <T = Promise<AsyncIterator<EventEdgeSubscription>>>() => T;
+  aggregate: <T = AggregateEventSubscription>() => T;
+}
+
+export interface Event {
+  id: ID_Output;
+  slug: String;
+  title: String;
+  description?: String;
+}
+
+export interface EventPromise extends Promise<Event>, Fragmentable {
+  id: () => Promise<ID_Output>;
+  slug: () => Promise<String>;
+  title: () => Promise<String>;
+  description: () => Promise<String>;
+  dates: <T = FragmentableArray<Date>>(args?: {
+    where?: DateWhereInput;
+    orderBy?: DateOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+  places: <T = FragmentableArray<Place>>(args?: {
+    where?: PlaceWhereInput;
+    orderBy?: PlaceOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+  menus: <T = FragmentableArray<Menu>>(args?: {
+    where?: MenuWhereInput;
+    orderBy?: MenuOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+  participants: <T = FragmentableArray<Participant>>(args?: {
+    where?: ParticipantWhereInput;
+    orderBy?: ParticipantOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+}
+
+export interface EventSubscription
+  extends Promise<AsyncIterator<Event>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  slug: () => Promise<AsyncIterator<String>>;
+  title: () => Promise<AsyncIterator<String>>;
+  description: () => Promise<AsyncIterator<String>>;
+  dates: <T = Promise<AsyncIterator<DateSubscription>>>(args?: {
+    where?: DateWhereInput;
+    orderBy?: DateOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+  places: <T = Promise<AsyncIterator<PlaceSubscription>>>(args?: {
+    where?: PlaceWhereInput;
+    orderBy?: PlaceOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+  menus: <T = Promise<AsyncIterator<MenuSubscription>>>(args?: {
+    where?: MenuWhereInput;
+    orderBy?: MenuOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+  participants: <T = Promise<AsyncIterator<ParticipantSubscription>>>(args?: {
+    where?: ParticipantWhereInput;
+    orderBy?: ParticipantOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
 }
 
 export interface EventEdge {
@@ -1064,104 +1453,6 @@ export interface ParticipantSubscriptionPayloadSubscription
   previousValues: <T = ParticipantPreviousValuesSubscription>() => T;
 }
 
-export interface EventConnection {}
-
-export interface EventConnectionPromise
-  extends Promise<EventConnection>,
-    Fragmentable {
-  pageInfo: <T = PageInfoPromise>() => T;
-  edges: <T = FragmentableArray<EventEdge>>() => T;
-  aggregate: <T = AggregateEventPromise>() => T;
-}
-
-export interface EventConnectionSubscription
-  extends Promise<AsyncIterator<EventConnection>>,
-    Fragmentable {
-  pageInfo: <T = PageInfoSubscription>() => T;
-  edges: <T = Promise<AsyncIterator<EventEdgeSubscription>>>() => T;
-  aggregate: <T = AggregateEventSubscription>() => T;
-}
-
-export interface Event {
-  id: ID_Output;
-  slug: String;
-  title: String;
-  description?: String;
-  menus: String[];
-}
-
-export interface EventPromise extends Promise<Event>, Fragmentable {
-  id: () => Promise<ID_Output>;
-  slug: () => Promise<String>;
-  title: () => Promise<String>;
-  description: () => Promise<String>;
-  dates: <T = FragmentableArray<Date>>(args?: {
-    where?: DateWhereInput;
-    orderBy?: DateOrderByInput;
-    skip?: Int;
-    after?: String;
-    before?: String;
-    first?: Int;
-    last?: Int;
-  }) => T;
-  places: <T = FragmentableArray<Place>>(args?: {
-    where?: PlaceWhereInput;
-    orderBy?: PlaceOrderByInput;
-    skip?: Int;
-    after?: String;
-    before?: String;
-    first?: Int;
-    last?: Int;
-  }) => T;
-  menus: () => Promise<String[]>;
-  participants: <T = FragmentableArray<Participant>>(args?: {
-    where?: ParticipantWhereInput;
-    orderBy?: ParticipantOrderByInput;
-    skip?: Int;
-    after?: String;
-    before?: String;
-    first?: Int;
-    last?: Int;
-  }) => T;
-}
-
-export interface EventSubscription
-  extends Promise<AsyncIterator<Event>>,
-    Fragmentable {
-  id: () => Promise<AsyncIterator<ID_Output>>;
-  slug: () => Promise<AsyncIterator<String>>;
-  title: () => Promise<AsyncIterator<String>>;
-  description: () => Promise<AsyncIterator<String>>;
-  dates: <T = Promise<AsyncIterator<DateSubscription>>>(args?: {
-    where?: DateWhereInput;
-    orderBy?: DateOrderByInput;
-    skip?: Int;
-    after?: String;
-    before?: String;
-    first?: Int;
-    last?: Int;
-  }) => T;
-  places: <T = Promise<AsyncIterator<PlaceSubscription>>>(args?: {
-    where?: PlaceWhereInput;
-    orderBy?: PlaceOrderByInput;
-    skip?: Int;
-    after?: String;
-    before?: String;
-    first?: Int;
-    last?: Int;
-  }) => T;
-  menus: () => Promise<AsyncIterator<String[]>>;
-  participants: <T = Promise<AsyncIterator<ParticipantSubscription>>>(args?: {
-    where?: ParticipantWhereInput;
-    orderBy?: ParticipantOrderByInput;
-    skip?: Int;
-    after?: String;
-    before?: String;
-    first?: Int;
-    last?: Int;
-  }) => T;
-}
-
 export interface BatchPayload {
   count: Long;
 }
@@ -1178,194 +1469,12 @@ export interface BatchPayloadSubscription
   count: () => Promise<AsyncIterator<Long>>;
 }
 
-export interface Place {
-  id: ID_Output;
-  name: String;
-  url?: String;
-}
-
-export interface PlacePromise extends Promise<Place>, Fragmentable {
-  id: () => Promise<ID_Output>;
-  name: () => Promise<String>;
-  url: () => Promise<String>;
-  event: <T = EventPromise>() => T;
-}
-
-export interface PlaceSubscription
-  extends Promise<AsyncIterator<Place>>,
-    Fragmentable {
-  id: () => Promise<AsyncIterator<ID_Output>>;
-  name: () => Promise<AsyncIterator<String>>;
-  url: () => Promise<AsyncIterator<String>>;
-  event: <T = EventSubscription>() => T;
-}
-
-export interface AggregateDate {
-  count: Int;
-}
-
-export interface AggregateDatePromise
-  extends Promise<AggregateDate>,
-    Fragmentable {
-  count: () => Promise<Int>;
-}
-
-export interface AggregateDateSubscription
-  extends Promise<AsyncIterator<AggregateDate>>,
-    Fragmentable {
-  count: () => Promise<AsyncIterator<Int>>;
-}
-
-export interface DateConnection {}
-
-export interface DateConnectionPromise
-  extends Promise<DateConnection>,
-    Fragmentable {
-  pageInfo: <T = PageInfoPromise>() => T;
-  edges: <T = FragmentableArray<DateEdge>>() => T;
-  aggregate: <T = AggregateDatePromise>() => T;
-}
-
-export interface DateConnectionSubscription
-  extends Promise<AsyncIterator<DateConnection>>,
-    Fragmentable {
-  pageInfo: <T = PageInfoSubscription>() => T;
-  edges: <T = Promise<AsyncIterator<DateEdgeSubscription>>>() => T;
-  aggregate: <T = AggregateDateSubscription>() => T;
-}
-
-export interface DateEdge {
-  cursor: String;
-}
-
-export interface DateEdgePromise extends Promise<DateEdge>, Fragmentable {
-  node: <T = DatePromise>() => T;
-  cursor: () => Promise<String>;
-}
-
-export interface DateEdgeSubscription
-  extends Promise<AsyncIterator<DateEdge>>,
-    Fragmentable {
-  node: <T = DateSubscription>() => T;
-  cursor: () => Promise<AsyncIterator<String>>;
-}
-
-export interface PlaceEdge {
-  cursor: String;
-}
-
-export interface PlaceEdgePromise extends Promise<PlaceEdge>, Fragmentable {
-  node: <T = PlacePromise>() => T;
-  cursor: () => Promise<String>;
-}
-
-export interface PlaceEdgeSubscription
-  extends Promise<AsyncIterator<PlaceEdge>>,
-    Fragmentable {
-  node: <T = PlaceSubscription>() => T;
-  cursor: () => Promise<AsyncIterator<String>>;
-}
-
-export interface Date {
-  id: ID_Output;
-  timestamp: String;
-}
-
-export interface DatePromise extends Promise<Date>, Fragmentable {
-  id: () => Promise<ID_Output>;
-  timestamp: () => Promise<String>;
-  event: <T = EventPromise>() => T;
-}
-
-export interface DateSubscription
-  extends Promise<AsyncIterator<Date>>,
-    Fragmentable {
-  id: () => Promise<AsyncIterator<ID_Output>>;
-  timestamp: () => Promise<AsyncIterator<String>>;
-  event: <T = EventSubscription>() => T;
-}
-
-export interface AggregateParticipant {
-  count: Int;
-}
-
-export interface AggregateParticipantPromise
-  extends Promise<AggregateParticipant>,
-    Fragmentable {
-  count: () => Promise<Int>;
-}
-
-export interface AggregateParticipantSubscription
-  extends Promise<AsyncIterator<AggregateParticipant>>,
-    Fragmentable {
-  count: () => Promise<AsyncIterator<Int>>;
-}
-
-export interface DateSubscriptionPayload {
-  mutation: MutationType;
-  updatedFields?: String[];
-}
-
-export interface DateSubscriptionPayloadPromise
-  extends Promise<DateSubscriptionPayload>,
-    Fragmentable {
-  mutation: () => Promise<MutationType>;
-  node: <T = DatePromise>() => T;
-  updatedFields: () => Promise<String[]>;
-  previousValues: <T = DatePreviousValuesPromise>() => T;
-}
-
-export interface DateSubscriptionPayloadSubscription
-  extends Promise<AsyncIterator<DateSubscriptionPayload>>,
-    Fragmentable {
-  mutation: () => Promise<AsyncIterator<MutationType>>;
-  node: <T = DateSubscription>() => T;
-  updatedFields: () => Promise<AsyncIterator<String[]>>;
-  previousValues: <T = DatePreviousValuesSubscription>() => T;
-}
-
-export interface ParticipantConnection {}
-
-export interface ParticipantConnectionPromise
-  extends Promise<ParticipantConnection>,
-    Fragmentable {
-  pageInfo: <T = PageInfoPromise>() => T;
-  edges: <T = FragmentableArray<ParticipantEdge>>() => T;
-  aggregate: <T = AggregateParticipantPromise>() => T;
-}
-
-export interface ParticipantConnectionSubscription
-  extends Promise<AsyncIterator<ParticipantConnection>>,
-    Fragmentable {
-  pageInfo: <T = PageInfoSubscription>() => T;
-  edges: <T = Promise<AsyncIterator<ParticipantEdgeSubscription>>>() => T;
-  aggregate: <T = AggregateParticipantSubscription>() => T;
-}
-
-export interface DatePreviousValues {
-  id: ID_Output;
-  timestamp: String;
-}
-
-export interface DatePreviousValuesPromise
-  extends Promise<DatePreviousValues>,
-    Fragmentable {
-  id: () => Promise<ID_Output>;
-  timestamp: () => Promise<String>;
-}
-
-export interface DatePreviousValuesSubscription
-  extends Promise<AsyncIterator<DatePreviousValues>>,
-    Fragmentable {
-  id: () => Promise<AsyncIterator<ID_Output>>;
-  timestamp: () => Promise<AsyncIterator<String>>;
-}
-
 export interface Participant {
   id: ID_Output;
   name: String;
   dates: ID_Output[];
   places: ID_Output[];
+  menus: ID_Output[];
 }
 
 export interface ParticipantPromise extends Promise<Participant>, Fragmentable {
@@ -1373,6 +1482,7 @@ export interface ParticipantPromise extends Promise<Participant>, Fragmentable {
   name: () => Promise<String>;
   dates: () => Promise<ID_Output[]>;
   places: () => Promise<ID_Output[]>;
+  menus: () => Promise<ID_Output[]>;
   event: <T = EventPromise>() => T;
 }
 
@@ -1383,140 +1493,30 @@ export interface ParticipantSubscription
   name: () => Promise<AsyncIterator<String>>;
   dates: () => Promise<AsyncIterator<ID_Output[]>>;
   places: () => Promise<AsyncIterator<ID_Output[]>>;
+  menus: () => Promise<AsyncIterator<ID_Output[]>>;
   event: <T = EventSubscription>() => T;
 }
 
-export interface AggregatePlace {
-  count: Int;
-}
-
-export interface AggregatePlacePromise
-  extends Promise<AggregatePlace>,
-    Fragmentable {
-  count: () => Promise<Int>;
-}
-
-export interface AggregatePlaceSubscription
-  extends Promise<AsyncIterator<AggregatePlace>>,
-    Fragmentable {
-  count: () => Promise<AsyncIterator<Int>>;
-}
-
-export interface PageInfo {
-  hasNextPage: Boolean;
-  hasPreviousPage: Boolean;
-  startCursor?: String;
-  endCursor?: String;
-}
-
-export interface PageInfoPromise extends Promise<PageInfo>, Fragmentable {
-  hasNextPage: () => Promise<Boolean>;
-  hasPreviousPage: () => Promise<Boolean>;
-  startCursor: () => Promise<String>;
-  endCursor: () => Promise<String>;
-}
-
-export interface PageInfoSubscription
-  extends Promise<AsyncIterator<PageInfo>>,
-    Fragmentable {
-  hasNextPage: () => Promise<AsyncIterator<Boolean>>;
-  hasPreviousPage: () => Promise<AsyncIterator<Boolean>>;
-  startCursor: () => Promise<AsyncIterator<String>>;
-  endCursor: () => Promise<AsyncIterator<String>>;
-}
-
-export interface EventPreviousValues {
-  id: ID_Output;
-  slug: String;
-  title: String;
-  description?: String;
-  menus: String[];
-}
-
-export interface EventPreviousValuesPromise
-  extends Promise<EventPreviousValues>,
-    Fragmentable {
-  id: () => Promise<ID_Output>;
-  slug: () => Promise<String>;
-  title: () => Promise<String>;
-  description: () => Promise<String>;
-  menus: () => Promise<String[]>;
-}
-
-export interface EventPreviousValuesSubscription
-  extends Promise<AsyncIterator<EventPreviousValues>>,
-    Fragmentable {
-  id: () => Promise<AsyncIterator<ID_Output>>;
-  slug: () => Promise<AsyncIterator<String>>;
-  title: () => Promise<AsyncIterator<String>>;
-  description: () => Promise<AsyncIterator<String>>;
-  menus: () => Promise<AsyncIterator<String[]>>;
-}
-
-export interface EventSubscriptionPayload {
-  mutation: MutationType;
-  updatedFields?: String[];
-}
-
-export interface EventSubscriptionPayloadPromise
-  extends Promise<EventSubscriptionPayload>,
-    Fragmentable {
-  mutation: () => Promise<MutationType>;
-  node: <T = EventPromise>() => T;
-  updatedFields: () => Promise<String[]>;
-  previousValues: <T = EventPreviousValuesPromise>() => T;
-}
-
-export interface EventSubscriptionPayloadSubscription
-  extends Promise<AsyncIterator<EventSubscriptionPayload>>,
-    Fragmentable {
-  mutation: () => Promise<AsyncIterator<MutationType>>;
-  node: <T = EventSubscription>() => T;
-  updatedFields: () => Promise<AsyncIterator<String[]>>;
-  previousValues: <T = EventPreviousValuesSubscription>() => T;
-}
-
-export interface ParticipantPreviousValues {
+export interface Menu {
   id: ID_Output;
   name: String;
-  dates: ID_Output[];
-  places: ID_Output[];
+  url?: String;
 }
 
-export interface ParticipantPreviousValuesPromise
-  extends Promise<ParticipantPreviousValues>,
-    Fragmentable {
+export interface MenuPromise extends Promise<Menu>, Fragmentable {
   id: () => Promise<ID_Output>;
   name: () => Promise<String>;
-  dates: () => Promise<ID_Output[]>;
-  places: () => Promise<ID_Output[]>;
+  url: () => Promise<String>;
+  event: <T = EventPromise>() => T;
 }
 
-export interface ParticipantPreviousValuesSubscription
-  extends Promise<AsyncIterator<ParticipantPreviousValues>>,
+export interface MenuSubscription
+  extends Promise<AsyncIterator<Menu>>,
     Fragmentable {
   id: () => Promise<AsyncIterator<ID_Output>>;
   name: () => Promise<AsyncIterator<String>>;
-  dates: () => Promise<AsyncIterator<ID_Output[]>>;
-  places: () => Promise<AsyncIterator<ID_Output[]>>;
-}
-
-export interface PlaceConnection {}
-
-export interface PlaceConnectionPromise
-  extends Promise<PlaceConnection>,
-    Fragmentable {
-  pageInfo: <T = PageInfoPromise>() => T;
-  edges: <T = FragmentableArray<PlaceEdge>>() => T;
-  aggregate: <T = AggregatePlacePromise>() => T;
-}
-
-export interface PlaceConnectionSubscription
-  extends Promise<AsyncIterator<PlaceConnection>>,
-    Fragmentable {
-  pageInfo: <T = PageInfoSubscription>() => T;
-  edges: <T = Promise<AsyncIterator<PlaceEdgeSubscription>>>() => T;
-  aggregate: <T = AggregatePlaceSubscription>() => T;
+  url: () => Promise<AsyncIterator<String>>;
+  event: <T = EventSubscription>() => T;
 }
 
 export interface PlaceSubscriptionPayload {
@@ -1542,20 +1542,96 @@ export interface PlaceSubscriptionPayloadSubscription
   previousValues: <T = PlacePreviousValuesSubscription>() => T;
 }
 
-export interface AggregateEvent {
+export interface AggregateDate {
   count: Int;
 }
 
-export interface AggregateEventPromise
-  extends Promise<AggregateEvent>,
+export interface AggregateDatePromise
+  extends Promise<AggregateDate>,
     Fragmentable {
   count: () => Promise<Int>;
 }
 
-export interface AggregateEventSubscription
-  extends Promise<AsyncIterator<AggregateEvent>>,
+export interface AggregateDateSubscription
+  extends Promise<AsyncIterator<AggregateDate>>,
     Fragmentable {
   count: () => Promise<AsyncIterator<Int>>;
+}
+
+export interface AggregatePlace {
+  count: Int;
+}
+
+export interface AggregatePlacePromise
+  extends Promise<AggregatePlace>,
+    Fragmentable {
+  count: () => Promise<Int>;
+}
+
+export interface AggregatePlaceSubscription
+  extends Promise<AsyncIterator<AggregatePlace>>,
+    Fragmentable {
+  count: () => Promise<AsyncIterator<Int>>;
+}
+
+export interface Date {
+  id: ID_Output;
+  timestamp: String;
+}
+
+export interface DatePromise extends Promise<Date>, Fragmentable {
+  id: () => Promise<ID_Output>;
+  timestamp: () => Promise<String>;
+  event: <T = EventPromise>() => T;
+}
+
+export interface DateSubscription
+  extends Promise<AsyncIterator<Date>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  timestamp: () => Promise<AsyncIterator<String>>;
+  event: <T = EventSubscription>() => T;
+}
+
+export interface PlaceConnection {}
+
+export interface PlaceConnectionPromise
+  extends Promise<PlaceConnection>,
+    Fragmentable {
+  pageInfo: <T = PageInfoPromise>() => T;
+  edges: <T = FragmentableArray<PlaceEdge>>() => T;
+  aggregate: <T = AggregatePlacePromise>() => T;
+}
+
+export interface PlaceConnectionSubscription
+  extends Promise<AsyncIterator<PlaceConnection>>,
+    Fragmentable {
+  pageInfo: <T = PageInfoSubscription>() => T;
+  edges: <T = Promise<AsyncIterator<PlaceEdgeSubscription>>>() => T;
+  aggregate: <T = AggregatePlaceSubscription>() => T;
+}
+
+export interface DateSubscriptionPayload {
+  mutation: MutationType;
+  updatedFields?: String[];
+}
+
+export interface DateSubscriptionPayloadPromise
+  extends Promise<DateSubscriptionPayload>,
+    Fragmentable {
+  mutation: () => Promise<MutationType>;
+  node: <T = DatePromise>() => T;
+  updatedFields: () => Promise<String[]>;
+  previousValues: <T = DatePreviousValuesPromise>() => T;
+}
+
+export interface DateSubscriptionPayloadSubscription
+  extends Promise<AsyncIterator<DateSubscriptionPayload>>,
+    Fragmentable {
+  mutation: () => Promise<AsyncIterator<MutationType>>;
+  node: <T = DateSubscription>() => T;
+  updatedFields: () => Promise<AsyncIterator<String[]>>;
+  previousValues: <T = DatePreviousValuesSubscription>() => T;
 }
 
 export interface ParticipantEdge {
@@ -1574,6 +1650,341 @@ export interface ParticipantEdgeSubscription
     Fragmentable {
   node: <T = ParticipantSubscription>() => T;
   cursor: () => Promise<AsyncIterator<String>>;
+}
+
+export interface DatePreviousValues {
+  id: ID_Output;
+  timestamp: String;
+}
+
+export interface DatePreviousValuesPromise
+  extends Promise<DatePreviousValues>,
+    Fragmentable {
+  id: () => Promise<ID_Output>;
+  timestamp: () => Promise<String>;
+}
+
+export interface DatePreviousValuesSubscription
+  extends Promise<AsyncIterator<DatePreviousValues>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  timestamp: () => Promise<AsyncIterator<String>>;
+}
+
+export interface AggregateMenu {
+  count: Int;
+}
+
+export interface AggregateMenuPromise
+  extends Promise<AggregateMenu>,
+    Fragmentable {
+  count: () => Promise<Int>;
+}
+
+export interface AggregateMenuSubscription
+  extends Promise<AsyncIterator<AggregateMenu>>,
+    Fragmentable {
+  count: () => Promise<AsyncIterator<Int>>;
+}
+
+export interface DateEdge {
+  cursor: String;
+}
+
+export interface DateEdgePromise extends Promise<DateEdge>, Fragmentable {
+  node: <T = DatePromise>() => T;
+  cursor: () => Promise<String>;
+}
+
+export interface DateEdgeSubscription
+  extends Promise<AsyncIterator<DateEdge>>,
+    Fragmentable {
+  node: <T = DateSubscription>() => T;
+  cursor: () => Promise<AsyncIterator<String>>;
+}
+
+export interface MenuConnection {}
+
+export interface MenuConnectionPromise
+  extends Promise<MenuConnection>,
+    Fragmentable {
+  pageInfo: <T = PageInfoPromise>() => T;
+  edges: <T = FragmentableArray<MenuEdge>>() => T;
+  aggregate: <T = AggregateMenuPromise>() => T;
+}
+
+export interface MenuConnectionSubscription
+  extends Promise<AsyncIterator<MenuConnection>>,
+    Fragmentable {
+  pageInfo: <T = PageInfoSubscription>() => T;
+  edges: <T = Promise<AsyncIterator<MenuEdgeSubscription>>>() => T;
+  aggregate: <T = AggregateMenuSubscription>() => T;
+}
+
+export interface EventSubscriptionPayload {
+  mutation: MutationType;
+  updatedFields?: String[];
+}
+
+export interface EventSubscriptionPayloadPromise
+  extends Promise<EventSubscriptionPayload>,
+    Fragmentable {
+  mutation: () => Promise<MutationType>;
+  node: <T = EventPromise>() => T;
+  updatedFields: () => Promise<String[]>;
+  previousValues: <T = EventPreviousValuesPromise>() => T;
+}
+
+export interface EventSubscriptionPayloadSubscription
+  extends Promise<AsyncIterator<EventSubscriptionPayload>>,
+    Fragmentable {
+  mutation: () => Promise<AsyncIterator<MutationType>>;
+  node: <T = EventSubscription>() => T;
+  updatedFields: () => Promise<AsyncIterator<String[]>>;
+  previousValues: <T = EventPreviousValuesSubscription>() => T;
+}
+
+export interface Place {
+  id: ID_Output;
+  name: String;
+  url?: String;
+}
+
+export interface PlacePromise extends Promise<Place>, Fragmentable {
+  id: () => Promise<ID_Output>;
+  name: () => Promise<String>;
+  url: () => Promise<String>;
+  event: <T = EventPromise>() => T;
+}
+
+export interface PlaceSubscription
+  extends Promise<AsyncIterator<Place>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  name: () => Promise<AsyncIterator<String>>;
+  url: () => Promise<AsyncIterator<String>>;
+  event: <T = EventSubscription>() => T;
+}
+
+export interface EventPreviousValues {
+  id: ID_Output;
+  slug: String;
+  title: String;
+  description?: String;
+}
+
+export interface EventPreviousValuesPromise
+  extends Promise<EventPreviousValues>,
+    Fragmentable {
+  id: () => Promise<ID_Output>;
+  slug: () => Promise<String>;
+  title: () => Promise<String>;
+  description: () => Promise<String>;
+}
+
+export interface EventPreviousValuesSubscription
+  extends Promise<AsyncIterator<EventPreviousValues>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  slug: () => Promise<AsyncIterator<String>>;
+  title: () => Promise<AsyncIterator<String>>;
+  description: () => Promise<AsyncIterator<String>>;
+}
+
+export interface PlaceEdge {
+  cursor: String;
+}
+
+export interface PlaceEdgePromise extends Promise<PlaceEdge>, Fragmentable {
+  node: <T = PlacePromise>() => T;
+  cursor: () => Promise<String>;
+}
+
+export interface PlaceEdgeSubscription
+  extends Promise<AsyncIterator<PlaceEdge>>,
+    Fragmentable {
+  node: <T = PlaceSubscription>() => T;
+  cursor: () => Promise<AsyncIterator<String>>;
+}
+
+export interface ParticipantConnection {}
+
+export interface ParticipantConnectionPromise
+  extends Promise<ParticipantConnection>,
+    Fragmentable {
+  pageInfo: <T = PageInfoPromise>() => T;
+  edges: <T = FragmentableArray<ParticipantEdge>>() => T;
+  aggregate: <T = AggregateParticipantPromise>() => T;
+}
+
+export interface ParticipantConnectionSubscription
+  extends Promise<AsyncIterator<ParticipantConnection>>,
+    Fragmentable {
+  pageInfo: <T = PageInfoSubscription>() => T;
+  edges: <T = Promise<AsyncIterator<ParticipantEdgeSubscription>>>() => T;
+  aggregate: <T = AggregateParticipantSubscription>() => T;
+}
+
+export interface PageInfo {
+  hasNextPage: Boolean;
+  hasPreviousPage: Boolean;
+  startCursor?: String;
+  endCursor?: String;
+}
+
+export interface PageInfoPromise extends Promise<PageInfo>, Fragmentable {
+  hasNextPage: () => Promise<Boolean>;
+  hasPreviousPage: () => Promise<Boolean>;
+  startCursor: () => Promise<String>;
+  endCursor: () => Promise<String>;
+}
+
+export interface PageInfoSubscription
+  extends Promise<AsyncIterator<PageInfo>>,
+    Fragmentable {
+  hasNextPage: () => Promise<AsyncIterator<Boolean>>;
+  hasPreviousPage: () => Promise<AsyncIterator<Boolean>>;
+  startCursor: () => Promise<AsyncIterator<String>>;
+  endCursor: () => Promise<AsyncIterator<String>>;
+}
+
+export interface MenuPreviousValues {
+  id: ID_Output;
+  name: String;
+  url?: String;
+}
+
+export interface MenuPreviousValuesPromise
+  extends Promise<MenuPreviousValues>,
+    Fragmentable {
+  id: () => Promise<ID_Output>;
+  name: () => Promise<String>;
+  url: () => Promise<String>;
+}
+
+export interface MenuPreviousValuesSubscription
+  extends Promise<AsyncIterator<MenuPreviousValues>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  name: () => Promise<AsyncIterator<String>>;
+  url: () => Promise<AsyncIterator<String>>;
+}
+
+export interface MenuSubscriptionPayload {
+  mutation: MutationType;
+  updatedFields?: String[];
+}
+
+export interface MenuSubscriptionPayloadPromise
+  extends Promise<MenuSubscriptionPayload>,
+    Fragmentable {
+  mutation: () => Promise<MutationType>;
+  node: <T = MenuPromise>() => T;
+  updatedFields: () => Promise<String[]>;
+  previousValues: <T = MenuPreviousValuesPromise>() => T;
+}
+
+export interface MenuSubscriptionPayloadSubscription
+  extends Promise<AsyncIterator<MenuSubscriptionPayload>>,
+    Fragmentable {
+  mutation: () => Promise<AsyncIterator<MutationType>>;
+  node: <T = MenuSubscription>() => T;
+  updatedFields: () => Promise<AsyncIterator<String[]>>;
+  previousValues: <T = MenuPreviousValuesSubscription>() => T;
+}
+
+export interface ParticipantPreviousValues {
+  id: ID_Output;
+  name: String;
+  dates: ID_Output[];
+  places: ID_Output[];
+  menus: ID_Output[];
+}
+
+export interface ParticipantPreviousValuesPromise
+  extends Promise<ParticipantPreviousValues>,
+    Fragmentable {
+  id: () => Promise<ID_Output>;
+  name: () => Promise<String>;
+  dates: () => Promise<ID_Output[]>;
+  places: () => Promise<ID_Output[]>;
+  menus: () => Promise<ID_Output[]>;
+}
+
+export interface ParticipantPreviousValuesSubscription
+  extends Promise<AsyncIterator<ParticipantPreviousValues>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  name: () => Promise<AsyncIterator<String>>;
+  dates: () => Promise<AsyncIterator<ID_Output[]>>;
+  places: () => Promise<AsyncIterator<ID_Output[]>>;
+  menus: () => Promise<AsyncIterator<ID_Output[]>>;
+}
+
+export interface MenuEdge {
+  cursor: String;
+}
+
+export interface MenuEdgePromise extends Promise<MenuEdge>, Fragmentable {
+  node: <T = MenuPromise>() => T;
+  cursor: () => Promise<String>;
+}
+
+export interface MenuEdgeSubscription
+  extends Promise<AsyncIterator<MenuEdge>>,
+    Fragmentable {
+  node: <T = MenuSubscription>() => T;
+  cursor: () => Promise<AsyncIterator<String>>;
+}
+
+export interface AggregateParticipant {
+  count: Int;
+}
+
+export interface AggregateParticipantPromise
+  extends Promise<AggregateParticipant>,
+    Fragmentable {
+  count: () => Promise<Int>;
+}
+
+export interface AggregateParticipantSubscription
+  extends Promise<AsyncIterator<AggregateParticipant>>,
+    Fragmentable {
+  count: () => Promise<AsyncIterator<Int>>;
+}
+
+export interface DateConnection {}
+
+export interface DateConnectionPromise
+  extends Promise<DateConnection>,
+    Fragmentable {
+  pageInfo: <T = PageInfoPromise>() => T;
+  edges: <T = FragmentableArray<DateEdge>>() => T;
+  aggregate: <T = AggregateDatePromise>() => T;
+}
+
+export interface DateConnectionSubscription
+  extends Promise<AsyncIterator<DateConnection>>,
+    Fragmentable {
+  pageInfo: <T = PageInfoSubscription>() => T;
+  edges: <T = Promise<AsyncIterator<DateEdgeSubscription>>>() => T;
+  aggregate: <T = AggregateDateSubscription>() => T;
+}
+
+export interface AggregateEvent {
+  count: Int;
+}
+
+export interface AggregateEventPromise
+  extends Promise<AggregateEvent>,
+    Fragmentable {
+  count: () => Promise<Int>;
+}
+
+export interface AggregateEventSubscription
+  extends Promise<AsyncIterator<AggregateEvent>>,
+    Fragmentable {
+  count: () => Promise<AsyncIterator<Int>>;
 }
 
 /*
@@ -1610,6 +2021,10 @@ export const models = [
   },
   {
     name: "Event",
+    embedded: false
+  },
+  {
+    name: "Menu",
     embedded: false
   },
   {

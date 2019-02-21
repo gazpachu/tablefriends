@@ -8,8 +8,7 @@ import slugify from '../../../helpers';
 import { Container } from './styles.js';
 import { Button, Input, Textarea } from '../../../styles/common.styles';
 import Dates from './dates';
-import Menus from './menus';
-import Places from './places';
+import Other from './other';
 
 // const initialValue = Value.fromJSON({
 //   document: {
@@ -41,14 +40,13 @@ class Edit extends Component {
       description: this.props.event.description || '',
       photo: this.props.event.photo || '',
       // description: initialValue,
-      menus: this.props.event.menus || [],
       saving: false
     };
   }
 
   render() {
     const { event } = this.props;
-    const { title, description, photo, menus, saving } = this.state;
+    const { title, description, photo, saving } = this.state;
 
     return (
       <Fragment>
@@ -75,8 +73,7 @@ class Edit extends Component {
                         title: title,
                         slug: slugify(title),
                         description: description,
-                        photo: photo,
-                        menus: menus
+                        photo: photo
                       }
                     });
                     this.setState({ saving: false });
@@ -99,8 +96,6 @@ class Edit extends Component {
                     onChange={e => this.setState({ description: e.target.value })}
                     placeholder="Event description..."
                   />
-                  <h3>Menus</h3>
-                  <Menus menus={menus} updateMenus={(menus) => this.setState({ menus })} />
                   <p>
                     <Button type="submit" disabled={saving}>Save</Button>
                   </p>
@@ -108,7 +103,9 @@ class Edit extends Component {
                 <h3>Dates and time slots</h3>
                 <Dates dates={event.dates} eventId={event.id} />
                 <h3>Restaurants or places</h3>
-                <Places places={event.places} eventId={event.id} />
+                <Other type="places" items={event.places} eventId={event.id} />
+                <h3>Menus</h3>
+                <Other type="menus" items={event.menus} eventId={event.id} />
               </Container>
             );
           }}
@@ -143,12 +140,11 @@ class Edit extends Component {
 }
 
 const UPDATE_EVENT_MUTATION = gql`
-  mutation UpdateEventMutation($id: ID!, $title: String!, $slug: String!, $description: String, $menus: [String]) {
-    updateEvent(id: $id, title: $title, slug: $slug, description: $description, menus: $menus) {
+  mutation UpdateEventMutation($id: ID!, $title: String!, $slug: String!, $description: String) {
+    updateEvent(id: $id, title: $title, slug: $slug, description: $description) {
       id
       title
       description
-      menus
     }
   }
 `;

@@ -54,7 +54,7 @@ export const NavItem = styled.li`
 const tabItem = props => css`
   padding: 10px;
   margin: 10px;
-  font-size: 14px;
+  font-size: 16px;
   color: ${props.active ? colors.primary : colors.secondary} !important;
   border-bottom: 2px solid ${props.active ? colors.primary : colors.secondary};
 `;
