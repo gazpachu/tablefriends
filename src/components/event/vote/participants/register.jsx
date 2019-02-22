@@ -15,7 +15,7 @@ class Register extends Component {
   }
 
   render() {
-    const { eventId } = this.props;
+    const { event } = this.props;
     const { inputParticipant, status } = this.state;
 
     return (
@@ -25,11 +25,14 @@ class Register extends Component {
           mutation={CREATE_MUTATION}
           update={(cache, { data }) => {
             this.setState({ inputParticipant: '', status: `${data.createParticipant.name} is now confirmed for the event.` });
-            const { participants } = cache.readQuery({ query: EVENT_QUERY });
-            console.log(participants);
+            const cachedEvent = cache.readQuery({ query: EVENT_QUERY, variables: { slug: event.slug } });
+            data.createParticipant.dates = [];
+            data.createParticipant.places = [];
+            data.createParticipant.menus = [];
+            cachedEvent.event.participants = cachedEvent.event.participants.concat(data.createParticipant);
             cache.writeQuery({
               query: EVENT_QUERY,
-              data: { participants: participants.concat([data.createParticipant]) },
+              data: { event: cachedEvent.event },
             });
           }}
         >
@@ -39,7 +42,7 @@ class Register extends Component {
                 onSubmit={async e => {
                   e.preventDefault();
                   await createParticipant({
-                    variables: { name: inputParticipant, event: eventId },
+                    variables: { name: inputParticipant, event: event.id },
                   });
                 }}
               >

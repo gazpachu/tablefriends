@@ -9,13 +9,13 @@ class UnRegister extends Component {
     super(props);
 
     this.state = {
-      participants: this.props.participants || [],
       status: ''
     };
   }
 
   render() {
-    const { participants, status } = this.state;
+    const { event, participants } = this.props;
+    const { status } = this.state;
 
     return (
       <Fragment>
@@ -23,13 +23,15 @@ class UnRegister extends Component {
         <Mutation
           mutation={DELETE_MUTATION}
           update={(cache, { data }) => {
-            const participantName = this.state.participants[this.selectParticipants.selectedIndex].name;
-            const participants = this.state.participants.filter(item => item.id !== data.deleteParticipant.id);
-            this.setState({ participants, status: `${participantName} has been unregistered.` });
+            const participantName = participants[this.selectParticipants.selectedIndex].name;
+            this.setState({ status: `${participantName} has been unregistered.` });
+
+            const cachedEvent = cache.readQuery({ query: EVENT_QUERY, variables: { slug: event.slug } });
+            cachedEvent.event.participants = cachedEvent.event.participants.filter(item => item.id !== data.deleteParticipant.id);
 
             cache.writeQuery({
               query: EVENT_QUERY,
-              data: { participants }
+              data: { event: cachedEvent.event }
             });
           }}
         >

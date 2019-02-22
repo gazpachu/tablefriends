@@ -21,7 +21,7 @@ class Vote extends Component {
 
     return (
       <div>
-        <Register eventId={event.id} />
+        <Register event={event} />
         <Nav>
           <NavItem>
             <TabButton
@@ -72,7 +72,7 @@ class Vote extends Component {
             mutation={UPDATE_PARTICIPANT_MENUS}
           />
         }
-        <UnRegister participants={event.participants} />
+        <UnRegister event={event} participants={event.participants} />
       </div>
     );
   }
