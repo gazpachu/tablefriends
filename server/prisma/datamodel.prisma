@@ -3,30 +3,30 @@ type Event {
   slug: String! @unique
   title: String!
   description: String
-  dates: [Date]
-  places: [Place]
-  menus: [Menu]
-  participants: [Participant]
+  dates: [Date] @relation(name: "EventDates", onDelete: CASCADE)
+  places: [Place] @relation(name: "EventPlaces", onDelete: CASCADE)
+  menus: [Menu] @relation(name: "EventMenus", onDelete: CASCADE)
+  participants: [Participant] @relation(name: "EventParticipants", onDelete: CASCADE)
 }
 
 type Date {
   id: ID! @unique
   timestamp: String!
-  event: Event!
+  event: Event! @relation(name: "EventDates")
 }
 
 type Place {
   id: ID! @unique
   name: String!
   url: String
-  event: Event!
+  event: Event! @relation(name: "EventPlaces")
 }
 
 type Menu {
   id: ID! @unique
   name: String!
   url: String
-  event: Event!
+  event: Event! @relation(name: "EventMenus")
 }
 
 type Participant {
@@ -35,5 +35,5 @@ type Participant {
   dates: [ID]
   places: [ID]
   menus: [ID]
-  event: Event!
+  event: Event! @relation(name: "EventParticipants")
 }

@@ -5,6 +5,7 @@ import  { gql } from 'apollo-boost';
 // import { Value } from 'slate';
 // import { EVENTS_QUERY } from '../home';
 import slugify from '../../../../helpers';
+import { EVENTS_QUERY } from '../../../home';
 import { Container } from '../styles.js';
 import { Button, Input, Textarea } from '../../../../styles/common.styles';
 
@@ -98,6 +99,13 @@ class Details extends Component {
         <Mutation
           mutation={DELETE_MUTATION}
           update={(cache, { data }) => {
+            let { events } = cache.readQuery({ query: EVENTS_QUERY });
+            events = events.filter(event => event.id !== data.deleteEvent.id);
+            cache.writeQuery({
+              query: EVENTS_QUERY,
+              data: { events: events },
+            });
+
             this.props.history.push('/');
           }}
         >
