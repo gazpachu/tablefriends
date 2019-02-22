@@ -23,6 +23,7 @@ class Other extends Component {
 
     return (
       <Container>
+        <h3>Add or remove {type} to vote for</h3>
         <Mutation
           mutation={type === 'places' ? DELETE_PLACE_MUTATION : DELETE_MENU_MUTATION}
           update={(cache, { data }) => {
@@ -94,7 +95,7 @@ class Other extends Component {
                   onChange={e => this.setState({ inputURL: e.target.value })}
                   placeholder="URL..."
                 />
-                <Info>The URL can be a website{type === 'places' ? ', a GoogleMaps link' : ''} or anything you want</Info>
+                <Info>The URL can link to a website{type === 'places' ? ', a GoogleMaps link' : ', picture, PDF'} or anything you want</Info>
                 <p>
                   <Button
                     type="submit"

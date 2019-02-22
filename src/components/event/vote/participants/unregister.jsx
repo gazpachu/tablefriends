@@ -19,7 +19,7 @@ class UnRegister extends Component {
 
     return (
       <Fragment>
-        <h3>Participant unregistration</h3>
+        <h3>Remove yourself or someone else from the event</h3>
         <Mutation
           mutation={DELETE_MUTATION}
           update={(cache, { data }) => {

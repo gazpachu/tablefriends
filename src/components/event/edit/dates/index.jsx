@@ -22,6 +22,7 @@ class Dates extends Component {
 
     return (
       <Container>
+        <h3>Add or remove dates to vote for</h3>
         <Mutation
           mutation={DELETE_MUTATION}
           update={(cache, { data }) => {

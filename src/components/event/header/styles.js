@@ -8,7 +8,7 @@ export const Header = styled.div`
 
 export const Title = styled.h1`
   background-color: ${colors.primary};
-  padding: 40px;
+  padding: 20px 40px 40px;
   margin: 0 auto 30px;
   color: white;
 `;

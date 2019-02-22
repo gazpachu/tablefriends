@@ -20,7 +20,7 @@ class Register extends Component {
 
     return (
       <div>
-        <h3>Participant registration</h3>
+        <h3>Add yourself or someone else to the event</h3>
         <Mutation
           mutation={CREATE_MUTATION}
           update={(cache, { data }) => {
