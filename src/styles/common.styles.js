@@ -1,6 +1,6 @@
 import { css } from '@emotion/core';
 import styled from '@emotion/styled';
-import { darken } from "polished";
+import { darken, rgba } from "polished";
 import { Link } from 'react-router-dom';
 
 export const colors = {
@@ -29,7 +29,7 @@ const button = (props) => css`
     background: ${props.color ? darken(0.2, colors[props.color]) : darken(0.2, colors.primary)};
   }
 
-  opacity: ${props.disabled && '.3'};
+  opacity: ${props.disabled && '.5'};
   pointer-events: ${props.disabled && 'none'};
 `;
 
@@ -72,24 +72,33 @@ export const TabLink = styled(Link)`
   text-decoration: none;
 `;
 
+export const TabIcon = styled.i`
+  margin-right: 5px;
+`;
+
 const formElement = css`
   background: white;
-  border: 1px solid ${colors.primary};
-  color: ${colors.primary};
+  border: 1px solid ${colors.secondary};
+  color: #333;
   border-radius: 5px;
   font-size: 14px;
   padding: 9px 8px;
   outline: none;
   margin-bottom: 10px;
-  min-width: 60%;
+  width: 60%;
 
   @media (max-width: ${breakpoints.mobile}) {
-    min-width: 100%;
+    width: 100%;
   }
 `;
 
 export const Input = styled.input`
   ${formElement};
+`;
+
+export const InputInline = styled.input`
+  ${formElement};
+  margin-right: 5px;
 `;
 
 export const Textarea = styled.textarea`
@@ -100,6 +109,12 @@ export const Textarea = styled.textarea`
 export const Select = styled.select`
   ${formElement};
   height: 36px;
+`;
+
+export const SelectInline = styled.select`
+  ${formElement};
+  height: 36px;
+  margin-right: 5px;
 `;
 
 export const Info = styled.div`

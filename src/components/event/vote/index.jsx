@@ -3,7 +3,7 @@ import  { gql } from 'apollo-boost';
 import Register from './participants/register';
 import UnRegister from './participants/unregister';
 import VoteTable from './table';
-import { Nav, NavItem, TabButton } from '../../../styles/common.styles';
+import { Nav, NavItem, TabButton, TabIcon } from '../../../styles/common.styles';
 
 class Vote extends Component {
   constructor(props) {
@@ -27,6 +27,7 @@ class Vote extends Component {
               active={activeSection === 'register' ? 1 : 0}
               onClick={() => this.setState({ activeSection: 'register' })}
             >
+              <TabIcon className="fas fa-user-plus" />
               Registration
             </TabButton>
           </NavItem>
@@ -35,6 +36,7 @@ class Vote extends Component {
               active={activeSection === 'dates' ? 1 : 0}
               onClick={() => this.setState({ activeSection: 'dates' })}
             >
+              <TabIcon className="fas fa-calendar-alt" />
               Dates &amp; time
             </TabButton>
           </NavItem>
@@ -43,6 +45,7 @@ class Vote extends Component {
               active={activeSection === 'places' ? 1 : 0}
               onClick={() => this.setState({ activeSection: 'places' })}
             >
+              <TabIcon className="fas fa-map-marker-alt" />
               Places &amp; restaurants
             </TabButton>
           </NavItem>
@@ -51,6 +54,7 @@ class Vote extends Component {
               active={activeSection === 'menus' ? 1 : 0}
               onClick={() => this.setState({ activeSection: 'menus' })}
             >
+              <TabIcon className="fas fa-utensils" />
               Menus
             </TabButton>
           </NavItem>

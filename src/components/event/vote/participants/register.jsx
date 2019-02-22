@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Mutation } from 'react-apollo';
 import  { gql } from 'apollo-boost';
 import { EVENT_QUERY } from '../..';
-import { Button, Info, Input } from '../../../../styles/common.styles';
+import { Button, Info, InputInline } from '../../../../styles/common.styles';
 
 class Register extends Component {
   constructor(props) {
@@ -46,7 +46,7 @@ class Register extends Component {
                   });
                 }}
               >
-                <Input
+                <InputInline
                   value={inputParticipant}
                   type="text"
                   onChange={e => this.setState({ inputParticipant: e.target.value })}

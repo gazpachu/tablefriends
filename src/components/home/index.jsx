@@ -1,10 +1,20 @@
 import React, { Component, Fragment } from 'react';
-import { withRouter, Link } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 import { Query, Mutation } from 'react-apollo';
 import  { gql } from 'apollo-boost';
-import { Container, PartyIcon, List, Item, Events, Event } from './styles';
+import {
+  Container,
+  PartyIcon,
+  CreateButton,
+  CreateInput,
+  List,
+  Item,
+  ItemIcon,
+  Events,
+  Event,
+  EventLink
+} from './styles';
 import slugify from '../../helpers';
-import { Button, Input } from '../../styles/common.styles';
 
 class Home extends Component {
   constructor(props) {
@@ -23,7 +33,7 @@ class Home extends Component {
     const { title } = this.state;
 
     return (
-      <Fragment>
+      <Container>
         <Mutation
           mutation={CREATE_EVENT_MUTATION}
           update={(cache, { data }) => {
@@ -37,15 +47,8 @@ class Home extends Component {
         >
           {(createEvent, { data, loading, error }) => {
             return (
-              <Container>
+              <Fragment>
                 <PartyIcon />
-                <p>Are you in charge of organising the next big dinner or restaurant meetup?</p>
-                <p>TableFriends will organise your restaurant event for you by making your guests vote for:</p>
-                <List>
-                  <Item>A day and time</Item>
-                  <Item>A restaurant</Item>
-                  <Item>A menu</Item>
-                </List>
                 <h3>Start organising your event now!</h3>
                 <form
                   onSubmit={async e => {
@@ -54,17 +57,22 @@ class Home extends Component {
                     this.props.history.push(`${slugify(title)}/edit`);
                   }}
                 >
-                  <Input
+                  <CreateInput
                     type="text"
-                    style={{ minWidth: '60%', marginRight: '5px' }}
-                    value={this.state.title}
+                    value={title}
                     ref={(input) => { this.titleInput = input; }}
                     onChange={e => this.setState({ title: e.target.value })}
                     placeholder="Event name..."
                   />
-                  <Button type="submit">Create event</Button>
+                  <CreateButton type="submit" disabled={!title}>Create event</CreateButton>
                 </form>
-              </Container>
+                <p>TableFriends will help you organise your restaurant event by making your guests vote for:</p>
+                <List>
+                  <Item><ItemIcon><i className="fas fa-calendar-alt" /></ItemIcon>A day and time</Item>
+                  <Item><ItemIcon><i className="fas fa-map-marker-alt" /></ItemIcon>A restaurant</Item>
+                  <Item><ItemIcon><i className="fas fa-utensils" /></ItemIcon>A menu</Item>
+                </List>
+              </Fragment>
             )
           }}
         </Mutation>
@@ -72,35 +80,35 @@ class Home extends Component {
           {({ data, loading, error }) => {
             if (loading) {
               return (
-                <Container>Loading ...</Container>
+                <Fragment>Loading ...</Fragment>
               )
             }
 
             if (error) {
               return (
-                <Container>An unexpected error occured.</Container>
+                <Fragment>An unexpected error occured.</Fragment>
               )
             }
 
             return (
-              <Container>
+              <Fragment>
                 {data.events ?
                   <Fragment>
                     <h3>Recent events</h3>
                     <Events>
                       {data.events.map(event => (
                         <Event key={event.id}>
-                          <Link to={event.slug}>{event.title}</Link>
+                          <EventLink to={event.slug}>{event.title}</EventLink>
                         </Event>
                       ))}
                     </Events>
                   </Fragment>
                 : null}
-              </Container>
+              </Fragment>
             )
           }}
         </Query>
-      </Fragment>
+      </Container>
     );
   }
 }

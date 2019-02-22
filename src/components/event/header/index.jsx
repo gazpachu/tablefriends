@@ -1,7 +1,7 @@
 import React from 'react';
 import { InlineShareButtons } from 'sharethis-reactjs';
 import { Header, Title, Description, ShareButtons } from './styles';
-import { Nav, NavItem, TabLink } from '../../../styles/common.styles';
+import { Nav, NavItem, TabLink, TabIcon } from '../../../styles/common.styles';
 
 function EventHeader(props) {
   return (
@@ -42,10 +42,16 @@ function EventHeader(props) {
       </ShareButtons>
       <Nav>
         <NavItem>
-          <TabLink active={props.active === 'vote' ? 1 : 0} to={`/${props.event.slug}`}>Register &amp; Vote</TabLink>
+          <TabLink active={props.active === 'vote' ? 1 : 0} to={`/${props.event.slug}`}>
+            <TabIcon className="fas fa-vote-yea" />
+            Register &amp; Vote
+          </TabLink>
         </NavItem>
         <NavItem>
-          <TabLink active={props.active === 'edit' ? 1 : 0} to={`/${props.event.slug}/edit`}>Edit event</TabLink>
+          <TabLink active={props.active === 'edit' ? 1 : 0} to={`/${props.event.slug}/edit`}>
+            <TabIcon className="fas fa-edit" />
+            Edit event
+          </TabLink>
         </NavItem>
       </Nav>
     </Header>

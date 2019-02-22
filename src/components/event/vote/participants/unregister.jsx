@@ -1,15 +1,15 @@
-import React, { Component, Fragment } from 'react';
-import { Mutation } from 'react-apollo';
-import  { gql } from 'apollo-boost';
-import { EVENT_QUERY } from '../..';
-import { Button, Info, Select } from '../../../../styles/common.styles';
+import React, { Component, Fragment } from "react";
+import { Mutation } from "react-apollo";
+import { gql } from "apollo-boost";
+import { EVENT_QUERY } from "../..";
+import { Button, Info, SelectInline } from "../../../../styles/common.styles";
 
 class UnRegister extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      status: ''
+      status: ""
     };
   }
 
@@ -23,11 +23,19 @@ class UnRegister extends Component {
         <Mutation
           mutation={DELETE_MUTATION}
           update={(cache, { data }) => {
-            const participantName = participants[this.selectParticipants.selectedIndex].name;
-            this.setState({ status: `${participantName} has been unregistered.` });
+            const participantName =
+              participants[this.selectParticipants.selectedIndex].name;
+            this.setState({
+              status: `${participantName} has been unregistered.`
+            });
 
-            const cachedEvent = cache.readQuery({ query: EVENT_QUERY, variables: { slug: event.slug } });
-            cachedEvent.event.participants = cachedEvent.event.participants.filter(item => item.id !== data.deleteParticipant.id);
+            const cachedEvent = cache.readQuery({
+              query: EVENT_QUERY,
+              variables: { slug: event.slug }
+            });
+            cachedEvent.event.participants = cachedEvent.event.participants.filter(
+              item => item.id !== data.deleteParticipant.id
+            );
 
             cache.writeQuery({
               query: EVENT_QUERY,
@@ -38,17 +46,27 @@ class UnRegister extends Component {
           {(deleteParticipant, { data, loading, error }) => {
             return (
               <Fragment>
-                <Select ref={(select) => { this.selectParticipants = select; }}>
-                  {participants && participants.map(participant => (
-                    <option key={participant.id} value={participant.id}>{participant.name}</option>
-                  ))}
-                </Select>
+                <SelectInline
+                  ref={select => {
+                    this.selectParticipants = select;
+                  }}
+                >
+                  {participants &&
+                    participants.map(participant => (
+                      <option key={participant.id} value={participant.id}>
+                        {participant.name}
+                      </option>
+                    ))}
+                </SelectInline>
                 <Button
                   color="red"
                   disabled={participants.length === 0}
                   onClick={async () => {
                     await deleteParticipant({
-                      variables: { id: participants[this.selectParticipants.selectedIndex].id },
+                      variables: {
+                        id:
+                          participants[this.selectParticipants.selectedIndex].id
+                      }
                     });
                   }}
                 >
@@ -56,7 +74,7 @@ class UnRegister extends Component {
                 </Button>
                 <Info>{status}</Info>
               </Fragment>
-            )
+            );
           }}
         </Mutation>
       </Fragment>

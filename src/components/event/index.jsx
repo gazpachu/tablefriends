@@ -4,7 +4,7 @@ import  { gql } from 'apollo-boost';
 import EventHeader from './header';
 import Edit from './edit';
 import Vote from './vote';
-import { Container, Status, EventBody } from './styles';
+import { Container, Status, EventBody, Footer } from './styles';
 
 class Event extends Component {
   render() {
@@ -45,6 +45,9 @@ class Event extends Component {
                   </EventBody>
                 </Fragment>
               : null}
+              <Footer>
+                <span>Found a bug or have a suggestion? Please <a href="https://github.com/gazpachu/tablefriends/issues">raise an issue in Github</a></span>
+              </Footer>
             </Container>
           )
         }}

@@ -32,9 +32,6 @@ ReactDOM.render(
             <Route path="/:slug/edit" component={Event} />
           </Switch>
         </main>
-        <footer>
-          <span>Found a bug or have a suggestion? Please <a href="https://github.com/gazpachu/tablefriends/issues">raise an issue in Github</a></span>
-        </footer>
       </div>
     </Router>
   </ApolloProvider>,

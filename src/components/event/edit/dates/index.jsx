@@ -4,7 +4,7 @@ import  { gql } from 'apollo-boost';
 import dateFnsFormat from 'date-fns/format';
 import { EVENT_QUERY } from '../..';
 import { Container } from '../styles.js';
-import { Button, Input, Select, Info } from '../../../../styles/common.styles';
+import { Button, InputInline, SelectInline, Info } from '../../../../styles/common.styles';
 
 class Dates extends Component {
   constructor(props) {
@@ -37,11 +37,11 @@ class Dates extends Component {
           {(deleteDate, { data, loading, error }) => {
             return (
               <Fragment>
-                <Select ref={(select) => { this.selectDates = select; }}>
+                <SelectInline ref={(select) => { this.selectDates = select; }}>
                   {dates && dates.map(date => (
                     <option key={date.id} value={date.id}>{dateFnsFormat(new Date(date.timestamp), 'Do MMMM YYYY, hh:mma')}</option>
                   ))}
-                </Select>
+                </SelectInline>
                 <Button
                   disabled={dates.length === 0}
                   onClick={async () => {
@@ -79,7 +79,7 @@ class Dates extends Component {
                   this.setState({ inputDate: '' });
                 }}
               >
-                <Input
+                <InputInline
                   value={inputDate}
                   type="datetime-local"
                   onChange={e => this.setState({ inputDate: e.target.value })}

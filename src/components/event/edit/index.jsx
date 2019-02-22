@@ -2,7 +2,7 @@ import React, { Component, Fragment } from 'react';
 import Details from './details';
 import Dates from './dates';
 import Other from './other';
-import { Nav, NavItem, TabButton } from '../../../styles/common.styles';
+import { Nav, NavItem, TabButton, TabIcon } from '../../../styles/common.styles';
 
 class Edit extends Component {
   constructor(props) {
@@ -28,6 +28,7 @@ class Edit extends Component {
               active={activeSection === 'details' ? 1 : 0}
               onClick={() => this.setState({ activeSection: 'details' })}
             >
+              <TabIcon className="fas fa-info-circle" />
               Details
             </TabButton>
           </NavItem>
@@ -36,6 +37,7 @@ class Edit extends Component {
               active={activeSection === 'dates' ? 1 : 0}
               onClick={() => this.setState({ activeSection: 'dates' })}
             >
+              <TabIcon className="fas fa-calendar-alt" />
               Dates &amp; time
             </TabButton>
           </NavItem>
@@ -44,6 +46,7 @@ class Edit extends Component {
               active={activeSection === 'places' ? 1 : 0}
               onClick={() => this.setState({ activeSection: 'places' })}
             >
+              <TabIcon className="fas fa-map-marker-alt" />
               Places &amp; restaurants
             </TabButton>
           </NavItem>
@@ -52,6 +55,7 @@ class Edit extends Component {
               active={activeSection === 'menus' ? 1 : 0}
               onClick={() => this.setState({ activeSection: 'menus' })}
             >
+              <TabIcon className="fas fa-utensils" />
               Menus
             </TabButton>
           </NavItem>

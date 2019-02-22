@@ -40,10 +40,8 @@ export const GlobalStyles = (props) => (
       }
 
       .app {
-        background-color: rgba(255,255,255,.95);
+        box-shadow: 0 0 10px 0;
         width: 100%;
-        min-height: calc(100vh - 60px);
-        padding-bottom: 40px;
         color: ${colors.secondary};
         overflow: hidden;
 
@@ -85,15 +83,6 @@ export const GlobalStyles = (props) => (
       .header-link {
         text-decoration: none;
         color: ${colors.secondary};
-      }
-
-      footer {
-        text-align: center;
-        font-size: 10px;
-        position: absolute;
-        left: 0;
-        bottom: 55px;
-        width: 100%;
       }
     `}
   />
