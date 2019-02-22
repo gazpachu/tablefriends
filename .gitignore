@@ -8,6 +8,7 @@ node_modules
 coverage
 # production
 build
+functions
 .netlify
 
 # misc

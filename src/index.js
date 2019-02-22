@@ -12,7 +12,7 @@ import GlobalStyles from './styles/global.styles';
 import Home from './components/home';
 import Event from './components/event';
 
-const client = new ApolloClient({ uri: 'http://localhost:4000' })
+const client = new ApolloClient({ uri: 'http://localhost:9000/.netlify/functions/' })
 
 ReactDOM.render(
   <ApolloProvider client={client}>

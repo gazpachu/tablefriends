@@ -2,7 +2,11 @@
   "name": "tablefriends",
   "version": "1.0.0",
   "devDependencies": {
-    "react-scripts": "2.1.1"
+    "babel-loader": "^8.0.4",
+    "http-proxy-middleware": "^0.19.1",
+    "netlify-lambda": "^1.4.2",
+    "npm-run-all": "^4.1.5",
+    "prisma": "1.22.1"
   },
   "dependencies": {
     "@emotion/core": "^10.0.7",
@@ -10,22 +14,31 @@
     "apollo-boost": "0.1.27",
     "date-fns": "^1.30.1",
     "graphql": "14.0.2",
+    "graphql-yoga": "1.17.4",
     "immutable": "^4.0.0-rc.12",
     "polished": "^2.3.3",
+    "prisma-client-lib": "1.26.4",
     "react": "16.8.1",
     "react-apollo": "2.4.1",
     "react-dom": "16.8.1",
-    "react-modal": "3.8.1",
+    "react-scripts": "2.1.5",
     "react-router-dom": "4.3.1",
     "sharethis-reactjs": "^1.3.3",
     "slate": "^0.44.10",
     "slate-react": "^0.21.16"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
+    "start": "run-p start:**",
+    "start:app": "react-scripts start",
+    "start:lambda": "netlify-lambda serve server/src",
+    "build": "run-p build:**",
+    "build:app": "react-scripts build",
+    "build:lambda": "netlify-lambda build server/src",
     "test": "react-scripts test --env=jsdom",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "deploy:draft": "netlify deploy --dir=build --functions=functions",
+    "deploy:prod": "netlify deploy --dir=build --functions=functions --prod",
+    "prisma": "prisma"
   },
   "eslintConfig": {
     "extends": "react-app"
