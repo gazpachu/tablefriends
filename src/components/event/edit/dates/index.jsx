@@ -3,6 +3,7 @@ import { Mutation } from 'react-apollo';
 import  { gql } from 'apollo-boost';
 import dateFnsFormat from 'date-fns/format';
 import { EVENT_QUERY } from '../..';
+import { Container } from '../styles.js';
 import { Button, Input, Select, Info } from '../../../../styles/common.styles';
 
 class Dates extends Component {
@@ -20,7 +21,7 @@ class Dates extends Component {
     const { inputDate, status } = this.state;
 
     return (
-      <Fragment>
+      <Container>
         <Mutation
           mutation={DELETE_MUTATION}
           update={(cache, { data }) => {
@@ -83,20 +84,18 @@ class Dates extends Component {
                   type="datetime-local"
                   onChange={e => this.setState({ inputDate: e.target.value })}
                 />
-                <p>
-                  <Button
-                    type="submit"
-                    disabled={!inputDate}
-                  >
-                    Add date and time
-                  </Button>
-                </p>
+                <Button
+                  type="submit"
+                  disabled={!inputDate}
+                >
+                  Add date and time
+                </Button>
               </form>
             );
           }}
         </Mutation>
         <Info>{status}</Info>
-      </Fragment>
+      </Container>
     );
   }
 }

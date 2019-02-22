@@ -39,7 +39,7 @@ class Event extends Component {
                   />
                   <EventBody>
                     {active === 'edit'
-                      ? <Edit event={data.event} history={this.props.history} />
+                      ? <Edit event={data.event} location={this.props.location} history={this.props.history} />
                       : <Vote event={data.event} />
                     }
                   </EventBody>

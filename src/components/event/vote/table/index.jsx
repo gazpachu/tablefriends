@@ -1,4 +1,5 @@
 import React, { Component, Fragment } from 'react';
+import { Link } from 'react-router-dom';
 import { Mutation } from 'react-apollo';
 import CellHeading from './cellHeading';
 import { Table, Cell, UserIcon } from '../styles';
@@ -27,7 +28,12 @@ class VoteTable extends Component {
   }
 
   render() {
-    const { items, type, participants, mutation } = this.props;
+    const { event, type, participants, mutation } = this.props;
+    const items = event[type];
+
+    if (items.length === 0) {
+      return <span>This event still has no {type}. <Link to={`${event.slug}/edit?section=${type}`}>Add a new one</Link></span>;
+    }
 
     return (
       <Fragment>

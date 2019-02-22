@@ -44,6 +44,7 @@ class UnRegister extends Component {
                   ))}
                 </Select>
                 <Button
+                  color="red"
                   disabled={participants.length === 0}
                   onClick={async () => {
                     await deleteParticipant({
@@ -51,7 +52,7 @@ class UnRegister extends Component {
                     });
                   }}
                 >
-                  Remove selected
+                  Unregister
                 </Button>
                 <Info>{status}</Info>
               </Fragment>

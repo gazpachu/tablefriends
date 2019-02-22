@@ -20,12 +20,15 @@ class Home extends Component {
   }
 
   render() {
+    const { title } = this.state;
+
     return (
       <Fragment>
         <Mutation
           mutation={CREATE_EVENT_MUTATION}
           update={(cache, { data }) => {
             const { events } = cache.readQuery({ query: EVENTS_QUERY });
+            data.createEvent.slug = slugify(title);
             cache.writeQuery({
               query: EVENTS_QUERY,
               data: { events: events.concat([data.createEvent]) },
@@ -47,7 +50,6 @@ class Home extends Component {
                 <form
                   onSubmit={async e => {
                     e.preventDefault();
-                    const { title } = this.state;
                     await createEvent({ variables: { title: title, slug: slugify(title) } });
                     this.props.history.push(`${slugify(title)}/edit`);
                   }}

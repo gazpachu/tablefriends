@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import  { gql } from 'apollo-boost';
 import Register from './participants/register';
 import UnRegister from './participants/unregister';
@@ -11,7 +11,7 @@ class Vote extends Component {
 
     this.state = {
       inputUser: '',
-      activeSection: 'dates'
+      activeSection: 'register'
     };
   }
 
@@ -21,8 +21,15 @@ class Vote extends Component {
 
     return (
       <div>
-        <Register event={event} />
         <Nav>
+        <NavItem>
+            <TabButton
+              active={activeSection === 'register' ? 1 : 0}
+              onClick={() => this.setState({ activeSection: 'register' })}
+            >
+              Registration
+            </TabButton>
+          </NavItem>
           <NavItem>
             <TabButton
               active={activeSection === 'dates' ? 1 : 0}
@@ -48,10 +55,16 @@ class Vote extends Component {
             </TabButton>
           </NavItem>
         </Nav>
+        {activeSection === 'register' &&
+          <Fragment>
+            <Register event={event} />
+            <UnRegister event={event} participants={event.participants} />
+          </Fragment>
+        }
         {activeSection === 'dates' &&
           <VoteTable
             type="dates"
-            items={event.dates}
+            event={event}
             participants={event.participants}
             mutation={UPDATE_PARTICIPANT_DATES}
           />
@@ -59,7 +72,7 @@ class Vote extends Component {
         {activeSection === 'places' &&
           <VoteTable
             type="places"
-            items={event.places}
+            event={event}
             participants={event.participants}
             mutation={UPDATE_PARTICIPANT_PLACES}
           />
@@ -67,12 +80,11 @@ class Vote extends Component {
         {activeSection === 'menus' &&
           <VoteTable
             type="menus"
-            items={event.menus}
+            event={event}
             participants={event.participants}
             mutation={UPDATE_PARTICIPANT_MENUS}
           />
         }
-        <UnRegister event={event} participants={event.participants} />
       </div>
     );
   }

@@ -1,7 +1,8 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import { Mutation } from 'react-apollo';
 import  { gql } from 'apollo-boost';
 import { EVENT_QUERY } from '../..';
+import { Container } from '../styles.js';
 import { Input, Button, Info } from '../../../../styles/common.styles';
 import { List, Item, RemoveButton } from './styles';
 
@@ -21,7 +22,7 @@ class Other extends Component {
     const { inputName, inputURL, status } = this.state;
 
     return (
-      <Fragment>
+      <Container>
         <Mutation
           mutation={type === 'places' ? DELETE_PLACE_MUTATION : DELETE_MENU_MUTATION}
           update={(cache, { data }) => {
@@ -107,7 +108,7 @@ class Other extends Component {
           }}
         </Mutation>
         <Info>{status}</Info>
-      </Fragment>
+      </Container>
     );
   }
 }
