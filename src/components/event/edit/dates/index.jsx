@@ -2,29 +2,35 @@ import React, { Component, Fragment } from 'react';
 import { Mutation } from 'react-apollo';
 import  { gql } from 'apollo-boost';
 import dateFnsFormat from 'date-fns/format';
-import { Button, Input, Select } from '../../../../styles/common.styles';
+import { EVENT_QUERY } from '../..';
+import { Button, Input, Select, Info } from '../../../../styles/common.styles';
 
 class Dates extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      dates: this.props.dates || [],
-      inputDate: ''
+      inputDate: '',
+      status: ''
     };
   }
 
   render() {
-    const { eventId } = this.props;
-    const { dates, inputDate } = this.state;
+    const { event, dates } = this.props;
+    const { inputDate, status } = this.state;
 
     return (
       <Fragment>
         <Mutation
           mutation={DELETE_MUTATION}
           update={(cache, { data }) => {
-            const dates = this.state.dates.filter(item => item.id !== data.deleteDate.id);
-            this.setState({ dates });
+            this.setState({ inputDate: '', status: `${dateFnsFormat(new Date(data.deleteDate.timestamp), 'Do MMMM YYYY, hh:mma')} was removed from the dates.` });
+            const cachedEvent = cache.readQuery({ query: EVENT_QUERY, variables: { slug: event.slug } });
+            cachedEvent.event.dates = cachedEvent.event.dates.filter(item => item.id !== data.deleteDate.id);
+            cache.writeQuery({
+              query: EVENT_QUERY,
+              data: { event: cachedEvent.event },
+            });
           }}
         >
           {(deleteDate, { data, loading, error }) => {
@@ -52,9 +58,13 @@ class Dates extends Component {
         <Mutation
           mutation={CREATE_MUTATION}
           update={(cache, { data }) => {
-            const dates = this.state.dates.splice(0);
-            dates.push(data.createDate);
-            this.setState({ dates });
+            this.setState({ inputDate: '', status: `${dateFnsFormat(new Date(data.createDate.timestamp), 'Do MMMM YYYY, hh:mma')} was added to the dates.` });
+            const cachedEvent = cache.readQuery({ query: EVENT_QUERY, variables: { slug: event.slug } });
+            cachedEvent.event.dates = cachedEvent.event.dates.concat(data.createDate);
+            cache.writeQuery({
+              query: EVENT_QUERY,
+              data: { event: cachedEvent.event },
+            });
           }}
         >
           {(createDate, { data, loading, error }) => {
@@ -63,7 +73,7 @@ class Dates extends Component {
                 onSubmit={async e => {
                   e.preventDefault();
                   await createDate({
-                    variables: { timestamp: inputDate, event: eventId },
+                    variables: { timestamp: inputDate, event: event.id },
                   });
                   this.setState({ inputDate: '' });
                 }}
@@ -85,6 +95,7 @@ class Dates extends Component {
             );
           }}
         </Mutation>
+        <Info>{status}</Info>
       </Fragment>
     );
   }
@@ -103,6 +114,7 @@ const DELETE_MUTATION = gql`
   mutation DeleteMutation($id: ID!) {
     deleteDate(id: $id) {
       id
+      timestamp
     }
   }
 `;

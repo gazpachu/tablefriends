@@ -101,11 +101,11 @@ class Edit extends Component {
                   </p>
                 </form>
                 <h3>Dates and time slots</h3>
-                <Dates dates={event.dates} eventId={event.id} />
+                <Dates dates={event.dates} event={event} />
                 <h3>Restaurants or places</h3>
-                <Other type="places" items={event.places} eventId={event.id} />
+                <Other type="places" items={event.places} event={event} />
                 <h3>Menus</h3>
-                <Other type="menus" items={event.menus} eventId={event.id} />
+                <Other type="menus" items={event.menus} event={event} />
               </Container>
             );
           }}

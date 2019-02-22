@@ -1,6 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import { Mutation } from 'react-apollo';
 import  { gql } from 'apollo-boost';
+import { EVENT_QUERY } from '../..';
 import { Input, Button, Info } from '../../../../styles/common.styles';
 import { List, Item, RemoveButton } from './styles';
 
@@ -9,23 +10,29 @@ class Other extends Component {
     super(props);
 
     this.state = {
-      items: this.props.items || [],
       inputName: '',
-      inputURL: ''
+      inputURL: '',
+      status: ''
     };
   }
 
   render() {
-    const { type, eventId } = this.props;
-    const { items, inputName, inputURL } = this.state;
+    const { type, items, event } = this.props;
+    const { inputName, inputURL, status } = this.state;
 
     return (
       <Fragment>
         <Mutation
           mutation={type === 'places' ? DELETE_PLACE_MUTATION : DELETE_MENU_MUTATION}
           update={(cache, { data }) => {
-            const items = this.state.items.filter(item => type === 'places' ? item.id !== data.deletePlace.id : item.id !== data.deleteMenu.id);
-            this.setState({ items });
+            const typeData = type === 'places' ? data.deletePlace : data.deleteMenu;
+            this.setState({ inputName: '', inputURL: '', status: `${typeData.name} was removed from the ${type}.` });
+            const cachedEvent = cache.readQuery({ query: EVENT_QUERY, variables: { slug: event.slug } });
+            cachedEvent.event[type] = cachedEvent.event[type].filter(item => item.id !== typeData.id);
+            cache.writeQuery({
+              query: EVENT_QUERY,
+              data: { event: cachedEvent.event },
+            });
           }}
         >
           {(deleteData, { data, loading, error }) => {
@@ -53,9 +60,14 @@ class Other extends Component {
         <Mutation
           mutation={type === 'places' ? CREATE_PLACE_MUTATION : CREATE_MENU_MUTATION}
           update={(cache, { data }) => {
-            const items = this.state.items.splice(0);
-            items.push(type === 'places' ? data.createPlace : data.createMenu);
-            this.setState({ items });
+            const typeData = type === 'places' ? data.createPlace : data.createMenu;
+            this.setState({ inputName: '', inputURL: '', status: `${typeData.name} was added to the ${type}.` });
+            const cachedEvent = cache.readQuery({ query: EVENT_QUERY, variables: { slug: event.slug } });
+            cachedEvent.event[type] = cachedEvent.event[type].concat(typeData);
+            cache.writeQuery({
+              query: EVENT_QUERY,
+              data: { event: cachedEvent.event },
+            });
           }}
         >
           {(createData, { data, loading, error }) => {
@@ -64,7 +76,7 @@ class Other extends Component {
                 onSubmit={async e => {
                   e.preventDefault();
                   await createData({
-                    variables: { name: inputName, url: inputURL, event: eventId },
+                    variables: { name: inputName, url: inputURL, event: event.id },
                   });
                   this.setState({ inputName: '', inputURL: '' });
                 }}
@@ -94,6 +106,7 @@ class Other extends Component {
             );
           }}
         </Mutation>
+        <Info>{status}</Info>
       </Fragment>
     );
   }
@@ -113,6 +126,7 @@ const DELETE_PLACE_MUTATION = gql`
   mutation DeletePlaceMutation($id: ID!) {
     deletePlace(id: $id) {
       id
+      name
     }
   }
 `;
@@ -131,6 +145,7 @@ const DELETE_MENU_MUTATION = gql`
   mutation DeleteMenuMutation($id: ID!) {
     deleteMenu(id: $id) {
       id
+      name
     }
   }
 `;
