@@ -3,10 +3,14 @@ type Event {
   slug: String! @unique
   title: String!
   description: String
+  photo: String
   dates: [Date] @relation(name: "EventDates", onDelete: CASCADE)
   places: [Place] @relation(name: "EventPlaces", onDelete: CASCADE)
   menus: [Menu] @relation(name: "EventMenus", onDelete: CASCADE)
   participants: [Participant] @relation(name: "EventParticipants", onDelete: CASCADE)
+  dateDeadline: String
+  placeDeadline: String
+  menuDeadline: String
 }
 
 type Date {

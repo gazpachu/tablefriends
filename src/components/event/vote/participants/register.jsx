@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Mutation } from 'react-apollo';
 import  { gql } from 'apollo-boost';
 import { EVENT_QUERY } from '../..';
-import { Button, Info, InputInline } from '../../../../styles/common.styles';
+import { PageContainer, Label, Button, Info, InputInline } from '../../../../styles/common.styles';
 
 class Register extends Component {
   constructor(props) {
@@ -19,7 +19,7 @@ class Register extends Component {
     const { inputParticipant, status } = this.state;
 
     return (
-      <div>
+      <PageContainer>
         <h3>Add yourself or someone else to the event</h3>
         <Mutation
           mutation={CREATE_MUTATION}
@@ -46,12 +46,15 @@ class Register extends Component {
                   });
                 }}
               >
-                <InputInline
-                  value={inputParticipant}
-                  type="text"
-                  onChange={e => this.setState({ inputParticipant: e.target.value })}
-                  placeholder="Participant name..."
-                />
+                <p>
+                  <Label>Participant name</Label>
+                  <InputInline
+                    value={inputParticipant}
+                    type="text"
+                    onChange={e => this.setState({ inputParticipant: e.target.value })}
+                    placeholder="Participant name..."
+                  />
+                </p>
                 <Button
                   type="submit"
                   disabled={!inputParticipant}
@@ -63,7 +66,7 @@ class Register extends Component {
             );
           }}
         </Mutation>
-      </div>
+      </PageContainer>
     );
   }
 }

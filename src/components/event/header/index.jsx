@@ -1,13 +1,15 @@
 import React from 'react';
 import { InlineShareButtons } from 'sharethis-reactjs';
 import { Header, Title, Description, ShareButtons } from './styles';
-import { Nav, NavItem, TabLink, TabIcon } from '../../../styles/common.styles';
+import { PageContainer, Nav, NavItem, TabLink, TabIcon } from '../../../styles/common.styles';
 
 function EventHeader(props) {
   return (
     <Header>
       <Title>{props.event.title}</Title>
-      <Description>{props.event.description}</Description>
+      <PageContainer>
+        <Description>{props.event.description}</Description>
+      </PageContainer>
       <ShareButtons>
         <InlineShareButtons
           config={{

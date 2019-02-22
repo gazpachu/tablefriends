@@ -2,7 +2,7 @@ import React, { Component, Fragment } from "react";
 import { Mutation } from "react-apollo";
 import { gql } from "apollo-boost";
 import { EVENT_QUERY } from "../..";
-import { Button, Info, SelectInline } from "../../../../styles/common.styles";
+import { PageContainer, Label, Button, Info, SelectInline } from "../../../../styles/common.styles";
 
 class UnRegister extends Component {
   constructor(props) {
@@ -18,7 +18,7 @@ class UnRegister extends Component {
     const { status } = this.state;
 
     return (
-      <Fragment>
+      <PageContainer>
         <h3>Remove yourself or someone else from the event</h3>
         <Mutation
           mutation={DELETE_MUTATION}
@@ -46,18 +46,21 @@ class UnRegister extends Component {
           {(deleteParticipant, { data, loading, error }) => {
             return (
               <Fragment>
-                <SelectInline
-                  ref={select => {
-                    this.selectParticipants = select;
-                  }}
-                >
-                  {participants &&
-                    participants.map(participant => (
-                      <option key={participant.id} value={participant.id}>
-                        {participant.name}
-                      </option>
-                    ))}
-                </SelectInline>
+                <p>
+                  <Label>Event participants</Label>
+                  <SelectInline
+                    ref={select => {
+                      this.selectParticipants = select;
+                    }}
+                  >
+                    {participants &&
+                      participants.map(participant => (
+                        <option key={participant.id} value={participant.id}>
+                          {participant.name}
+                        </option>
+                      ))}
+                  </SelectInline>
+                </p>
                 <Button
                   color="red"
                   disabled={participants.length === 0}
@@ -77,7 +80,7 @@ class UnRegister extends Component {
             );
           }}
         </Mutation>
-      </Fragment>
+      </PageContainer>
     );
   }
 }

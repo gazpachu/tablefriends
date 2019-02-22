@@ -28,10 +28,10 @@ const resolvers = {
    createEvent(parent, { title, slug }, context) {
      return context.prisma.createEvent({ title, slug });
    },
-   updateEvent(parent, { id, title, slug, description, photo }, context) {
+   updateEvent(parent, { id, title, slug, description, photo, dateDeadline, placeDeadline, menuDeadline }, context) {
      return context.prisma.updateEvent({
        where: { id },
-       data: { title, slug, description, photo }
+       data: { title, slug, description, photo, dateDeadline, placeDeadline, menuDeadline }
      });
    },
    deleteEvent(parent, { id }, context) {

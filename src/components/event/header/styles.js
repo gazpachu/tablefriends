@@ -16,7 +16,7 @@ export const Title = styled.h1`
 export const Description = styled.div`
   text-align: justify;
   line-height: 22px;
-  margin: 40px;
+  margin: 40px 0;
 
   @media (max-width: ${breakpoints.mobile}) {
     margin: 40px 20px;

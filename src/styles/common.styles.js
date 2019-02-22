@@ -1,6 +1,6 @@
 import { css } from '@emotion/core';
 import styled from '@emotion/styled';
-import { darken, rgba } from "polished";
+import { darken } from "polished";
 import { Link } from 'react-router-dom';
 
 export const colors = {
@@ -12,6 +12,12 @@ export const colors = {
 export const breakpoints = {
   mobile: '768px'
 };
+
+export const PageContainer = styled.section`
+  text-align: left;
+  max-width: 700px;
+  margin: 0 auto;
+`;
 
 const button = (props) => css`
   outline: none;
@@ -84,12 +90,7 @@ const formElement = css`
   font-size: 14px;
   padding: 9px 8px;
   outline: none;
-  margin-bottom: 10px;
-  width: 60%;
-
-  @media (max-width: ${breakpoints.mobile}) {
-    width: 100%;
-  }
+  width: 100%;
 `;
 
 export const Input = styled.input`
@@ -99,6 +100,13 @@ export const Input = styled.input`
 export const InputInline = styled.input`
   ${formElement};
   margin-right: 5px;
+`;
+
+export const Label = styled.label`
+  margin-right: 5px;
+  display: block;
+  font-size: 12px;
+  margin-bottom: 3px;
 `;
 
 export const Textarea = styled.textarea`
@@ -119,4 +127,5 @@ export const SelectInline = styled.select`
 
 export const Info = styled.div`
   font-size: 10px;
+  margin-top: 3px;
 `;

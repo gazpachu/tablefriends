@@ -210,10 +210,14 @@ type Event {
   slug: String!
   title: String!
   description: String
+  photo: String
   dates(where: DateWhereInput, orderBy: DateOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Date!]
   places(where: PlaceWhereInput, orderBy: PlaceOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Place!]
   menus(where: MenuWhereInput, orderBy: MenuOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Menu!]
   participants(where: ParticipantWhereInput, orderBy: ParticipantOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Participant!]
+  dateDeadline: String
+  placeDeadline: String
+  menuDeadline: String
 }
 
 type EventConnection {
@@ -226,10 +230,14 @@ input EventCreateInput {
   slug: String!
   title: String!
   description: String
+  photo: String
   dates: DateCreateManyWithoutEventInput
   places: PlaceCreateManyWithoutEventInput
   menus: MenuCreateManyWithoutEventInput
   participants: ParticipantCreateManyWithoutEventInput
+  dateDeadline: String
+  placeDeadline: String
+  menuDeadline: String
 }
 
 input EventCreateOneWithoutDatesInput {
@@ -256,36 +264,52 @@ input EventCreateWithoutDatesInput {
   slug: String!
   title: String!
   description: String
+  photo: String
   places: PlaceCreateManyWithoutEventInput
   menus: MenuCreateManyWithoutEventInput
   participants: ParticipantCreateManyWithoutEventInput
+  dateDeadline: String
+  placeDeadline: String
+  menuDeadline: String
 }
 
 input EventCreateWithoutMenusInput {
   slug: String!
   title: String!
   description: String
+  photo: String
   dates: DateCreateManyWithoutEventInput
   places: PlaceCreateManyWithoutEventInput
   participants: ParticipantCreateManyWithoutEventInput
+  dateDeadline: String
+  placeDeadline: String
+  menuDeadline: String
 }
 
 input EventCreateWithoutParticipantsInput {
   slug: String!
   title: String!
   description: String
+  photo: String
   dates: DateCreateManyWithoutEventInput
   places: PlaceCreateManyWithoutEventInput
   menus: MenuCreateManyWithoutEventInput
+  dateDeadline: String
+  placeDeadline: String
+  menuDeadline: String
 }
 
 input EventCreateWithoutPlacesInput {
   slug: String!
   title: String!
   description: String
+  photo: String
   dates: DateCreateManyWithoutEventInput
   menus: MenuCreateManyWithoutEventInput
   participants: ParticipantCreateManyWithoutEventInput
+  dateDeadline: String
+  placeDeadline: String
+  menuDeadline: String
 }
 
 type EventEdge {
@@ -302,6 +326,14 @@ enum EventOrderByInput {
   title_DESC
   description_ASC
   description_DESC
+  photo_ASC
+  photo_DESC
+  dateDeadline_ASC
+  dateDeadline_DESC
+  placeDeadline_ASC
+  placeDeadline_DESC
+  menuDeadline_ASC
+  menuDeadline_DESC
   createdAt_ASC
   createdAt_DESC
   updatedAt_ASC
@@ -313,6 +345,10 @@ type EventPreviousValues {
   slug: String!
   title: String!
   description: String
+  photo: String
+  dateDeadline: String
+  placeDeadline: String
+  menuDeadline: String
 }
 
 type EventSubscriptionPayload {
@@ -337,16 +373,24 @@ input EventUpdateInput {
   slug: String
   title: String
   description: String
+  photo: String
   dates: DateUpdateManyWithoutEventInput
   places: PlaceUpdateManyWithoutEventInput
   menus: MenuUpdateManyWithoutEventInput
   participants: ParticipantUpdateManyWithoutEventInput
+  dateDeadline: String
+  placeDeadline: String
+  menuDeadline: String
 }
 
 input EventUpdateManyMutationInput {
   slug: String
   title: String
   description: String
+  photo: String
+  dateDeadline: String
+  placeDeadline: String
+  menuDeadline: String
 }
 
 input EventUpdateOneRequiredWithoutDatesInput {
@@ -381,36 +425,52 @@ input EventUpdateWithoutDatesDataInput {
   slug: String
   title: String
   description: String
+  photo: String
   places: PlaceUpdateManyWithoutEventInput
   menus: MenuUpdateManyWithoutEventInput
   participants: ParticipantUpdateManyWithoutEventInput
+  dateDeadline: String
+  placeDeadline: String
+  menuDeadline: String
 }
 
 input EventUpdateWithoutMenusDataInput {
   slug: String
   title: String
   description: String
+  photo: String
   dates: DateUpdateManyWithoutEventInput
   places: PlaceUpdateManyWithoutEventInput
   participants: ParticipantUpdateManyWithoutEventInput
+  dateDeadline: String
+  placeDeadline: String
+  menuDeadline: String
 }
 
 input EventUpdateWithoutParticipantsDataInput {
   slug: String
   title: String
   description: String
+  photo: String
   dates: DateUpdateManyWithoutEventInput
   places: PlaceUpdateManyWithoutEventInput
   menus: MenuUpdateManyWithoutEventInput
+  dateDeadline: String
+  placeDeadline: String
+  menuDeadline: String
 }
 
 input EventUpdateWithoutPlacesDataInput {
   slug: String
   title: String
   description: String
+  photo: String
   dates: DateUpdateManyWithoutEventInput
   menus: MenuUpdateManyWithoutEventInput
   participants: ParticipantUpdateManyWithoutEventInput
+  dateDeadline: String
+  placeDeadline: String
+  menuDeadline: String
 }
 
 input EventUpsertWithoutDatesInput {
@@ -490,6 +550,20 @@ input EventWhereInput {
   description_not_starts_with: String
   description_ends_with: String
   description_not_ends_with: String
+  photo: String
+  photo_not: String
+  photo_in: [String!]
+  photo_not_in: [String!]
+  photo_lt: String
+  photo_lte: String
+  photo_gt: String
+  photo_gte: String
+  photo_contains: String
+  photo_not_contains: String
+  photo_starts_with: String
+  photo_not_starts_with: String
+  photo_ends_with: String
+  photo_not_ends_with: String
   dates_every: DateWhereInput
   dates_some: DateWhereInput
   dates_none: DateWhereInput
@@ -502,6 +576,48 @@ input EventWhereInput {
   participants_every: ParticipantWhereInput
   participants_some: ParticipantWhereInput
   participants_none: ParticipantWhereInput
+  dateDeadline: String
+  dateDeadline_not: String
+  dateDeadline_in: [String!]
+  dateDeadline_not_in: [String!]
+  dateDeadline_lt: String
+  dateDeadline_lte: String
+  dateDeadline_gt: String
+  dateDeadline_gte: String
+  dateDeadline_contains: String
+  dateDeadline_not_contains: String
+  dateDeadline_starts_with: String
+  dateDeadline_not_starts_with: String
+  dateDeadline_ends_with: String
+  dateDeadline_not_ends_with: String
+  placeDeadline: String
+  placeDeadline_not: String
+  placeDeadline_in: [String!]
+  placeDeadline_not_in: [String!]
+  placeDeadline_lt: String
+  placeDeadline_lte: String
+  placeDeadline_gt: String
+  placeDeadline_gte: String
+  placeDeadline_contains: String
+  placeDeadline_not_contains: String
+  placeDeadline_starts_with: String
+  placeDeadline_not_starts_with: String
+  placeDeadline_ends_with: String
+  placeDeadline_not_ends_with: String
+  menuDeadline: String
+  menuDeadline_not: String
+  menuDeadline_in: [String!]
+  menuDeadline_not_in: [String!]
+  menuDeadline_lt: String
+  menuDeadline_lte: String
+  menuDeadline_gt: String
+  menuDeadline_gte: String
+  menuDeadline_contains: String
+  menuDeadline_not_contains: String
+  menuDeadline_starts_with: String
+  menuDeadline_not_starts_with: String
+  menuDeadline_ends_with: String
+  menuDeadline_not_ends_with: String
   AND: [EventWhereInput!]
   OR: [EventWhereInput!]
   NOT: [EventWhereInput!]

@@ -306,6 +306,14 @@ export type EventOrderByInput =
   | "title_DESC"
   | "description_ASC"
   | "description_DESC"
+  | "photo_ASC"
+  | "photo_DESC"
+  | "dateDeadline_ASC"
+  | "dateDeadline_DESC"
+  | "placeDeadline_ASC"
+  | "placeDeadline_DESC"
+  | "menuDeadline_ASC"
+  | "menuDeadline_DESC"
   | "createdAt_ASC"
   | "createdAt_DESC"
   | "updatedAt_ASC"
@@ -492,6 +500,20 @@ export interface EventWhereInput {
   description_not_starts_with?: String;
   description_ends_with?: String;
   description_not_ends_with?: String;
+  photo?: String;
+  photo_not?: String;
+  photo_in?: String[] | String;
+  photo_not_in?: String[] | String;
+  photo_lt?: String;
+  photo_lte?: String;
+  photo_gt?: String;
+  photo_gte?: String;
+  photo_contains?: String;
+  photo_not_contains?: String;
+  photo_starts_with?: String;
+  photo_not_starts_with?: String;
+  photo_ends_with?: String;
+  photo_not_ends_with?: String;
   dates_every?: DateWhereInput;
   dates_some?: DateWhereInput;
   dates_none?: DateWhereInput;
@@ -504,6 +526,48 @@ export interface EventWhereInput {
   participants_every?: ParticipantWhereInput;
   participants_some?: ParticipantWhereInput;
   participants_none?: ParticipantWhereInput;
+  dateDeadline?: String;
+  dateDeadline_not?: String;
+  dateDeadline_in?: String[] | String;
+  dateDeadline_not_in?: String[] | String;
+  dateDeadline_lt?: String;
+  dateDeadline_lte?: String;
+  dateDeadline_gt?: String;
+  dateDeadline_gte?: String;
+  dateDeadline_contains?: String;
+  dateDeadline_not_contains?: String;
+  dateDeadline_starts_with?: String;
+  dateDeadline_not_starts_with?: String;
+  dateDeadline_ends_with?: String;
+  dateDeadline_not_ends_with?: String;
+  placeDeadline?: String;
+  placeDeadline_not?: String;
+  placeDeadline_in?: String[] | String;
+  placeDeadline_not_in?: String[] | String;
+  placeDeadline_lt?: String;
+  placeDeadline_lte?: String;
+  placeDeadline_gt?: String;
+  placeDeadline_gte?: String;
+  placeDeadline_contains?: String;
+  placeDeadline_not_contains?: String;
+  placeDeadline_starts_with?: String;
+  placeDeadline_not_starts_with?: String;
+  placeDeadline_ends_with?: String;
+  placeDeadline_not_ends_with?: String;
+  menuDeadline?: String;
+  menuDeadline_not?: String;
+  menuDeadline_in?: String[] | String;
+  menuDeadline_not_in?: String[] | String;
+  menuDeadline_lt?: String;
+  menuDeadline_lte?: String;
+  menuDeadline_gt?: String;
+  menuDeadline_gte?: String;
+  menuDeadline_contains?: String;
+  menuDeadline_not_contains?: String;
+  menuDeadline_starts_with?: String;
+  menuDeadline_not_starts_with?: String;
+  menuDeadline_ends_with?: String;
+  menuDeadline_not_ends_with?: String;
   AND?: EventWhereInput[] | EventWhereInput;
   OR?: EventWhereInput[] | EventWhereInput;
   NOT?: EventWhereInput[] | EventWhereInput;
@@ -770,9 +834,13 @@ export interface EventCreateWithoutParticipantsInput {
   slug: String;
   title: String;
   description?: String;
+  photo?: String;
   dates?: DateCreateManyWithoutEventInput;
   places?: PlaceCreateManyWithoutEventInput;
   menus?: MenuCreateManyWithoutEventInput;
+  dateDeadline?: String;
+  placeDeadline?: String;
+  menuDeadline?: String;
 }
 
 export interface EventUpsertWithoutParticipantsInput {
@@ -789,9 +857,13 @@ export interface EventUpdateWithoutParticipantsDataInput {
   slug?: String;
   title?: String;
   description?: String;
+  photo?: String;
   dates?: DateUpdateManyWithoutEventInput;
   places?: PlaceUpdateManyWithoutEventInput;
   menus?: MenuUpdateManyWithoutEventInput;
+  dateDeadline?: String;
+  placeDeadline?: String;
+  menuDeadline?: String;
 }
 
 export interface ParticipantUpdateManyWithoutEventInput {
@@ -870,9 +942,13 @@ export interface EventCreateWithoutDatesInput {
   slug: String;
   title: String;
   description?: String;
+  photo?: String;
   places?: PlaceCreateManyWithoutEventInput;
   menus?: MenuCreateManyWithoutEventInput;
   participants?: ParticipantCreateManyWithoutEventInput;
+  dateDeadline?: String;
+  placeDeadline?: String;
+  menuDeadline?: String;
 }
 
 export interface EventCreateOneWithoutParticipantsInput {
@@ -967,9 +1043,13 @@ export interface EventUpdateWithoutDatesDataInput {
   slug?: String;
   title?: String;
   description?: String;
+  photo?: String;
   places?: PlaceUpdateManyWithoutEventInput;
   menus?: MenuUpdateManyWithoutEventInput;
   participants?: ParticipantUpdateManyWithoutEventInput;
+  dateDeadline?: String;
+  placeDeadline?: String;
+  menuDeadline?: String;
 }
 
 export interface ParticipantUpdateManyDataInput {
@@ -1013,9 +1093,13 @@ export interface EventUpdateWithoutMenusDataInput {
   slug?: String;
   title?: String;
   description?: String;
+  photo?: String;
   dates?: DateUpdateManyWithoutEventInput;
   places?: PlaceUpdateManyWithoutEventInput;
   participants?: ParticipantUpdateManyWithoutEventInput;
+  dateDeadline?: String;
+  placeDeadline?: String;
+  menuDeadline?: String;
 }
 
 export type MenuWhereUniqueInput = AtLeastOne<{
@@ -1037,10 +1121,14 @@ export interface EventCreateInput {
   slug: String;
   title: String;
   description?: String;
+  photo?: String;
   dates?: DateCreateManyWithoutEventInput;
   places?: PlaceCreateManyWithoutEventInput;
   menus?: MenuCreateManyWithoutEventInput;
   participants?: ParticipantCreateManyWithoutEventInput;
+  dateDeadline?: String;
+  placeDeadline?: String;
+  menuDeadline?: String;
 }
 
 export type PlaceWhereUniqueInput = AtLeastOne<{
@@ -1072,10 +1160,14 @@ export interface EventUpdateInput {
   slug?: String;
   title?: String;
   description?: String;
+  photo?: String;
   dates?: DateUpdateManyWithoutEventInput;
   places?: PlaceUpdateManyWithoutEventInput;
   menus?: MenuUpdateManyWithoutEventInput;
   participants?: ParticipantUpdateManyWithoutEventInput;
+  dateDeadline?: String;
+  placeDeadline?: String;
+  menuDeadline?: String;
 }
 
 export interface ParticipantCreatemenusInput {
@@ -1140,9 +1232,13 @@ export interface EventCreateWithoutPlacesInput {
   slug: String;
   title: String;
   description?: String;
+  photo?: String;
   dates?: DateCreateManyWithoutEventInput;
   menus?: MenuCreateManyWithoutEventInput;
   participants?: ParticipantCreateManyWithoutEventInput;
+  dateDeadline?: String;
+  placeDeadline?: String;
+  menuDeadline?: String;
 }
 
 export interface DateUpsertWithWhereUniqueWithoutEventInput {
@@ -1217,18 +1313,26 @@ export interface EventUpdateWithoutPlacesDataInput {
   slug?: String;
   title?: String;
   description?: String;
+  photo?: String;
   dates?: DateUpdateManyWithoutEventInput;
   menus?: MenuUpdateManyWithoutEventInput;
   participants?: ParticipantUpdateManyWithoutEventInput;
+  dateDeadline?: String;
+  placeDeadline?: String;
+  menuDeadline?: String;
 }
 
 export interface EventCreateWithoutMenusInput {
   slug: String;
   title: String;
   description?: String;
+  photo?: String;
   dates?: DateCreateManyWithoutEventInput;
   places?: PlaceCreateManyWithoutEventInput;
   participants?: ParticipantCreateManyWithoutEventInput;
+  dateDeadline?: String;
+  placeDeadline?: String;
+  menuDeadline?: String;
 }
 
 export interface EventCreateOneWithoutMenusInput {
@@ -1246,6 +1350,10 @@ export interface EventUpdateManyMutationInput {
   slug?: String;
   title?: String;
   description?: String;
+  photo?: String;
+  dateDeadline?: String;
+  placeDeadline?: String;
+  menuDeadline?: String;
 }
 
 export interface ParticipantUpdateManyMutationInput {
@@ -1324,6 +1432,10 @@ export interface Event {
   slug: String;
   title: String;
   description?: String;
+  photo?: String;
+  dateDeadline?: String;
+  placeDeadline?: String;
+  menuDeadline?: String;
 }
 
 export interface EventPromise extends Promise<Event>, Fragmentable {
@@ -1331,6 +1443,7 @@ export interface EventPromise extends Promise<Event>, Fragmentable {
   slug: () => Promise<String>;
   title: () => Promise<String>;
   description: () => Promise<String>;
+  photo: () => Promise<String>;
   dates: <T = FragmentableArray<Date>>(args?: {
     where?: DateWhereInput;
     orderBy?: DateOrderByInput;
@@ -1367,6 +1480,9 @@ export interface EventPromise extends Promise<Event>, Fragmentable {
     first?: Int;
     last?: Int;
   }) => T;
+  dateDeadline: () => Promise<String>;
+  placeDeadline: () => Promise<String>;
+  menuDeadline: () => Promise<String>;
 }
 
 export interface EventSubscription
@@ -1376,6 +1492,7 @@ export interface EventSubscription
   slug: () => Promise<AsyncIterator<String>>;
   title: () => Promise<AsyncIterator<String>>;
   description: () => Promise<AsyncIterator<String>>;
+  photo: () => Promise<AsyncIterator<String>>;
   dates: <T = Promise<AsyncIterator<DateSubscription>>>(args?: {
     where?: DateWhereInput;
     orderBy?: DateOrderByInput;
@@ -1412,6 +1529,9 @@ export interface EventSubscription
     first?: Int;
     last?: Int;
   }) => T;
+  dateDeadline: () => Promise<AsyncIterator<String>>;
+  placeDeadline: () => Promise<AsyncIterator<String>>;
+  menuDeadline: () => Promise<AsyncIterator<String>>;
 }
 
 export interface EventEdge {
@@ -1771,6 +1891,10 @@ export interface EventPreviousValues {
   slug: String;
   title: String;
   description?: String;
+  photo?: String;
+  dateDeadline?: String;
+  placeDeadline?: String;
+  menuDeadline?: String;
 }
 
 export interface EventPreviousValuesPromise
@@ -1780,6 +1904,10 @@ export interface EventPreviousValuesPromise
   slug: () => Promise<String>;
   title: () => Promise<String>;
   description: () => Promise<String>;
+  photo: () => Promise<String>;
+  dateDeadline: () => Promise<String>;
+  placeDeadline: () => Promise<String>;
+  menuDeadline: () => Promise<String>;
 }
 
 export interface EventPreviousValuesSubscription
@@ -1789,6 +1917,10 @@ export interface EventPreviousValuesSubscription
   slug: () => Promise<AsyncIterator<String>>;
   title: () => Promise<AsyncIterator<String>>;
   description: () => Promise<AsyncIterator<String>>;
+  photo: () => Promise<AsyncIterator<String>>;
+  dateDeadline: () => Promise<AsyncIterator<String>>;
+  placeDeadline: () => Promise<AsyncIterator<String>>;
+  menuDeadline: () => Promise<AsyncIterator<String>>;
 }
 
 export interface PlaceEdge {

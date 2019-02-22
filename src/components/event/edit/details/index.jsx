@@ -6,8 +6,7 @@ import  { gql } from 'apollo-boost';
 // import { EVENTS_QUERY } from '../home';
 import slugify from '../../../../helpers';
 import { EVENTS_QUERY } from '../../../home';
-import { Container } from '../styles.js';
-import { Button, Input, Textarea } from '../../../../styles/common.styles';
+import { PageContainer, Button, Label, Input, Textarea, Info } from '../../../../styles/common.styles';
 
 // const initialValue = Value.fromJSON({
 //   document: {
@@ -37,68 +36,117 @@ class Details extends Component {
     this.state = {
       title: this.props.event.title,
       description: this.props.event.description || '',
-      photo: this.props.event.photo || '',
       // description: initialValue,
-      saving: false
+      photo: this.props.event.photo || '',
+      dateDeadline: this.props.event.dateDeadline || '',
+      placeDeadline: this.props.event.placeDeadline || '',
+      menuDeadline: this.props.event.menuDeadline || '',
+      saving: false,
+      status: ''
     };
   }
 
   render() {
     const { event } = this.props;
-    const { title, description, photo, saving } = this.state;
+    const {
+      title,
+      description,
+      photo,
+      dateDeadline,
+      placeDeadline,
+      menuDeadline,
+      saving,
+      status
+    } = this.state;
 
     return (
-      <Fragment>
+      <PageContainer>
         <Mutation
           mutation={UPDATE_EVENT_MUTATION}
+          update={(cache, { data }) => {
+            this.setState({ saving: false, status: 'Details updated correctly' });
+          }}
         >
           {(updateEvent, { data, loading, error }) => {
             return (
-              <Container>
-                <form
-                  onSubmit={async e => {
-                    e.preventDefault();
-                    this.setState({ saving: true });
-                    await updateEvent({
-                      variables: {
-                        id: event.id,
-                        title: title,
-                        slug: slugify(title),
-                        description: description,
-                        photo: photo
-                      }
-                    });
-                    this.setState({ saving: false });
-                    this.props.history.push(`/${slugify(title)}/edit`);
-                  }}
-                >
-                  <h3>Event details</h3>
+              <form
+                onSubmit={async e => {
+                  e.preventDefault();
+                  this.setState({ saving: true });
+                  await updateEvent({
+                    variables: {
+                      id: event.id,
+                      title,
+                      slug: slugify(title),
+                      description,
+                      photo,
+                      dateDeadline,
+                      placeDeadline,
+                      menuDeadline
+                    }
+                  });
+                  this.props.history.push(`/${slugify(title)}/edit`);
+                }}
+              >
+                <h3>Event details</h3>
+                <p>
+                  <Label>Event title</Label>
                   <Input
                     type="text"
                     value={title}
                     onChange={e => this.setState({ title: e.target.value })}
-                    placeholder="Event name..."
+                    placeholder="Enter the event title..."
                   />
-                  {/*<Editor
-                    value={this.state.description}
-                    onChange={({description}) => this.setState({ description })}
-                  />*/}
+                </p>
+                {/*<Editor
+                  value={this.state.description}
+                  onChange={({description}) => this.setState({ description })}
+                />*/}
+                <p>
+                  <Label>Event description</Label>
                   <Textarea
                     value={description}
                     onChange={e => this.setState({ description: e.target.value })}
-                    placeholder="Event description..."
+                    placeholder="Enter the event description..."
                   />
-                  <p>
-                    <Button type="submit" disabled={saving}>Save</Button>
-                  </p>
-                </form>
-              </Container>
+                </p>
+                <h3>Event deadlines</h3>
+                <p>
+                  <Label>Voting for dates</Label>
+                  <Input
+                    type="datetime-local"
+                    value={dateDeadline}
+                    onChange={e => this.setState({ dateDeadline: e.target.value })}
+                  />
+                </p>
+                <p>
+                  <Label>Voting for places or restaurants</Label>
+                  <Input
+                    type="datetime-local"
+                    value={placeDeadline}
+                    onChange={e => this.setState({ placeDeadline: e.target.value })}
+                  />
+                </p>
+                <p>
+                  <Label>Voting for menus</Label>
+                  <Input
+                    type="datetime-local"
+                    value={menuDeadline}
+                    onChange={e => this.setState({ menuDeadline: e.target.value })}
+                  />
+                </p>
+                <p>
+                  <Button type="submit" disabled={saving}>Save details</Button>
+                </p>
+                <Info>{status}</Info>
+              </form>
             );
           }}
         </Mutation>
         <Mutation
           mutation={DELETE_MUTATION}
           update={(cache, { data }) => {
+            this.setState({ saving: false });
             let { events } = cache.readQuery({ query: EVENTS_QUERY });
             events = events.filter(event => event.id !== data.deleteEvent.id);
             cache.writeQuery({
@@ -111,33 +159,32 @@ class Details extends Component {
         >
           {(deleteEvent, { data, loading, error }) => {
             return (
-              <Container>
+              <Fragment>
                 <h3>Remove event</h3>
                 <Button
                   color="red"
                   onClick={async () => {
+                    this.setState({ saving: true });
                     await deleteEvent({
                       variables: { id: event.id },
                     });
                   }}
                 >
-                  Danger! this completly removes the event
+                  Danger! completly remove event
                 </Button>
-              </Container>
+              </Fragment>
             )
           }}
         </Mutation>
-      </Fragment>
+      </PageContainer>
     );
   }
 }
 
 const UPDATE_EVENT_MUTATION = gql`
-  mutation UpdateEventMutation($id: ID!, $title: String!, $slug: String!, $description: String) {
-    updateEvent(id: $id, title: $title, slug: $slug, description: $description) {
+  mutation UpdateEventMutation($id: ID!, $title: String!, $slug: String!, $description: String, $photo: String, $dateDeadline: String, $placeDeadline: String, $menuDeadline: String) {
+    updateEvent(id: $id, title: $title, slug: $slug, description: $description, photo: $photo, dateDeadline: $dateDeadline, placeDeadline: $placeDeadline, menuDeadline: $menuDeadline) {
       id
-      title
-      description
     }
   }
 `;

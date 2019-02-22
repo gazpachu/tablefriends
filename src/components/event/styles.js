@@ -8,7 +8,7 @@ export const Container = styled.section`
 `;
 
 export const Status = styled.div`
-  margin: 30px 0;
+  padding: 30px 0;
 `;
 
 export const EventBody = styled.div`

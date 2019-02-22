@@ -65,6 +65,7 @@ export const EVENT_QUERY = gql`
       slug
       description
       title
+      photo
       dates {
         id
         timestamp
@@ -86,6 +87,9 @@ export const EVENT_QUERY = gql`
         places
         menus
       }
+      dateDeadline
+      placeDeadline
+      menuDeadline
     }
   }
 `;

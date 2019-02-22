@@ -2,8 +2,7 @@ import React, { Component } from 'react';
 import { Mutation } from 'react-apollo';
 import  { gql } from 'apollo-boost';
 import { EVENT_QUERY } from '../..';
-import { Container } from '../styles.js';
-import { Input, Button, Info } from '../../../../styles/common.styles';
+import { PageContainer, Label, Input, Button, Info } from '../../../../styles/common.styles';
 import { List, Item, RemoveButton } from './styles';
 
 class Other extends Component {
@@ -22,7 +21,7 @@ class Other extends Component {
     const { inputName, inputURL, status } = this.state;
 
     return (
-      <Container>
+      <PageContainer>
         <h3>Add or remove {type} to vote for</h3>
         <Mutation
           mutation={type === 'places' ? DELETE_PLACE_MUTATION : DELETE_MENU_MUTATION}
@@ -83,19 +82,25 @@ class Other extends Component {
                   this.setState({ inputName: '', inputURL: '' });
                 }}
               >
-                <Input
-                  value={inputName}
-                  type="text"
-                  onChange={e => this.setState({ inputName: e.target.value })}
-                  placeholder="Name..."
-                />
-                <Input
-                  value={inputURL}
-                  type="text"
-                  onChange={e => this.setState({ inputURL: e.target.value })}
-                  placeholder="URL..."
-                />
-                <Info>The URL can link to a website{type === 'places' ? ', a GoogleMaps link' : ', picture, PDF'} or anything you want</Info>
+                <p>
+                  <Label>Name</Label>
+                  <Input
+                    value={inputName}
+                    type="text"
+                    onChange={e => this.setState({ inputName: e.target.value })}
+                    placeholder="Name..."
+                  />
+                </p>
+                <p>
+                  <Label>URL</Label>
+                  <Input
+                    value={inputURL}
+                    type="text"
+                    onChange={e => this.setState({ inputURL: e.target.value })}
+                    placeholder="URL..."
+                  />
+                  <Info>The URL can link to a website{type === 'places' ? ', a GoogleMaps link' : ', picture, PDF'} or anything you want</Info>
+                </p>
                 <p>
                   <Button
                     type="submit"
@@ -109,7 +114,7 @@ class Other extends Component {
           }}
         </Mutation>
         <Info>{status}</Info>
-      </Container>
+      </PageContainer>
     );
   }
 }
