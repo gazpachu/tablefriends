@@ -89,7 +89,7 @@ const resolvers = {
 }
 
 const lambda = new GraphQLServerLambda({
-  typeDefs: './src/schema.graphql',
+  typeDefs: './server/src/schema.graphql', // This is useless. Path hardcoded in lib. FFS...
   resolvers,
   context: {
     prisma,

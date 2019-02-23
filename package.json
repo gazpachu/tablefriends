@@ -1,6 +1,7 @@
 {
   "name": "tablefriends",
   "version": "1.0.0",
+  "license": "UNLICENSED",
   "devDependencies": {
     "babel-loader": "^8.0.4",
     "http-proxy-middleware": "^0.19.1",
