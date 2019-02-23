@@ -1,3 +1,4 @@
+module.exports =  /* GraphQL */`
 type Query {
   events: [Event!]!
   event(slug: String!): Event
@@ -65,3 +66,4 @@ type Participant {
   menus: [ID]
   event: Event!
 }
+`;

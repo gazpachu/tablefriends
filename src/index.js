@@ -12,7 +12,8 @@ import GlobalStyles from './styles/global.styles';
 import Home from './components/home';
 import Event from './components/event';
 
-const client = new ApolloClient({ uri: '/.netlify/functions/index' });
+const dev = !process.env.NODE_ENV || process.env.NODE_ENV === 'development';
+const client = new ApolloClient({ uri: dev ? 'http://localhost:4000' : '/.netlify/functions/index' });
 
 ReactDOM.render(
   <ApolloProvider client={client}>
