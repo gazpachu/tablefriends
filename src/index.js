@@ -1,7 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {
-  Link,
   BrowserRouter as Router,
   Route,
   Switch,
@@ -9,6 +8,7 @@ import {
 import { ApolloProvider } from 'react-apollo';
 import ApolloClient from 'apollo-boost';
 import GlobalStyles from './styles/global.styles';
+import { App, AppHeader, AppHeaderLink, Title, Subtitle } from './styles/app.styles';
 import Home from './components/home';
 import Event from './components/event';
 
@@ -19,13 +19,13 @@ ReactDOM.render(
   <ApolloProvider client={client}>
     <GlobalStyles />
     <Router>
-      <div className="app">
-        <header className="app-header">
-          <Link to="/" className="header-link">
-            <h1>TABLE.FRIENDS</h1>
-          </Link>
-          <h2>Organise your restaurant events</h2>
-        </header>
+      <App>
+        <AppHeader>
+          <AppHeaderLink to="/">
+            <Title>TABLE.FRIENDS</Title>
+          </AppHeaderLink>
+          <Subtitle>Organise your restaurant events</Subtitle>
+        </AppHeader>
         <main>
           <Switch>
             <Route exact path="/" component={Home} />
@@ -33,7 +33,7 @@ ReactDOM.render(
             <Route path="/:slug/edit" component={Event} />
           </Switch>
         </main>
-      </div>
+      </App>
     </Router>
   </ApolloProvider>,
   document.getElementById('root'),

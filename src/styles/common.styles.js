@@ -125,7 +125,8 @@ export const SelectInline = styled.select`
   margin-right: 5px;
 `;
 
-export const Info = styled.div`
+export const Info = styled.span`
+  display: block;
   font-size: 10px;
   margin-top: 3px;
 `;

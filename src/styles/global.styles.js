@@ -1,7 +1,7 @@
 import React from 'react';
 import { Global, css } from '@emotion/core';
 import Bg from '../assets/bg-white.png';
-import { colors, breakpoints } from './common.styles';
+import { colors } from './common.styles';
 
 export const GlobalStyles = (props) => (
   <Global
@@ -37,52 +37,7 @@ export const GlobalStyles = (props) => (
         justify-content: center;
         height: 100%;
         width: 100%;
-      }
-
-      .app {
-        box-shadow: 0 0 10px 0;
-        width: 100%;
-        color: ${colors.secondary};
-        overflow: hidden;
-
-        @media (min-width: ${breakpoints.mobile}) {
-          margin: 30px;
-          border-radius: 10px;
-        }
-      }
-
-      .app-header {
-        text-align: center;
-        background-color: ${colors.primary};
-        color: white;
-        height: 80px;
-
-        a { color: white; }
-
-        h1, h2 { font-weight: lighter; }
-
-        h1 {
-          border-bottom: 1px solid rgba(255,255,255,.1);
-          margin: 0;
-          padding-top: 10px;
-
-          &:after {
-            content: 'beta';
-            position: absolute;
-            font-size: 11px;
-          }
-        }
-
-        h2 {
-          font-size: 10px;
-          margin-top: 5px;
-          text-transform: uppercase;
-        }
-      }
-
-      .header-link {
-        text-decoration: none;
-        color: ${colors.secondary};
+        min-height: 100vh;
       }
     `}
   />
