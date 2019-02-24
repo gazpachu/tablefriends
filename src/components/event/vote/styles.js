@@ -14,6 +14,10 @@ export const Table = styled.table`
   }
 `;
 
+export const NoData = styled.div`
+  margin: 40px;
+`;
+
 const CellCommon = css`
   padding: 8px;
 `;

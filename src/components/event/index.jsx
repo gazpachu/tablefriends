@@ -49,7 +49,12 @@ class Event extends Component {
                 <Fragment>
                   <EventHeader event={data.event} active={active} />
                   <EventBody>
-                    {active === "summary" && <Summary event={data.event} />}
+                    {active === "summary" && (
+                      <Summary
+                        event={data.event}
+                        location={this.props.location}
+                      />
+                    )}
                     {active === "registration" && (
                       <Registration event={data.event} />
                     )}

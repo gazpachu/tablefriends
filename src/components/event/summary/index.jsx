@@ -1,20 +1,63 @@
 import React from "react";
 import dateFnsFormat from "date-fns/format";
+import { Link } from "react-router-dom";
 import { InlineShareButtons } from "sharethis-reactjs";
 import { PageContainer } from "../../../styles/common.styles";
-import { Description, SummaryList, ShareButtons } from "../styles";
+import {
+  Description,
+  SummaryTitle,
+  SummaryList,
+  ShareButtons
+} from "../styles";
 
 const Summary = props => {
-  const { event } = props;
+  const { event, location } = props;
   return (
     <PageContainer>
-      <Description>{props.event.description}</Description>
+      {props.event.description ? (
+        <Description>{props.event.description}</Description>
+      ) : (
+        <div>
+          <strong>Congratulations!</strong>, your event is now online.
+          <p>
+            The next step is to{" "}
+            <Link to={`${location.pathname}/edit`}>
+              enter the event details
+            </Link>{" "}
+            and the possible dates, places and menus to vote for.
+          </p>
+          <p>
+            Then you can share this page with your friends, so they can start
+            voting what they prefer!
+          </p>
+          <p>Good luck!</p>
+        </div>
+      )}
+      <SummaryTitle>Event summary</SummaryTitle>
       <SummaryList>
         <li>
-          Confirmed: <strong>{event.participants.length} attendants</strong>
+          Participants:{" "}
+          <strong>
+            {event.places.length > 0 ? (
+              `${event.participants.length} attendants`
+            ) : (
+              <Link to={`${location.pathname}/registration`}>
+                enter participants
+              </Link>
+            )}
+          </strong>
         </li>
         <li>
-          Date: currently voting{" "}
+          Date:{" "}
+          <strong>
+            {event.places.length > 0 ? (
+              "currently voting"
+            ) : (
+              <Link to={`${location.pathname}/edit?section=dates`}>
+                enter details
+              </Link>
+            )}
+          </strong>{" "}
           <strong>
             {event.dateDeadline &&
               `(until ${dateFnsFormat(
@@ -24,7 +67,16 @@ const Summary = props => {
           </strong>
         </li>
         <li>
-          Place or restaurant: currently voting{" "}
+          Place or restaurant:{" "}
+          <strong>
+            {event.places.length > 0 ? (
+              "currently voting"
+            ) : (
+              <Link to={`${location.pathname}/edit?section=places`}>
+                enter details
+              </Link>
+            )}
+          </strong>{" "}
           <strong>
             {event.placeDeadline &&
               `(until ${dateFnsFormat(
@@ -34,7 +86,16 @@ const Summary = props => {
           </strong>
         </li>
         <li>
-          Menu(s) / Drinks / Extras: currently voting / pending to be submitted{" "}
+          Menu(s) / Drinks / Extras:{" "}
+          <strong>
+            {event.places.length > 0 ? (
+              "currently voting / pending to be submitted"
+            ) : (
+              <Link to={`${location.pathname}/edit?section=menus`}>
+                enter details
+              </Link>
+            )}
+          </strong>{" "}
           <strong>
             {event.menuDeadline &&
               `(until ${dateFnsFormat(

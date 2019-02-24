@@ -1,5 +1,5 @@
 import styled from "@emotion/styled";
-import { colors, Nav, TabLink } from "../../../styles/common.styles";
+import { Nav, TabLink } from "../../../styles/common.styles";
 
 export const Header = styled.div`
   background-color: rgba(126, 91, 239, 0.9);
@@ -18,6 +18,7 @@ export const MainNav = styled(Nav)`
 `;
 
 export const MainTabLink = styled(TabLink)`
+  color: white;
   opacity: ${props => (props.active ? "1" : "0.6")};
   background-color: ${props =>
     props.active ? "rgba(0,0,0,0.1);" : "transparent"};

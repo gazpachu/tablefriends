@@ -2,7 +2,7 @@ import React, { Component, Fragment } from "react";
 import { Link } from "react-router-dom";
 import { Mutation } from "react-apollo";
 import CellHeading from "./cellHeading";
-import { Table, Cell, UserIcon } from "../styles";
+import { NoData, Table, Cell, UserIcon } from "../styles";
 import Deadline from "./deadline";
 
 class VoteTable extends Component {
@@ -34,10 +34,10 @@ class VoteTable extends Component {
 
     if (items.length === 0) {
       return (
-        <span>
+        <NoData>
           This event still has no {type}.{" "}
           <Link to={`${event.slug}/edit?section=${type}`}>Add a new one</Link>
-        </span>
+        </NoData>
       );
     }
 

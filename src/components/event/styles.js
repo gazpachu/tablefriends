@@ -38,8 +38,12 @@ export const Description = styled.div`
   }
 `;
 
+export const SummaryTitle = styled.h3`
+  margin-top: 40px;
+`;
+
 export const SummaryList = styled.ul`
-  margin: 40px 0;
+  margin: 20px 0 40px 0;
   line-height: 30px;
 `;
 

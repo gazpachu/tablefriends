@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { gql } from "apollo-boost";
 import VoteTable from "./table";
+import { NoData } from "./styles";
 import {
   Nav,
   NavItem,
@@ -86,9 +87,7 @@ class Vote extends Component {
             mutation={UPDATE_PARTICIPANT_MENUS}
           />
         )}
-        {activeSection === "drinks" && (
-          <div style={{ marginTop: "40px" }}>Under construction...</div>
-        )}
+        {activeSection === "drinks" && <NoData>Under construction...</NoData>}
       </div>
     );
   }
