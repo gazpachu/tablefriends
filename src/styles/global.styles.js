@@ -1,9 +1,9 @@
-import React from 'react';
-import { Global, css } from '@emotion/core';
-import Bg from '../assets/bg-white.png';
-import { colors } from './common.styles';
+import React from "react";
+import { Global, css } from "@emotion/core";
+import Bg from "../assets/bg-white.png";
+import { colors } from "./common.styles";
 
-export const GlobalStyles = (props) => (
+export const GlobalStyles = props => (
   <Global
     styles={css`
       html {
@@ -21,13 +21,17 @@ export const GlobalStyles = (props) => (
         padding: 0;
         position: relative;
         min-height: 100%;
-        font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica Neue,Arial,sans-serif;
+        font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto,
+          Helvetica Neue, Arial, sans-serif;
         -webkit-font-smoothing: antialiased;
         -moz-osx-font-smoothing: grayscale;
         background: ${colors.secondary} url(${Bg});
       }
 
-      a, a:active, a:hover, a:visited {
+      a,
+      a:active,
+      a:hover,
+      a:visited {
         color: ${colors.secondary};
       }
 

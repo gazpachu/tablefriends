@@ -1,12 +1,19 @@
-import React, { Component, Fragment } from 'react';
-import { Mutation } from 'react-apollo';
-import  { gql } from 'apollo-boost';
+import React, { Component, Fragment } from "react";
+import { Mutation } from "react-apollo";
+import { gql } from "apollo-boost";
 // import { Editor } from 'slate-react';
 // import { Value } from 'slate';
 // import { EVENTS_QUERY } from '../home';
-import slugify from '../../../../helpers';
-import { EVENTS_QUERY } from '../../../home';
-import { PageContainer, Button, Label, Input, Textarea, Info } from '../../../../styles/common.styles';
+import slugify from "../../../../helpers";
+import { EVENTS_QUERY } from "../../../home";
+import {
+  PageContainer,
+  Button,
+  Label,
+  Input,
+  Textarea,
+  Info
+} from "../../../../styles/common.styles";
 
 // const initialValue = Value.fromJSON({
 //   document: {
@@ -35,14 +42,14 @@ class Details extends Component {
 
     this.state = {
       title: this.props.event.title,
-      description: this.props.event.description || '',
+      description: this.props.event.description || "",
       // description: initialValue,
-      photo: this.props.event.photo || '',
-      dateDeadline: this.props.event.dateDeadline || '',
-      placeDeadline: this.props.event.placeDeadline || '',
-      menuDeadline: this.props.event.menuDeadline || '',
+      photo: this.props.event.photo || "",
+      dateDeadline: this.props.event.dateDeadline || "",
+      placeDeadline: this.props.event.placeDeadline || "",
+      menuDeadline: this.props.event.menuDeadline || "",
       saving: false,
-      status: ''
+      status: ""
     };
   }
 
@@ -64,7 +71,10 @@ class Details extends Component {
         <Mutation
           mutation={UPDATE_EVENT_MUTATION}
           update={(cache, { data }) => {
-            this.setState({ saving: false, status: 'Details updated correctly' });
+            this.setState({
+              saving: false,
+              status: "Details updated correctly"
+            });
           }}
         >
           {(updateEvent, { data, loading, error }) => {
@@ -106,7 +116,9 @@ class Details extends Component {
                   <Label>Event description</Label>
                   <Textarea
                     value={description}
-                    onChange={e => this.setState({ description: e.target.value })}
+                    onChange={e =>
+                      this.setState({ description: e.target.value })
+                    }
                     placeholder="Enter the event description..."
                   />
                 </p>
@@ -116,7 +128,9 @@ class Details extends Component {
                   <Input
                     type="datetime-local"
                     value={dateDeadline}
-                    onChange={e => this.setState({ dateDeadline: e.target.value })}
+                    onChange={e =>
+                      this.setState({ dateDeadline: e.target.value })
+                    }
                   />
                 </p>
                 <p>
@@ -124,7 +138,9 @@ class Details extends Component {
                   <Input
                     type="datetime-local"
                     value={placeDeadline}
-                    onChange={e => this.setState({ placeDeadline: e.target.value })}
+                    onChange={e =>
+                      this.setState({ placeDeadline: e.target.value })
+                    }
                   />
                 </p>
                 <p>
@@ -132,11 +148,15 @@ class Details extends Component {
                   <Input
                     type="datetime-local"
                     value={menuDeadline}
-                    onChange={e => this.setState({ menuDeadline: e.target.value })}
+                    onChange={e =>
+                      this.setState({ menuDeadline: e.target.value })
+                    }
                   />
                 </p>
                 <p>
-                  <Button type="submit" disabled={saving}>Save details</Button>
+                  <Button type="submit" disabled={saving}>
+                    Save details
+                  </Button>
                 </p>
                 <Info>{status}</Info>
               </form>
@@ -151,10 +171,10 @@ class Details extends Component {
             events = events.filter(event => event.id !== data.deleteEvent.id);
             cache.writeQuery({
               query: EVENTS_QUERY,
-              data: { events: events },
+              data: { events: events }
             });
 
-            this.props.history.push('/');
+            this.props.history.push("/");
           }}
         >
           {(deleteEvent, { data, loading, error }) => {
@@ -166,14 +186,14 @@ class Details extends Component {
                   onClick={async () => {
                     this.setState({ saving: true });
                     await deleteEvent({
-                      variables: { id: event.id },
+                      variables: { id: event.id }
                     });
                   }}
                 >
                   Danger! completly remove event
                 </Button>
               </Fragment>
-            )
+            );
           }}
         </Mutation>
       </PageContainer>
@@ -182,8 +202,26 @@ class Details extends Component {
 }
 
 const UPDATE_EVENT_MUTATION = gql`
-  mutation UpdateEventMutation($id: ID!, $title: String!, $slug: String!, $description: String, $photo: String, $dateDeadline: String, $placeDeadline: String, $menuDeadline: String) {
-    updateEvent(id: $id, title: $title, slug: $slug, description: $description, photo: $photo, dateDeadline: $dateDeadline, placeDeadline: $placeDeadline, menuDeadline: $menuDeadline) {
+  mutation UpdateEventMutation(
+    $id: ID!
+    $title: String!
+    $slug: String!
+    $description: String
+    $photo: String
+    $dateDeadline: String
+    $placeDeadline: String
+    $menuDeadline: String
+  ) {
+    updateEvent(
+      id: $id
+      title: $title
+      slug: $slug
+      description: $description
+      photo: $photo
+      dateDeadline: $dateDeadline
+      placeDeadline: $placeDeadline
+      menuDeadline: $menuDeadline
+    ) {
       id
     }
   }

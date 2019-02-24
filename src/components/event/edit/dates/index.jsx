@@ -1,17 +1,24 @@
-import React, { Component, Fragment } from 'react';
-import { Mutation } from 'react-apollo';
-import  { gql } from 'apollo-boost';
-import dateFnsFormat from 'date-fns/format';
-import { EVENT_QUERY } from '../..';
-import { PageContainer, Label, Button, InputInline, SelectInline, Info } from '../../../../styles/common.styles';
+import React, { Component, Fragment } from "react";
+import { Mutation } from "react-apollo";
+import { gql } from "apollo-boost";
+import dateFnsFormat from "date-fns/format";
+import { EVENT_QUERY } from "../..";
+import {
+  PageContainer,
+  Label,
+  Button,
+  InputInline,
+  SelectInline,
+  Info
+} from "../../../../styles/common.styles";
 
 class Dates extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      inputDate: '',
-      status: ''
+      inputDate: "",
+      status: ""
     };
   }
 
@@ -25,12 +32,23 @@ class Dates extends Component {
         <Mutation
           mutation={DELETE_MUTATION}
           update={(cache, { data }) => {
-            this.setState({ inputDate: '', status: `${dateFnsFormat(new Date(data.deleteDate.timestamp), 'Do MMMM YYYY, hh:mma')} was removed from the dates.` });
-            const cachedEvent = cache.readQuery({ query: EVENT_QUERY, variables: { slug: event.slug } });
-            cachedEvent.event.dates = cachedEvent.event.dates.filter(item => item.id !== data.deleteDate.id);
+            this.setState({
+              inputDate: "",
+              status: `${dateFnsFormat(
+                new Date(data.deleteDate.timestamp),
+                "Do MMMM YYYY, hh:mma"
+              )} was removed from the dates.`
+            });
+            const cachedEvent = cache.readQuery({
+              query: EVENT_QUERY,
+              variables: { slug: event.slug }
+            });
+            cachedEvent.event.dates = cachedEvent.event.dates.filter(
+              item => item.id !== data.deleteDate.id
+            );
             cache.writeQuery({
               query: EVENT_QUERY,
-              data: { event: cachedEvent.event },
+              data: { event: cachedEvent.event }
             });
           }}
         >
@@ -39,35 +57,58 @@ class Dates extends Component {
               <Fragment>
                 <p>
                   <Label>Event dates</Label>
-                  <SelectInline ref={(select) => { this.selectDates = select; }}>
-                    {dates && dates.map(date => (
-                      <option key={date.id} value={date.id}>{dateFnsFormat(new Date(date.timestamp), 'Do MMMM YYYY, hh:mma')}</option>
-                    ))}
+                  <SelectInline
+                    ref={select => {
+                      this.selectDates = select;
+                    }}
+                  >
+                    {dates &&
+                      dates.map(date => (
+                        <option key={date.id} value={date.id}>
+                          {dateFnsFormat(
+                            new Date(date.timestamp),
+                            "Do MMMM YYYY, hh:mma"
+                          )}
+                        </option>
+                      ))}
                   </SelectInline>
                 </p>
                 <Button
                   disabled={dates.length === 0}
                   onClick={async () => {
                     await deleteDate({
-                      variables: { id: dates[this.selectDates.selectedIndex].id },
+                      variables: {
+                        id: dates[this.selectDates.selectedIndex].id
+                      }
                     });
                   }}
                 >
                   Remove selected
                 </Button>
               </Fragment>
-            )
+            );
           }}
         </Mutation>
         <Mutation
           mutation={CREATE_MUTATION}
           update={(cache, { data }) => {
-            this.setState({ inputDate: '', status: `${dateFnsFormat(new Date(data.createDate.timestamp), 'Do MMMM YYYY, hh:mma')} was added to the dates.` });
-            const cachedEvent = cache.readQuery({ query: EVENT_QUERY, variables: { slug: event.slug } });
-            cachedEvent.event.dates = cachedEvent.event.dates.concat(data.createDate);
+            this.setState({
+              inputDate: "",
+              status: `${dateFnsFormat(
+                new Date(data.createDate.timestamp),
+                "Do MMMM YYYY, hh:mma"
+              )} was added to the dates.`
+            });
+            const cachedEvent = cache.readQuery({
+              query: EVENT_QUERY,
+              variables: { slug: event.slug }
+            });
+            cachedEvent.event.dates = cachedEvent.event.dates.concat(
+              data.createDate
+            );
             cache.writeQuery({
               query: EVENT_QUERY,
-              data: { event: cachedEvent.event },
+              data: { event: cachedEvent.event }
             });
           }}
         >
@@ -77,9 +118,9 @@ class Dates extends Component {
                 onSubmit={async e => {
                   e.preventDefault();
                   await createDate({
-                    variables: { timestamp: inputDate, event: event.id },
+                    variables: { timestamp: inputDate, event: event.id }
                   });
-                  this.setState({ inputDate: '' });
+                  this.setState({ inputDate: "" });
                 }}
               >
                 <p>
@@ -90,10 +131,7 @@ class Dates extends Component {
                     onChange={e => this.setState({ inputDate: e.target.value })}
                   />
                 </p>
-                <Button
-                  type="submit"
-                  disabled={!inputDate}
-                >
+                <Button type="submit" disabled={!inputDate}>
                   Add date and time
                 </Button>
               </form>

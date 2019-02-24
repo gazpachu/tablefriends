@@ -1,8 +1,8 @@
-import styled from '@emotion/styled';
-import { breakpoints } from '../../styles/common.styles';
+import styled from "@emotion/styled";
+import { breakpoints } from "../../styles/common.styles";
 
 export const Container = styled.section`
-  background-color: rgba(255,255,255,.95);
+  background-color: rgba(255, 255, 255, 0.95);
   min-height: calc(100vh - 60px);
   text-align: center;
 `;
@@ -20,7 +20,7 @@ export const EventBody = styled.div`
 `;
 
 export const Footer = styled.div`
-  border-top: 1px solid rgba(0, 0, 0, .1);
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
   margin-top: 30px;
   padding: 20px 0;
   font-size: 10px;

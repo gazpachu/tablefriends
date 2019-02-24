@@ -1,13 +1,15 @@
-import { css } from '@emotion/core';
-import styled from '@emotion/styled';
+import { css } from "@emotion/core";
+import styled from "@emotion/styled";
 
 export const Table = styled.table`
   border-collapse: collapse;
   width: 100%;
   background-color: white;
 
-  table, th, td {
-    border: 1px solid #DDD;
+  table,
+  th,
+  td {
+    border: 1px solid #ddd;
   }
 `;
 

@@ -1,22 +1,25 @@
-import React, { Component, Fragment } from 'react';
-import { Query } from 'react-apollo';
-import  { gql } from 'apollo-boost';
-import EventHeader from './header';
-import Edit from './edit';
-import Vote from './vote';
-import { Container, Status, EventBody, Footer } from './styles';
+import React, { Component, Fragment } from "react";
+import { Query } from "react-apollo";
+import { gql } from "apollo-boost";
+import EventHeader from "./header";
+import Edit from "./edit";
+import Vote from "./vote";
+import { Container, Status, EventBody, Footer } from "./styles";
 
 class Event extends Component {
   render() {
     return (
-      <Query query={EVENT_QUERY} variables={{ slug: this.props.match.params.slug }}>
+      <Query
+        query={EVENT_QUERY}
+        variables={{ slug: this.props.match.params.slug }}
+      >
         {({ data, loading, error }) => {
           if (loading) {
             return (
               <Container>
                 <Status>Loading ...</Status>
               </Container>
-            )
+            );
           }
 
           if (error) {
@@ -24,32 +27,41 @@ class Event extends Component {
               <Container>
                 <Status>An unexpected error occured.</Status>
               </Container>
-            )
+            );
           }
 
-          const active = this.props.location.pathname.includes('/edit') ? 'edit' : 'vote';
+          const active = this.props.location.pathname.includes("/edit")
+            ? "edit"
+            : "vote";
 
           return (
             <Container>
-              {data.event ?
+              {data.event ? (
                 <Fragment>
-                  <EventHeader
-                    event={data.event}
-                    active={active}
-                  />
+                  <EventHeader event={data.event} active={active} />
                   <EventBody>
-                    {active === 'edit'
-                      ? <Edit event={data.event} location={this.props.location} history={this.props.history} />
-                      : <Vote event={data.event} />
-                    }
+                    {active === "edit" ? (
+                      <Edit
+                        event={data.event}
+                        location={this.props.location}
+                        history={this.props.history}
+                      />
+                    ) : (
+                      <Vote event={data.event} />
+                    )}
                   </EventBody>
                 </Fragment>
-              : null}
+              ) : null}
               <Footer>
-                <span>Found a bug or have a suggestion? Please <a href="https://github.com/gazpachu/tablefriends/issues">raise an issue in Github</a></span>
+                <span>
+                  Found a bug or have a suggestion? Please{" "}
+                  <a href="https://github.com/gazpachu/tablefriends/issues">
+                    raise an issue in Github
+                  </a>
+                </span>
               </Footer>
             </Container>
-          )
+          );
         }}
       </Query>
     );

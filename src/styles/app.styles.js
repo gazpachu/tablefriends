@@ -1,6 +1,6 @@
-import styled from '@emotion/styled';
-import { colors, breakpoints } from './common.styles';
-import { Link } from 'react-router-dom';
+import styled from "@emotion/styled";
+import { colors, breakpoints } from "./common.styles";
+import { Link } from "react-router-dom";
 
 export const App = styled.div`
   box-shadow: 0 0 10px 0;
@@ -35,12 +35,12 @@ export const AppHeaderLink = styled(Link)`
 
 export const Title = styled.h1`
   font-weight: lighter;
-  border-bottom: 1px solid rgba(255,255,255,.1);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
   margin: 0;
   padding-top: 10px;
 
   &:after {
-    content: 'beta';
+    content: "beta";
     position: absolute;
     font-size: 11px;
   }

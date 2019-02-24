@@ -1,16 +1,16 @@
-import { css } from '@emotion/core';
-import styled from '@emotion/styled';
+import { css } from "@emotion/core";
+import styled from "@emotion/styled";
 import { darken } from "polished";
-import { Link } from 'react-router-dom';
+import { Link } from "react-router-dom";
 
 export const colors = {
-  primary: '#7e5bef',
-  secondary: '#888',
-  red: '#c74343'
+  primary: "#7e5bef",
+  secondary: "#888",
+  red: "#c74343"
 };
 
 export const breakpoints = {
-  mobile: '768px'
+  mobile: "768px"
 };
 
 export const PageContainer = styled.section`
@@ -19,24 +19,26 @@ export const PageContainer = styled.section`
   margin: 0 auto;
 `;
 
-const button = (props) => css`
+const button = props => css`
   outline: none;
   background: ${props.color ? colors[props.color] : colors.primary};
   border: 1px solid white;
   border-radius: 5px;
   color: white;
-  font-size: ${props.size === 'small' ? '11px' : '14px'};
-  padding: ${props.size === 'small' ? '5px' : '10px 20px'};
+  font-size: ${props.size === "small" ? "11px" : "14px"};
+  padding: ${props.size === "small" ? "5px" : "10px 20px"};
   cursor: pointer;
   white-space: nowrap;
-  transition: all .2s ease-in;
+  transition: all 0.2s ease-in;
 
   &:hover {
-    background: ${props.color ? darken(0.2, colors[props.color]) : darken(0.2, colors.primary)};
+    background: ${props.color
+      ? darken(0.2, colors[props.color])
+      : darken(0.2, colors.primary)};
   }
 
-  opacity: ${props.disabled && '.5'};
-  pointer-events: ${props.disabled && 'none'};
+  opacity: ${props.disabled && ".5"};
+  pointer-events: ${props.disabled && "none"};
 `;
 
 export const Button = styled.button`

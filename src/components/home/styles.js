@@ -1,15 +1,21 @@
-import styled from '@emotion/styled';
-import { css } from '@emotion/core';
-import { Link } from 'react-router-dom';
-import { ReactComponent as Party } from '../../assets/party.svg';
-import { breakpoints, Button, InputInline } from '../../styles/common.styles';
+import styled from "@emotion/styled";
+import { css } from "@emotion/core";
+import { Link } from "react-router-dom";
+import { ReactComponent as Party } from "../../assets/party.svg";
+import { breakpoints, Button, InputInline } from "../../styles/common.styles";
 
-const createBorder = css`border: 1px solid #764bbb`;
+const createBorder = css`
+  border: 1px solid #764bbb;
+`;
 
 export const Container = styled.section`
   text-align: center;
   padding: 20px;
-  background: linear-gradient(to bottom, rgba(126,91,239,1) 0%,rgba(158,94,191,.9) 100%);
+  background: linear-gradient(
+    to bottom,
+    rgba(126, 91, 239, 1) 0%,
+    rgba(158, 94, 191, 0.9) 100%
+  );
   color: white;
 `;
 
@@ -73,9 +79,7 @@ export const Events = styled.ul`
   padding: 0;
 `;
 
-export const Event = styled.li`
-
-`;
+export const Event = styled.li``;
 
 export const EventLink = styled(Link)`
   color: white !important;

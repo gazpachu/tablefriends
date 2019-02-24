@@ -1,8 +1,13 @@
-import React, { Component, Fragment } from 'react';
-import Details from './details';
-import Dates from './dates';
-import Other from './other';
-import { Nav, NavItem, TabButton, TabIcon } from '../../../styles/common.styles';
+import React, { Component, Fragment } from "react";
+import Details from "./details";
+import Dates from "./dates";
+import Other from "./other";
+import {
+  Nav,
+  NavItem,
+  TabButton,
+  TabIcon
+} from "../../../styles/common.styles";
 
 class Edit extends Component {
   constructor(props) {
@@ -12,7 +17,9 @@ class Edit extends Component {
     const params = new URLSearchParams(search);
 
     this.state = {
-      activeSection: this.props.location.search ? params.get('section') : 'details'
+      activeSection: this.props.location.search
+        ? params.get("section")
+        : "details"
     };
   }
 
@@ -23,10 +30,10 @@ class Edit extends Component {
     return (
       <Fragment>
         <Nav>
-        <NavItem>
+          <NavItem>
             <TabButton
-              active={activeSection === 'details' ? 1 : 0}
-              onClick={() => this.setState({ activeSection: 'details' })}
+              active={activeSection === "details" ? 1 : 0}
+              onClick={() => this.setState({ activeSection: "details" })}
             >
               <TabIcon className="fas fa-info-circle" />
               Details
@@ -34,8 +41,8 @@ class Edit extends Component {
           </NavItem>
           <NavItem>
             <TabButton
-              active={activeSection === 'dates' ? 1 : 0}
-              onClick={() => this.setState({ activeSection: 'dates' })}
+              active={activeSection === "dates" ? 1 : 0}
+              onClick={() => this.setState({ activeSection: "dates" })}
             >
               <TabIcon className="fas fa-calendar-alt" />
               Dates &amp; time
@@ -43,8 +50,8 @@ class Edit extends Component {
           </NavItem>
           <NavItem>
             <TabButton
-              active={activeSection === 'places' ? 1 : 0}
-              onClick={() => this.setState({ activeSection: 'places' })}
+              active={activeSection === "places" ? 1 : 0}
+              onClick={() => this.setState({ activeSection: "places" })}
             >
               <TabIcon className="fas fa-map-marker-alt" />
               Places &amp; restaurants
@@ -52,18 +59,26 @@ class Edit extends Component {
           </NavItem>
           <NavItem>
             <TabButton
-              active={activeSection === 'menus' ? 1 : 0}
-              onClick={() => this.setState({ activeSection: 'menus' })}
+              active={activeSection === "menus" ? 1 : 0}
+              onClick={() => this.setState({ activeSection: "menus" })}
             >
               <TabIcon className="fas fa-utensils" />
               Menus
             </TabButton>
           </NavItem>
         </Nav>
-        {activeSection === 'details' && <Details event={event} history={this.props.history} />}
-        {activeSection === 'dates' && <Dates dates={event.dates} event={event} />}
-        {activeSection === 'places' && <Other type="places" items={event.places} event={event} />}
-        {activeSection === 'menus' && <Other type="menus" items={event.menus} event={event} />}
+        {activeSection === "details" && (
+          <Details event={event} history={this.props.history} />
+        )}
+        {activeSection === "dates" && (
+          <Dates dates={event.dates} event={event} />
+        )}
+        {activeSection === "places" && (
+          <Other type="places" items={event.places} event={event} />
+        )}
+        {activeSection === "menus" && (
+          <Other type="menus" items={event.menus} event={event} />
+        )}
       </Fragment>
     );
   }

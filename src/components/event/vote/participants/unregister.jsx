@@ -2,7 +2,13 @@ import React, { Component, Fragment } from "react";
 import { Mutation } from "react-apollo";
 import { gql } from "apollo-boost";
 import { EVENT_QUERY } from "../..";
-import { PageContainer, Label, Button, Info, SelectInline } from "../../../../styles/common.styles";
+import {
+  PageContainer,
+  Label,
+  Button,
+  Info,
+  SelectInline
+} from "../../../../styles/common.styles";
 
 class UnRegister extends Component {
   constructor(props) {

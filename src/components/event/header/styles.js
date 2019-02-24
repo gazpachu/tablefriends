@@ -1,9 +1,9 @@
-import styled from '@emotion/styled';
-import { colors, breakpoints } from '../../../styles/common.styles';
+import styled from "@emotion/styled";
+import { colors, breakpoints } from "../../../styles/common.styles";
 
 export const Header = styled.div`
   padding-bottom: 20px;
-  border-bottom: 1px solid #DDD;
+  border-bottom: 1px solid #ddd;
 `;
 
 export const Title = styled.h1`

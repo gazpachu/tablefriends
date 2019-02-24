@@ -1,7 +1,7 @@
-import React, { Component, Fragment } from 'react';
-import { withRouter } from 'react-router-dom';
-import { Query, Mutation } from 'react-apollo';
-import  { gql } from 'apollo-boost';
+import React, { Component, Fragment } from "react";
+import { withRouter } from "react-router-dom";
+import { Query, Mutation } from "react-apollo";
+import { gql } from "apollo-boost";
 import {
   Container,
   PartyIcon,
@@ -13,15 +13,15 @@ import {
   Events,
   Event,
   EventLink
-} from './styles';
-import slugify from '../../helpers';
+} from "./styles";
+import slugify from "../../helpers";
 
 class Home extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      title: ''
+      title: ""
     };
   }
 
@@ -41,7 +41,7 @@ class Home extends Component {
             data.createEvent.slug = slugify(title);
             cache.writeQuery({
               query: EVENTS_QUERY,
-              data: { events: events.concat([data.createEvent]) },
+              data: { events: events.concat([data.createEvent]) }
             });
           }}
         >
@@ -53,46 +53,66 @@ class Home extends Component {
                 <form
                   onSubmit={async e => {
                     e.preventDefault();
-                    await createEvent({ variables: { title: title, slug: slugify(title) } });
+                    await createEvent({
+                      variables: { title: title, slug: slugify(title) }
+                    });
                     this.props.history.push(`${slugify(title)}/edit`);
                   }}
                 >
                   <CreateInput
                     type="text"
                     value={title}
-                    ref={(input) => { this.titleInput = input; }}
+                    ref={input => {
+                      this.titleInput = input;
+                    }}
                     onChange={e => this.setState({ title: e.target.value })}
                     placeholder="Event name..."
                   />
-                  <CreateButton type="submit" disabled={!title}>Create event</CreateButton>
+                  <CreateButton type="submit" disabled={!title}>
+                    Create event
+                  </CreateButton>
                 </form>
-                <p>TableFriends will help you organise your restaurant event by making your guests vote for:</p>
+                <p>
+                  TableFriends will help you organise your restaurant event by
+                  making your guests vote for:
+                </p>
                 <List>
-                  <Item><ItemIcon><i className="fas fa-calendar-alt" /></ItemIcon>A day and time</Item>
-                  <Item><ItemIcon><i className="fas fa-map-marker-alt" /></ItemIcon>A restaurant</Item>
-                  <Item><ItemIcon><i className="fas fa-utensils" /></ItemIcon>A menu</Item>
+                  <Item>
+                    <ItemIcon>
+                      <i className="fas fa-calendar-alt" />
+                    </ItemIcon>
+                    A day and time
+                  </Item>
+                  <Item>
+                    <ItemIcon>
+                      <i className="fas fa-map-marker-alt" />
+                    </ItemIcon>
+                    A restaurant
+                  </Item>
+                  <Item>
+                    <ItemIcon>
+                      <i className="fas fa-utensils" />
+                    </ItemIcon>
+                    A menu
+                  </Item>
                 </List>
               </Fragment>
-            )
+            );
           }}
         </Mutation>
         <Query query={EVENTS_QUERY}>
           {({ data, loading, error }) => {
             if (loading) {
-              return (
-                <Fragment>Loading ...</Fragment>
-              )
+              return <Fragment>Loading ...</Fragment>;
             }
 
             if (error) {
-              return (
-                <Fragment>An unexpected error occured.</Fragment>
-              )
+              return <Fragment>An unexpected error occured.</Fragment>;
             }
 
             return (
               <Fragment>
-                {data.events ?
+                {data.events ? (
                   <Fragment>
                     <h3>Recent events</h3>
                     <Events>
@@ -103,9 +123,9 @@ class Home extends Component {
                       ))}
                     </Events>
                   </Fragment>
-                : null}
+                ) : null}
               </Fragment>
-            )
+            );
           }}
         </Query>
       </Container>
