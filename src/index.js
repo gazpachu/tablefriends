@@ -4,15 +4,9 @@ import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import { ApolloProvider } from "react-apollo";
 import ApolloClient from "apollo-boost";
 import GlobalStyles from "./styles/global.styles";
-import {
-  App,
-  AppHeader,
-  AppHeaderLink,
-  Title,
-  Subtitle
-} from "./styles/app.styles";
 import Home from "./components/home";
 import Event from "./components/event";
+import TopNav from "./components/topNav";
 
 const dev = !process.env.NODE_ENV || process.env.NODE_ENV === "development";
 const client = new ApolloClient({
@@ -23,21 +17,18 @@ ReactDOM.render(
   <ApolloProvider client={client}>
     <GlobalStyles />
     <Router>
-      <App>
-        <AppHeader>
-          <AppHeaderLink to="/">
-            <Title>TABLE.FRIENDS</Title>
-          </AppHeaderLink>
-          <Subtitle>Organise your restaurant events</Subtitle>
-        </AppHeader>
+      <div>
+        <TopNav />
         <main>
           <Switch>
             <Route exact path="/" component={Home} />
             <Route path="/:slug" component={Event} />
+            <Route path="/:slug/registration" component={Event} />
+            <Route path="/:slug/votes" component={Event} />
             <Route path="/:slug/edit" component={Event} />
           </Switch>
         </main>
-      </App>
+      </div>
     </Router>
   </ApolloProvider>,
   document.getElementById("root")

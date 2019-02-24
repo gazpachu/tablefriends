@@ -1,9 +1,10 @@
 import styled from "@emotion/styled";
 import { breakpoints } from "../../styles/common.styles";
+import { headerHeight } from "../topNav/styles";
 
 export const Container = styled.section`
   background-color: rgba(255, 255, 255, 0.95);
-  min-height: calc(100vh - 60px);
+  min-height: calc(100vh - ${headerHeight});
   text-align: center;
 `;
 

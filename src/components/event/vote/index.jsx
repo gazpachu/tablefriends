@@ -1,7 +1,5 @@
-import React, { Component, Fragment } from "react";
+import React, { Component } from "react";
 import { gql } from "apollo-boost";
-import Register from "./participants/register";
-import UnRegister from "./participants/unregister";
 import VoteTable from "./table";
 import {
   Nav,
@@ -16,7 +14,7 @@ class Vote extends Component {
 
     this.state = {
       inputUser: "",
-      activeSection: "register"
+      activeSection: "dates"
     };
   }
 
@@ -27,15 +25,6 @@ class Vote extends Component {
     return (
       <div>
         <Nav>
-          <NavItem>
-            <TabButton
-              active={activeSection === "register" ? 1 : 0}
-              onClick={() => this.setState({ activeSection: "register" })}
-            >
-              <TabIcon className="fas fa-user-plus" />
-              Registration
-            </TabButton>
-          </NavItem>
           <NavItem>
             <TabButton
               active={activeSection === "dates" ? 1 : 0}
@@ -64,12 +53,6 @@ class Vote extends Component {
             </TabButton>
           </NavItem>
         </Nav>
-        {activeSection === "register" && (
-          <Fragment>
-            <Register event={event} />
-            <UnRegister event={event} participants={event.participants} />
-          </Fragment>
-        )}
         {activeSection === "dates" && (
           <VoteTable
             type="dates"

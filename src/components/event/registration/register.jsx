@@ -1,14 +1,14 @@
 import React, { Component } from "react";
 import { Mutation } from "react-apollo";
 import { gql } from "apollo-boost";
-import { EVENT_QUERY } from "../..";
+import { EVENT_QUERY } from "..";
 import {
   PageContainer,
   Label,
   Button,
   Info,
   InputInline
-} from "../../../../styles/common.styles";
+} from "../../../styles/common.styles";
 
 class Register extends Component {
   constructor(props) {

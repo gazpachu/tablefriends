@@ -1,17 +1,17 @@
 import styled from "@emotion/styled";
-import { colors } from "./common.styles";
 import { Link } from "react-router-dom";
 
-export const App = styled.div`
-  width: 100%;
-  color: ${colors.secondary};
-`;
+export const headerHeight = "50px";
 
-export const AppHeader = styled.div`
+export const AppHeader = styled.header`
   text-align: center;
-  background-color: ${colors.primary};
+  background-color: #6d4fd0;
   color: white;
-  height: 80px;
+  height: ${headerHeight};
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
 
 export const AppHeaderLink = styled(Link)`
@@ -27,20 +27,11 @@ export const AppHeaderLink = styled(Link)`
 
 export const Title = styled.h1`
   font-weight: lighter;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
   margin: 0;
-  padding-top: 10px;
 
   &:after {
     content: "beta";
     position: absolute;
     font-size: 11px;
   }
-`;
-
-export const Subtitle = styled.h1`
-  font-weight: lighter;
-  font-size: 10px;
-  margin-top: 5px;
-  text-transform: uppercase;
 `;

@@ -11,6 +11,7 @@ import {
   List,
   Item,
   ItemIcon,
+  ItemName,
   Events,
   Event,
   EventLink,
@@ -77,27 +78,39 @@ class Home extends Component {
                 </form>
                 <p>
                   <IconLeft className="fas fa-info-circle" />
-                  TableFriends will help you organise your restaurant event by
-                  making your guests vote for:
+                  TableFriends will help you organise the following event
+                  details:
                 </p>
                 <List>
                   <Item>
                     <ItemIcon>
+                      <i className="fas fa-user" />
+                    </ItemIcon>
+                    <ItemName>Attendants</ItemName>
+                  </Item>
+                  <Item>
+                    <ItemIcon>
                       <i className="fas fa-calendar-alt" />
                     </ItemIcon>
-                    A day and time
+                    <ItemName>Date</ItemName>
                   </Item>
                   <Item>
                     <ItemIcon>
                       <i className="fas fa-map-marker-alt" />
                     </ItemIcon>
-                    A restaurant
+                    <ItemName>Place</ItemName>
                   </Item>
                   <Item>
                     <ItemIcon>
                       <i className="fas fa-utensils" />
                     </ItemIcon>
-                    A menu
+                    <ItemName>Menus</ItemName>
+                  </Item>
+                  <Item>
+                    <ItemIcon>
+                      <i className="fas fa-cocktail" />
+                    </ItemIcon>
+                    <ItemName>Drinks</ItemName>
                   </Item>
                 </List>
               </Fragment>
@@ -120,7 +133,7 @@ class Home extends Component {
                   <Fragment>
                     <HeadingSeparator>Recent events</HeadingSeparator>
                     <Events>
-                      {data.events.reverse().map(event => (
+                      {data.events.map(event => (
                         <Event key={event.id}>
                           <EventLink to={event.slug}>
                             {event.title ? event.title : "Untitled"}

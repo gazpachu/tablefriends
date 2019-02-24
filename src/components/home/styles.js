@@ -3,6 +3,7 @@ import { css } from "@emotion/core";
 import { Link } from "react-router-dom";
 import { ReactComponent as Party } from "../../assets/party.svg";
 import { breakpoints, Button, InputInline } from "../../styles/common.styles";
+import { headerHeight } from "../topNav/styles";
 
 const createBorder = css`
   border: 1px solid #764bbb;
@@ -17,6 +18,7 @@ export const Container = styled.section`
     rgba(158, 94, 191, 0.85) 100%
   );
   color: white;
+  min-height: calc(100vh - ${headerHeight});
 `;
 
 export const PartyIcon = styled(Party)`
@@ -65,15 +67,18 @@ export const List = styled.ol`
   margin: 0 auto 30px auto;
 
   @media (max-width: ${breakpoints.mobile}) {
-    text-align: left;
-    width: 200px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
   }
 `;
 
 export const Item = styled.li`
-  text-align: left;
   margin: 20px;
-  display: inline-block;
+
+  @media (min-width: ${breakpoints.mobile}) {
+    text-align: left;
+    display: inline-block;
+  }
 `;
 
 export const ItemIcon = styled.i`
@@ -85,8 +90,20 @@ export const ItemIcon = styled.i`
   background-color: white;
   border-radius: 50%;
   vertical-align: middle;
-  margin-right: 10px;
   color: #8777bb;
+
+  @media (min-width: ${breakpoints.mobile}) {
+    margin-right: 10px;
+  }
+`;
+
+export const ItemName = styled.div`
+  @media (min-width: ${breakpoints.mobile}) {
+    display: inline-block;
+  }
+  @media (max-width: ${breakpoints.mobile}) {
+    margin-top: 5px;
+  }
 `;
 
 export const HeadingSeparator = styled.h3`
@@ -100,7 +117,7 @@ export const Events = styled.ul`
   list-style-type: none;
   padding: 0;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(330px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   grid-gap: 20px;
 `;
 

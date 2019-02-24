@@ -27,6 +27,7 @@ export const GlobalStyles = props => (
         -moz-osx-font-smoothing: grayscale;
         font-weight: lighter;
         background: ${colors.secondary} url(${Bg});
+        color: ${colors.secondary};
       }
 
       a,
@@ -34,15 +35,6 @@ export const GlobalStyles = props => (
       a:hover,
       a:visited {
         color: ${colors.secondary};
-      }
-
-      .root {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        height: 100%;
-        width: 100%;
-        min-height: 100vh;
       }
     `}
   />

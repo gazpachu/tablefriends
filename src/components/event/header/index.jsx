@@ -52,11 +52,29 @@ function EventHeader(props) {
       <Nav>
         <NavItem>
           <TabLink
-            active={props.active === "vote" ? 1 : 0}
+            active={props.active === "summary" ? 1 : 0}
             to={`/${props.event.slug}`}
           >
+            <TabIcon className="fas fa-home" />
+            Summary
+          </TabLink>
+        </NavItem>
+        <NavItem>
+          <TabLink
+            active={props.active === "registration" ? 1 : 0}
+            to={`/${props.event.slug}/registration`}
+          >
+            <TabIcon className="fas fa-user" />
+            Registration
+          </TabLink>
+        </NavItem>
+        <NavItem>
+          <TabLink
+            active={props.active === "votes" ? 1 : 0}
+            to={`/${props.event.slug}/votes`}
+          >
             <TabIcon className="fas fa-vote-yea" />
-            Register &amp; Vote
+            Votes
           </TabLink>
         </NavItem>
         <NavItem>

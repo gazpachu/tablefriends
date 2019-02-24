@@ -5,6 +5,8 @@ import EventHeader from "./header";
 import Edit from "./edit";
 import Vote from "./vote";
 import { Container, Status, EventBody, Footer } from "./styles";
+import Registration from "./registration";
+import Summary from "./summary";
 
 class Event extends Component {
   render() {
@@ -30,9 +32,16 @@ class Event extends Component {
             );
           }
 
-          const active = this.props.location.pathname.includes("/edit")
-            ? "edit"
-            : "vote";
+          let active = "summary";
+          const { pathname } = this.props.location;
+
+          if (pathname.includes("/edit")) {
+            active = "edit";
+          } else if (pathname.includes("/votes")) {
+            active = "votes";
+          } else if (pathname.includes("/registration")) {
+            active = "registration";
+          }
 
           return (
             <Container>
@@ -40,14 +49,17 @@ class Event extends Component {
                 <Fragment>
                   <EventHeader event={data.event} active={active} />
                   <EventBody>
-                    {active === "edit" ? (
+                    {active === "summary" && <Summary event={data.event} />}
+                    {active === "registration" && (
+                      <Registration event={data.event} />
+                    )}
+                    {active === "votes" && <Vote event={data.event} />}
+                    {active === "edit" && (
                       <Edit
                         event={data.event}
                         location={this.props.location}
                         history={this.props.history}
                       />
-                    ) : (
-                      <Vote event={data.event} />
                     )}
                   </EventBody>
                 </Fragment>
