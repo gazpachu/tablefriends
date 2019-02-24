@@ -1,8 +1,14 @@
 import styled from "@emotion/styled";
 import { css } from "@emotion/core";
+import { darken } from "polished";
 import { Link } from "react-router-dom";
 import { ReactComponent as Party } from "../../assets/party.svg";
-import { breakpoints, Button, InputInline } from "../../styles/common.styles";
+import {
+  colors,
+  breakpoints,
+  Button,
+  InputInline
+} from "../../styles/common.styles";
 import { headerHeight } from "../topNav/styles";
 
 const createBorder = css`
@@ -33,12 +39,12 @@ export const StartTitle = styled.h3`
 `;
 
 export const CreateButton = styled(Button)`
-  background-color: #3bc392;
+  background-color: ${colors.green};
   padding: 12px 20px;
   ${createBorder};
 
   &:hover {
-    background-color: #30b182;
+    background-color: ${darken(0.05, colors.green)};
   }
 
   @media (max-width: ${breakpoints.mobile}) {

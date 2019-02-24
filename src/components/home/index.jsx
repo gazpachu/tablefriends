@@ -163,7 +163,7 @@ const CREATE_EVENT_MUTATION = gql`
 
 export const EVENTS_QUERY = gql`
   query EventsQuery {
-    events {
+    events(orderBy: createdAt_DESC) {
       id
       title
       slug

@@ -1,6 +1,11 @@
 module.exports = /* GraphQL */ `
+  enum EventsOrderByInput {
+    createdAt_ASC
+    createdAt_DESC
+  }
+
   type Query {
-    events: [Event!]!
+    events(orderBy: EventsOrderByInput): [Event!]!
     event(slug: String!): Event
     places: [Place!]!
     dates: [Date!]!

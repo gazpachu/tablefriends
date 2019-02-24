@@ -6,7 +6,8 @@ import { Link } from "react-router-dom";
 export const colors = {
   primary: "#7e5bef",
   secondary: "#888",
-  red: "#c74343"
+  red: "#c74343",
+  green: "#30b182"
 };
 
 export const breakpoints = {

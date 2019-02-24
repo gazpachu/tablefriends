@@ -1,7 +1,7 @@
 module.exports = {
   Query: {
     events: (parent, args, context) => {
-      return context.prisma.events();
+      return context.prisma.events({ orderBy: args.orderBy });
     },
     event: (parent, { slug }, context) => {
       return context.prisma.event({
