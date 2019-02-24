@@ -1,10 +1,20 @@
+import { css } from "@emotion/core";
 import styled from "@emotion/styled";
 import { breakpoints } from "../../styles/common.styles";
 import { headerHeight } from "../topNav/styles";
 
-export const Container = styled.section`
+const containerCommon = css`
   min-height: calc(100vh - ${headerHeight});
   text-align: center;
+`;
+
+export const Container = styled.section`
+  ${containerCommon};
+`;
+
+export const ContainerWithBg = styled.section`
+  ${containerCommon};
+  background-color: rgba(255, 255, 255, 0.95);
 `;
 
 export const Status = styled.div`

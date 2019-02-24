@@ -4,7 +4,13 @@ import { gql } from "apollo-boost";
 import EventHeader from "./header";
 import Edit from "./edit";
 import Vote from "./vote";
-import { Container, Status, EventBody, Footer } from "./styles";
+import {
+  Container,
+  ContainerWithBg,
+  Status,
+  EventBody,
+  Footer
+} from "./styles";
 import Registration from "./registration";
 import Summary from "./summary";
 
@@ -18,17 +24,17 @@ class Event extends Component {
         {({ data, loading, error }) => {
           if (loading) {
             return (
-              <Container>
+              <ContainerWithBg>
                 <Status>Loading ...</Status>
-              </Container>
+              </ContainerWithBg>
             );
           }
 
           if (error) {
             return (
-              <Container>
+              <ContainerWithBg>
                 <Status>An unexpected error occured.</Status>
-              </Container>
+              </ContainerWithBg>
             );
           }
 
