@@ -63,8 +63,14 @@ const tabItem = props => css`
   padding: 10px;
   margin: 10px;
   font-size: 16px;
-  color: ${props.active ? colors.primary : colors.secondary} !important;
+  color: ${props.active ? colors.primary : colors.secondary};
   border-bottom: 2px solid ${props.active ? colors.primary : colors.secondary};
+
+  &:active,
+  &:hover,
+  &:visited {
+    ${props.active ? colors.primary : colors.secondary};
+  }
 `;
 
 export const TabButton = styled.button`
@@ -131,4 +137,12 @@ export const Info = styled.span`
   display: block;
   font-size: 10px;
   margin-top: 3px;
+`;
+
+export const IconLeft = styled.i`
+  margin-right: 5px;
+`;
+
+export const IconRight = styled.i`
+  margin-left: 5px;
 `;

@@ -6,7 +6,6 @@ function slugify(text) {
       .replace(/\s+/g, '-')           // Replace spaces with -
       .replace(/./g,(target, index, str) => specialChars[target] || target) // Replace special characters using the hash map
       .replace(/&/g, '-and-')         // Replace & with 'and'
-      .replace(/[^\w-]+/g, '')       // Remove all non-word chars
       .replace(/--+/g, '-')         // Replace multiple - with single -
       .replace(/^-+/, '')             // Trim - from start of text
       .replace(/-+$/, '');             // Trim - from end of text

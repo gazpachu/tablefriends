@@ -33,6 +33,10 @@ export const CreateButton = styled(Button)`
   &:hover {
     background-color: #30b182;
   }
+
+  @media (max-width: ${breakpoints.mobile}) {
+    width: 100%;
+  }
 `;
 
 export const CreateInput = styled(InputInline)`
@@ -40,7 +44,13 @@ export const CreateInput = styled(InputInline)`
   font-size: 18px;
   color: black;
   min-width: auto;
-  max-width: 500px;
+
+  @media (min-width: ${breakpoints.mobile}) {
+    max-width: 500px;
+  }
+  @media (max-width: ${breakpoints.mobile}) {
+    margin-bottom: 5px;
+  }
 `;
 
 export const List = styled.ol`
@@ -74,13 +84,41 @@ export const ItemIcon = styled.i`
   color: #8777bb;
 `;
 
+export const HeadingSeparator = styled.h3`
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  padding-bottom: 10px;
+`;
+
 export const Events = styled.ul`
   list-style-type: none;
   padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(330px, 1fr));
+  grid-gap: 20px;
 `;
 
 export const Event = styled.li``;
 
 export const EventLink = styled(Link)`
-  color: white !important;
+  color: white;
+  text-decoration: none;
+  background-color: rgba(255, 255, 255, 0.2);
+  width: 100%;
+  padding: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 5px;
+  min-height: 70px;
+
+  &:active,
+  &:hover,
+  &:visited {
+    color: white;
+  }
+
+  &:hover {
+    background-color: rgba(255, 255, 255, 0.3);
+  }
 `;

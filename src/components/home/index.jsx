@@ -12,8 +12,10 @@ import {
   ItemIcon,
   Events,
   Event,
-  EventLink
+  EventLink,
+  HeadingSeparator
 } from "./styles";
+import { IconLeft } from "../../styles/common.styles";
 import slugify from "../../helpers";
 
 class Home extends Component {
@@ -73,6 +75,7 @@ class Home extends Component {
                   </CreateButton>
                 </form>
                 <p>
+                  <IconLeft className="fas fa-info-circle" />
                   TableFriends will help you organise your restaurant event by
                   making your guests vote for:
                 </p>
@@ -114,11 +117,13 @@ class Home extends Component {
               <Fragment>
                 {data.events ? (
                   <Fragment>
-                    <h3>Recent events</h3>
+                    <HeadingSeparator>Recent events</HeadingSeparator>
                     <Events>
                       {data.events.map(event => (
                         <Event key={event.id}>
-                          <EventLink to={event.slug}>{event.title}</EventLink>
+                          <EventLink to={event.slug}>
+                            {event.title ? event.title : "Untitled"}
+                          </EventLink>
                         </Event>
                       ))}
                     </Events>
