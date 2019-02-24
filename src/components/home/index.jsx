@@ -15,6 +15,8 @@ import {
   Events,
   Event,
   EventLink,
+  EventUsers,
+  EventUsersIcon,
   HeadingSeparator
 } from "./styles";
 import { IconLeft } from "../../styles/common.styles";
@@ -53,7 +55,9 @@ class Home extends Component {
             return (
               <Fragment>
                 <PartyIcon />
-                <StartTitle>Start organising your event now!</StartTitle>
+                <StartTitle>
+                  Start organising a meal with your friends!
+                </StartTitle>
                 <form
                   onSubmit={async e => {
                     e.preventDefault();
@@ -78,7 +82,7 @@ class Home extends Component {
                 </form>
                 <p>
                   <IconLeft className="fas fa-info-circle" />
-                  TableFriends will help you organise the following event
+                  TableFriends will help you plan and decide the following
                   details:
                 </p>
                 <List>
@@ -137,6 +141,10 @@ class Home extends Component {
                         <Event key={event.id}>
                           <EventLink to={event.slug}>
                             {event.title ? event.title : "Untitled"}
+                            <EventUsers>
+                              <EventUsersIcon className="fas fa-user" />
+                              {event.participants.length}
+                            </EventUsers>
                           </EventLink>
                         </Event>
                       ))}
@@ -167,6 +175,9 @@ export const EVENTS_QUERY = gql`
       id
       title
       slug
+      participants {
+        id
+      }
     }
   }
 `;

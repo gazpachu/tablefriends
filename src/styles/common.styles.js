@@ -22,7 +22,7 @@ export const PageContainer = styled.section`
 
 const button = props => css`
   outline: none;
-  background: ${props.color ? colors[props.color] : colors.primary};
+  background: ${props.color ? colors[props.color] : colors.green};
   border: 1px solid white;
   border-radius: 5px;
   color: white;
@@ -54,15 +54,19 @@ export const ButtonLink = styled(Link)`
 export const Nav = styled.ul`
   list-style-type: none;
   padding: 0;
+  margin: 0;
 `;
 
 export const NavItem = styled.li`
-  display: inline-block;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
 `;
 
 const tabItem = props => css`
-  padding: 10px;
-  margin: 10px;
+  padding: 12px;
+  margin: 0 10px;
   font-size: 16px;
   color: ${props.active ? colors.primary : colors.secondary};
   border-bottom: 2px solid ${props.active ? colors.primary : colors.secondary};
@@ -70,7 +74,7 @@ const tabItem = props => css`
   &:active,
   &:hover,
   &:visited {
-    ${props.active ? colors.primary : colors.secondary};
+    color: ${props.active ? colors.primary : colors.secondary};
   }
 `;
 
@@ -136,7 +140,7 @@ export const SelectInline = styled.select`
 
 export const Info = styled.span`
   display: block;
-  font-size: 10px;
+  font-size: 12px;
   margin-top: 3px;
 `;
 

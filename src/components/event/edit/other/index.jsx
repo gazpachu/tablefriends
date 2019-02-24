@@ -69,6 +69,7 @@ class Other extends Component {
                       </a>
                       <RemoveButton
                         size="small"
+                        color="red"
                         onClick={async () => {
                           await deleteData({
                             variables: { id: item.id }

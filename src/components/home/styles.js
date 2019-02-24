@@ -132,15 +132,17 @@ export const Event = styled.li``;
 export const EventLink = styled(Link)`
   color: white;
   text-decoration: none;
+  padding: 10px;
+  text-align: left;
+  padding-right: 80px;
   background-color: rgba(255, 255, 255, 0.2);
   width: 100%;
-  padding: 10px;
   display: flex;
   align-items: center;
-  justify-content: center;
   border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 5px;
   min-height: 70px;
+  position: relative;
 
   &:active,
   &:hover,
@@ -151,4 +153,20 @@ export const EventLink = styled(Link)`
   &:hover {
     background-color: rgba(255, 255, 255, 0.3);
   }
+`;
+
+export const EventUsers = styled.span`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  right: 0;
+  background: rgba(255, 255, 255, 0.3);
+  height: 100%;
+  width: 70px;
+  font-weight: bold;
+`;
+
+export const EventUsersIcon = styled.i`
+  margin-right: 5px;
 `;

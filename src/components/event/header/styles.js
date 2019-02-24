@@ -1,28 +1,30 @@
 import styled from "@emotion/styled";
-import { colors, breakpoints } from "../../../styles/common.styles";
+import { colors, Nav, TabLink } from "../../../styles/common.styles";
 
 export const Header = styled.div`
-  padding-bottom: 20px;
+  background-color: rgba(126, 91, 239, 0.9);
   border-bottom: 1px solid #ddd;
 `;
 
 export const Title = styled.h1`
-  background-color: ${colors.primary};
-  padding: 20px 40px 40px;
-  margin: 0 auto 30px;
+  padding: 40px;
+  margin: 0 auto;
   color: white;
 `;
 
-export const Description = styled.div`
-  text-align: justify;
-  line-height: 22px;
-  margin: 40px 0;
-
-  @media (max-width: ${breakpoints.mobile}) {
-    margin: 40px 20px;
-  }
+export const MainNav = styled(Nav)`
+  background-color: rgba(0, 0, 0, 0.1);
+  height: 45px;
 `;
 
-export const ShareButtons = styled.div`
-  margin: 20px 0 60px;
+export const MainTabLink = styled(TabLink)`
+  opacity: ${props => (props.active ? "1" : "0.6")};
+  background-color: ${props =>
+    props.active ? "rgba(0,0,0,0.1);" : "transparent"};
+
+  &:active,
+  &:hover,
+  &:visited {
+    color: white;
+  }
 `;

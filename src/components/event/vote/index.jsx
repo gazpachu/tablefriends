@@ -86,7 +86,9 @@ class Vote extends Component {
             mutation={UPDATE_PARTICIPANT_MENUS}
           />
         )}
-        {activeSection === "drinks" && <div>Under construction...</div>}
+        {activeSection === "drinks" && (
+          <div style={{ marginTop: "40px" }}>Under construction...</div>
+        )}
       </div>
     );
   }
