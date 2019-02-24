@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { Mutation } from "react-apollo";
 import CellHeading from "./cellHeading";
 import { Table, Cell, UserIcon } from "../styles";
+import Deadline from "./deadline";
 
 class VoteTable extends Component {
   constructor(props) {
@@ -55,74 +56,81 @@ class VoteTable extends Component {
         >
           {(updateParticipant, { data, loading, error }) => {
             return (
-              <Table>
-                <thead>
-                  <tr>
-                    <Cell />
-                    {items &&
-                      items.map(item => (
-                        <CellHeading
-                          key={`${item.id}-heading`}
-                          item={item}
-                          type={type}
-                        />
-                      ))}
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <Cell>{participants.length} participants</Cell>
-                    {items &&
-                      items.map(item => (
-                        <Cell key={`${item.id}-participant`}>
-                          {this.calculateTotal(item.id)}
-                        </Cell>
-                      ))}
-                  </tr>
-                  {participants &&
-                    participants.map(participant => (
-                      <tr key={participant.id}>
-                        <Cell style={{ textAlign: "left" }}>
-                          <UserIcon className="fas fa-user-circle" />
-                          {participant.name}
-                        </Cell>
-                        {items &&
-                          items.map(item => (
-                            <Cell key={`${item.id}-cell`}>
-                              <input
-                                type="checkbox"
-                                defaultChecked={participant[type].find(
-                                  id => id === item.id
-                                )}
-                                onChange={async () => {
-                                  this.setState({ saving: true });
-                                  const newItems = participant[type]
-                                    ? participant[type].splice(0)
-                                    : [];
-                                  let found = false;
-                                  for (let i = 0; i < newItems.length; i += 1) {
-                                    if (newItems[i] === item.id) {
-                                      newItems.splice(i, 1);
-                                      found = true;
+              <Fragment>
+                <Deadline type={type} event={event} />
+                <Table>
+                  <thead>
+                    <tr>
+                      <Cell />
+                      {items &&
+                        items.map(item => (
+                          <CellHeading
+                            key={`${item.id}-heading`}
+                            item={item}
+                            type={type}
+                          />
+                        ))}
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <Cell>{participants.length} participants</Cell>
+                      {items &&
+                        items.map(item => (
+                          <Cell key={`${item.id}-participant`}>
+                            {this.calculateTotal(item.id)}
+                          </Cell>
+                        ))}
+                    </tr>
+                    {participants &&
+                      participants.map(participant => (
+                        <tr key={participant.id}>
+                          <Cell style={{ textAlign: "left" }}>
+                            <UserIcon className="fas fa-user-circle" />
+                            {participant.name}
+                          </Cell>
+                          {items &&
+                            items.map(item => (
+                              <Cell key={`${item.id}-cell`}>
+                                <input
+                                  type="checkbox"
+                                  defaultChecked={participant[type].find(
+                                    id => id === item.id
+                                  )}
+                                  onChange={async () => {
+                                    this.setState({ saving: true });
+                                    const newItems = participant[type]
+                                      ? participant[type].splice(0)
+                                      : [];
+                                    let found = false;
+                                    for (
+                                      let i = 0;
+                                      i < newItems.length;
+                                      i += 1
+                                    ) {
+                                      if (newItems[i] === item.id) {
+                                        newItems.splice(i, 1);
+                                        found = true;
+                                      }
                                     }
-                                  }
-                                  if (!found) {
-                                    newItems.push(item.id);
-                                  }
-                                  await updateParticipant({
-                                    variables: {
-                                      id: participant.id,
-                                      [type]: newItems
+                                    if (!found) {
+                                      newItems.push(item.id);
                                     }
-                                  });
-                                }}
-                              />
-                            </Cell>
-                          ))}
-                      </tr>
-                    ))}
-                </tbody>
-              </Table>
+                                    await updateParticipant({
+                                      variables: {
+                                        id: participant.id,
+                                        [type]: newItems
+                                      }
+                                    });
+                                  }}
+                                />
+                              </Cell>
+                            ))}
+                        </tr>
+                      ))}
+                  </tbody>
+                </Table>
+              </Fragment>
             );
           }}
         </Mutation>

@@ -29,11 +29,6 @@ export const GlobalStyles = props => (
         background: ${colors.secondary} url(${Bg});
       }
 
-      h3 {
-        font-weight: lighter;
-        font-size: 24px;
-      }
-
       a,
       a:active,
       a:hover,

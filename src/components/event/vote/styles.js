@@ -1,5 +1,6 @@
 import { css } from "@emotion/core";
 import styled from "@emotion/styled";
+import { colors } from "../../../styles/common.styles";
 
 export const Table = styled.table`
   border-collapse: collapse;
@@ -27,4 +28,9 @@ export const Cell = styled.td`
 
 export const UserIcon = styled.i`
   margin-right: 5px;
+`;
+
+export const DeadlineMsg = styled.h4`
+  margin: 40px 0;
+  color: ${colors.red};
 `;

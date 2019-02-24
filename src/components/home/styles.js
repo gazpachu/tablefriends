@@ -25,6 +25,11 @@ export const PartyIcon = styled(Party)`
   height: 150px;
 `;
 
+export const StartTitle = styled.h3`
+  font-weight: lighter;
+  font-size: 24px;
+`;
+
 export const CreateButton = styled(Button)`
   background-color: #3bc392;
   padding: 12px 20px;
@@ -87,6 +92,8 @@ export const ItemIcon = styled.i`
 export const HeadingSeparator = styled.h3`
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
   padding-bottom: 10px;
+  font-weight: lighter;
+  font-size: 24px;
 `;
 
 export const Events = styled.ul`

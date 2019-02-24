@@ -5,6 +5,7 @@ import { gql } from "apollo-boost";
 import {
   Container,
   PartyIcon,
+  StartTitle,
   CreateButton,
   CreateInput,
   List,
@@ -51,7 +52,7 @@ class Home extends Component {
             return (
               <Fragment>
                 <PartyIcon />
-                <h3>Start organising your event now!</h3>
+                <StartTitle>Start organising your event now!</StartTitle>
                 <form
                   onSubmit={async e => {
                     e.preventDefault();
@@ -119,7 +120,7 @@ class Home extends Component {
                   <Fragment>
                     <HeadingSeparator>Recent events</HeadingSeparator>
                     <Events>
-                      {data.events.map(event => (
+                      {data.events.reverse().map(event => (
                         <Event key={event.id}>
                           <EventLink to={event.slug}>
                             {event.title ? event.title : "Untitled"}
