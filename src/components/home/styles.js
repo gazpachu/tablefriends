@@ -14,7 +14,7 @@ export const Container = styled.section`
   background: linear-gradient(
     to bottom,
     rgba(126, 91, 239, 1) 0%,
-    rgba(158, 94, 191, 0.9) 100%
+    rgba(158, 94, 191, 0.85) 100%
   );
   color: white;
 `;

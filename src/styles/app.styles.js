@@ -1,18 +1,10 @@
 import styled from "@emotion/styled";
-import { colors, breakpoints } from "./common.styles";
+import { colors } from "./common.styles";
 import { Link } from "react-router-dom";
 
 export const App = styled.div`
-  box-shadow: 0 0 10px 0;
   width: 100%;
   color: ${colors.secondary};
-  overflow: hidden;
-  max-width: 1080px;
-
-  @media (min-width: ${breakpoints.mobile}) {
-    margin: 30px;
-    border-radius: 10px;
-  }
 `;
 
 export const AppHeader = styled.div`
