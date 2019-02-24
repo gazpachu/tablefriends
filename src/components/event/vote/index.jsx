@@ -52,6 +52,15 @@ class Vote extends Component {
               Menus
             </TabButton>
           </NavItem>
+          <NavItem>
+            <TabButton
+              active={activeSection === "drinks" ? 1 : 0}
+              onClick={() => this.setState({ activeSection: "drinks" })}
+            >
+              <TabIcon className="fas fa-cocktail" />
+              Drinks &amp; others
+            </TabButton>
+          </NavItem>
         </Nav>
         {activeSection === "dates" && (
           <VoteTable
@@ -77,6 +86,7 @@ class Vote extends Component {
             mutation={UPDATE_PARTICIPANT_MENUS}
           />
         )}
+        {activeSection === "drinks" && <div>Under construction...</div>}
       </div>
     );
   }

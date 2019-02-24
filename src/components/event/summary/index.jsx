@@ -1,17 +1,18 @@
 import React from "react";
 import dateFnsFormat from "date-fns/format";
 import { PageContainer } from "../../../styles/common.styles";
+import { SummaryList } from "../styles";
 
 const Summary = props => {
   const { event } = props;
   return (
     <PageContainer>
-      <ul>
+      <SummaryList>
         <li>
           Confirmed: <strong>{event.participants.length} attendants</strong>
         </li>
         <li>
-          Date: pending to be voted{" "}
+          Date: voting{" "}
           <strong>
             {event.dateDeadline &&
               `(until ${dateFnsFormat(
@@ -21,7 +22,7 @@ const Summary = props => {
           </strong>
         </li>
         <li>
-          Place or restaurant: pending to be voted{" "}
+          Place or restaurant: voting{" "}
           <strong>
             {event.placeDeadline &&
               `(until ${dateFnsFormat(
@@ -31,7 +32,7 @@ const Summary = props => {
           </strong>
         </li>
         <li>
-          Menu(s): pending to be voted{" "}
+          Menu(s) / Drinks / Extras: voting / pending to be submitted{" "}
           <strong>
             {event.menuDeadline &&
               `(until ${dateFnsFormat(
@@ -40,7 +41,7 @@ const Summary = props => {
               )})`}
           </strong>
         </li>
-      </ul>
+      </SummaryList>
     </PageContainer>
   );
 };

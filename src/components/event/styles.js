@@ -26,3 +26,8 @@ export const Footer = styled.div`
   padding: 20px 0;
   font-size: 10px;
 `;
+
+export const SummaryList = styled.ul`
+  margin-top: 30px;
+  line-height: 30px;
+`;
